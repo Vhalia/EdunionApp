@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexDirection: "row",
         zIndex: 1,
-        width: "20%"
+        paddingBottom: "5%",
+        paddingLeft: "5%",
+        paddingRight: "5%",
     },
     overlay: {
         position: "absolute",
