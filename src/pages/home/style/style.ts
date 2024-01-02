@@ -6,9 +6,31 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackMainColor,
         display: 'flex',
         flexDirection: 'column',
+        marginTop: '5%'
+    },
+    mainContainerChildProps : {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '5%'
+    },
+    searchBarContainer : {
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#8B008B",
+        flex: 1
+    },
+    searchBarTitle: {
+        flex: 1
+    },
+    searchBar: {
+        flex: 2
+    },
+    recentPostsContainer: {
+        backgroundColor: "#9932CC",
+        flex: 2
+    },
+    newPostsContainer : {
+        backgroundColor: "#8B008B",
+        flex: 2
     }
 });
 

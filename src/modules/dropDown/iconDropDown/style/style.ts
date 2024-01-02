@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { ColorConstants } from '../../../../constants/ThemeConstants';
 
 const styles = StyleSheet.create({
     mainView: {
@@ -20,19 +21,21 @@ const styles = StyleSheet.create({
     arrow : {
         marginLeft:"5%"
     },
-    dropDownElementContainer : {
+    dropdownElementContainer : {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        backgroundColor: ColorConstants.greyLightColor,
+        width: "20%",
+        alignItems: "center",
     },
-    dropDownElement : {
+    dropdownElement : {
+        backgroundColor: "red",
         display: "flex",
-        justifyContent: "center",
         flexDirection: "row",
-        zIndex: 1,
-        paddingBottom: "5%",
-        paddingLeft: "5%",
-        paddingRight: "5%",
+        justifyContent: "space-around",
+        width: "100%",
+        padding: "10%",
+        borderRadius: 4
     },
     overlay: {
         position: "absolute",
