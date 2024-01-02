@@ -13,7 +13,7 @@ const Home = () => {
             <View style={styles.searchBarContainer}>
                 <MainText
                     weight={'700'}
-                    fontSize={20}
+                    fontSize={25}
                     text="Qu'est ce que tu cherches ?"
                     style={styles.searchBarTitle}/>
                 <SearchBar style={styles.searchBar}/>

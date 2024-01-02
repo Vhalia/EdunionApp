@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         height: "70%",
-        marginTop: "5%"
+        marginTop: 5,
+        gap: 0
     },
     dropDownContainer: {
         position: "relative",
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 11,
         borderBottomLeftRadius: 11,
         height: "100%",
-        width: "20%"
+        flex: 1,
     },
     dropdownButton: {
         backgroundColor: ColorConstants.purpleMainColor,
@@ -37,11 +38,10 @@ const styles = StyleSheet.create({
         justifyContent : "center",
         position: "relative",
         backgroundColor: ColorConstants.greyMainColor,
-        width: "60%",
+        flex: 3,
         borderTopRightRadius: 11,
         borderBottomRightRadius: 11,
         height: "100%",
-        borderRadius: 4,
     },
     searchBarInputContainer : {
         position: "relative",

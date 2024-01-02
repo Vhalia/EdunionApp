@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackMainColor,
         display: 'flex',
         flexDirection: 'column',
-        marginTop: '5%'
+        margin: 30
     },
     mainContainerChildProps : {
         justifyContent: 'center',
@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#8B008B",
+        justifyContent: 'center',
+        alignItems: 'center',
         flex: 1
     },
     searchBarTitle: {
