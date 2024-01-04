@@ -4,6 +4,7 @@ const purpleMainColor = "#6d0ff2";
 const whiteMainColor = "#ffffff";
 const greyMainColor = "#1E1E1E";
 const greyLightColor = "#343434"
+const white70PercentColor = "#adadad";
 
 const ColorConstants = {
     blackMainColor : blackMainColor,
@@ -11,7 +12,8 @@ const ColorConstants = {
     purpleMainColor : purpleMainColor,
     whiteMainColor : whiteMainColor,
     greyMainColor : greyMainColor,
-    greyLightColor : greyLightColor
+    greyLightColor : greyLightColor,
+    white70PercentColor : white70PercentColor
 }
 
 export {ColorConstants}

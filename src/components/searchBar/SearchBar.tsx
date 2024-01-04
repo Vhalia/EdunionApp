@@ -3,17 +3,22 @@ import IconDropDown from "../../modules/dropDown/iconDropDown/IconDropDown";
 import Book from "../../../images/book.svg"
 import Course from "../../../images/course.svg"
 import Search from "../../../images/search.svg"
-import { ColorConstants } from "../../constants/ThemeConstants";
-import MainText from "../../modules/text/MainText";
 import styles from "./style/style";
 import IconDropdownElement from "../../modules/dropDown/iconDropDown/IconDropdownElement";
 import ButtonWithIcon from "../../modules/buttonWithIcon/ButtonWithIcon";
 import SearchBarProps from "./props/props";
+import { useState } from "react";
+import { ColorConstants } from "../../constants/ThemeConstants";
 
 const SearchBar = (props : SearchBarProps) => {
+    const [searchInputText, setSearchInputText] = useState("");
 
     const onSearchButtonPress = () => {
+        props.onPressSearch(searchInputText);
+    }
 
+    const onSearchInputTextChange = (text: string)  => {
+        setSearchInputText(text);
     }
 
     return(
@@ -36,8 +41,10 @@ const SearchBar = (props : SearchBarProps) => {
                 <View style={styles.searchBarInputContainer}>
                     <TextInput
                         placeholder="Exemple: Néerlandais 4ème"
+                        placeholderTextColor={ColorConstants.white70PercentColor}
                         inputMode="text"
                         style={styles.searchBarInput}
+                        onChangeText={onSearchInputTextChange}
                         />
                     <ButtonWithIcon
                         style={styles.searchButton}

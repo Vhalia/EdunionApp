@@ -1,9 +1,14 @@
-import { ScrollView, Text, View } from "react-native"
+import { ScrollView, View } from "react-native"
 import styles from "./style/style"
 import MainText from "../../modules/text/MainText"
 import SearchBar from "../../components/searchBar/SearchBar"
 
 const Home = () => {
+
+    const onPressSearch = (value: string) => {
+        //TODO: redirect to seach page with result of text input
+    }
+
     return (
         <ScrollView
             style={styles.mainView}
@@ -16,7 +21,9 @@ const Home = () => {
                     fontSize={25}
                     text="Qu'est ce que tu cherches ?"
                     style={styles.searchBarTitle}/>
-                <SearchBar style={styles.searchBar}/>
+                <SearchBar
+                    style={styles.searchBar}
+                    onPressSearch={onPressSearch}/>
             </View>
 
             {/*Recent posts*/}
