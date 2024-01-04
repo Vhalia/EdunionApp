@@ -36,6 +36,7 @@ const SearchBar = (props : SearchBarProps) => {
                 <View style={styles.searchBarInputContainer}>
                     <TextInput
                         placeholder="Exemple: Néerlandais 4ème"
+                        inputMode="text"
                         style={styles.searchBarInput}
                         />
                     <ButtonWithIcon
