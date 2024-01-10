@@ -4,31 +4,50 @@ import styles from "./style/style";
 import MainText from "../../../modules/text/MainText";
 import LinearGradient from "react-native-linear-gradient";
 import UserWithPicture from "../../userWithPicture/UserWithPicture";
+import { getRandomInt } from "../../../utils/utils";
 
 const CarouselItem = (props: CarouselItemProps) => {
     const price = props.price ? props.price : 0;
 
-    return (
-        <View style={styles.mainContainer}>
-            <ImageBackground
+    const displayCarouselImage = () => {
+        if (props.image){
+            return (
+                <ImageBackground
                 source={props.image}
                 style={styles.imageContainer}
                 resizeMode="cover"
                 borderTopRightRadius={22}
                 borderTopLeftRadius={22}>
 
+                    <LinearGradient
+                        style={[styles.grandiantStyle, styles.ownerContainer]}
+                        colors={['#00000000', '#00000000', '#00000000', '#00000000', '#000000']}>
+
+                        <UserWithPicture 
+                            userName={props.owner}
+                            picture={props.ownerImage}/>
+                            
+                    </LinearGradient>
+
+                </ImageBackground>)
+        }else{
+            return (
                 <LinearGradient
-                    style={[styles.grandiantStyle, styles.ownerContainer]}
-                    colors={['#00000000', '#00000000', '#00000000', '#00000000', '#000000']}>
-
-                    <UserWithPicture 
-                        userName={props.owner}
-                        picture={props.ownerImage}/>
+                    style={[styles.gradientIfNoImage, styles.imageContainer]}
+                    colors={props.gradientColors ? props.gradientColors : []}>
                         
-                </LinearGradient>
+                        <UserWithPicture 
+                            userName={props.owner}
+                            picture={props.ownerImage}/>
 
-            </ImageBackground>
-            
+                </LinearGradient>)
+        }
+    }
+
+    return (
+        <View style={styles.mainContainer}>
+            {displayCarouselImage()}
+
             <View style={styles.infoBarContainer}>
                 <View>
                     <MainText 

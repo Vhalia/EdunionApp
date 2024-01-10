@@ -5,7 +5,7 @@ export default interface Post {
     title: string,
     description: string,
     shortDescription: string,
-    blobPaths : string[],
+    blobPaths? : string[],
     price: number,
     user: User,
     type : EPostType

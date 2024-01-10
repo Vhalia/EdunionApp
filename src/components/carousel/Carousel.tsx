@@ -1,12 +1,11 @@
-import { Dimensions, Image, Text, View } from "react-native";
+import { Dimensions, View } from "react-native";
 import CarouselProps from "./props/props"
 import Carousel from "react-native-reanimated-carousel";
 import React, { useState } from "react";
 import styles from "./style/style";
 import CarouselPagination from "./carouselPagination/CarouselPagination";
-import Animated, { useSharedValue } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import CarouselItem from "./carouselItem/CarouselItem";
-import MainText from "../../modules/text/MainText";
 
 const Carousels = (props: CarouselProps) => {
     const progressValue = useSharedValue(0);
@@ -19,6 +18,12 @@ const Carousels = (props: CarouselProps) => {
 
         setActivePaginationIndex(index)
     }
+
+    const noImageGradientColors = [
+        ['#4b75e1', '#7a9cf4'],
+        ['#f47a22', '#f98c3d'],
+        ['#e04b4b', '#e85e5e'],
+    ]
 
     return (
         <View
@@ -56,7 +61,8 @@ const Carousels = (props: CarouselProps) => {
                         price={props.item.price}
                         title={props.item.title}
                         subtitle={props.item.shortDescription}
-                        image={props.item.blobPaths[0]}/>
+                        image={props.item.blobPaths ? props.item.blobPaths[0] : undefined}
+                        gradientColors={noImageGradientColors[props.index%3]}/>
                 }
                 />
                 <View

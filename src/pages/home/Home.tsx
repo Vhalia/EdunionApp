@@ -29,7 +29,6 @@ const Home = () => {
                 }
             },
             {
-                blobPaths: [require("../../../images/postImageExample.png")],
                 title: "Random Book 2",
                 shortDescription: "Short desc 2",
                 description: "Description 2",

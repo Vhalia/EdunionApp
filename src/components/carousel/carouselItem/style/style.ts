@@ -16,6 +16,12 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: "flex-end"
     },
+    gradientIfNoImage: {
+        height: 300,
+        width: '100%',
+        borderTopLeftRadius: 22,
+        borderTopRightRadius: 22
+    },
     infoBarContainer: {
         display: "flex",
         flexDirection: "row",
