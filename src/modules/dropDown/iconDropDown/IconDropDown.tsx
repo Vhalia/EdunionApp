@@ -33,10 +33,10 @@ const IconDropDown = (props : IIconDropDownProps) => {
     const setDropdownElementStyle = (indexOfElement: number) : StyleProp<ViewStyle> => {
         if (indexOfElement == activeElementIndex)
         {
-            return  {backgroundColor: ColorConstants.greyLightColor}
+            return  {backgroundColor: ColorConstants.purpleMainColor}
         }
 
-        return {backgroundColor: ColorConstants.purpleMainColor}
+        return {backgroundColor: ColorConstants.greyLightColor}
     }
 
     const createDropdownElementButton = (

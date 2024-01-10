@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
     mainView: {
         backgroundColor: ColorConstants.blackMainColor,
         display: 'flex',
-        flexDirection: 'column',
-        margin: 30,
+        flexDirection: 'column'
     },
     mainContainerChildProps : {
         justifyContent: 'center',
@@ -16,24 +15,32 @@ const styles = StyleSheet.create({
     searchBarContainer : {
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "#8B008B",
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        margin: 30,
     },
     searchBarTitle: {
-        flex: 1
+        flex: 1,
+        marginBottom: 5
     },
     searchBar: {
         flex: 2
     },
-    recentPostsContainer: {
-        backgroundColor: "#9932CC",
-        flex: 2
+    newBookPostsContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        flex: 2,
+        width: "100%"
     },
-    newPostsContainer : {
-        backgroundColor: "#8B008B",
-        flex: 2
+    newCoursePostsContainer : {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        flex: 2,
+        width: "100%",
+        marginBottom: 100
     }
 });
 

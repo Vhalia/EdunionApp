@@ -15,5 +15,14 @@ function map<U>(
         let element : U = elements as U;
         return [callback(element, 0, [element])]
 }
+
+function clamp(value: number, min: number, max: number) {
+    return Math.max(min, Math.min(value, max))
+}
+
+function round(value: number, precision: number) {
+    const multiplier = Math.pow(10, precision)
+    return Math.round(value * multiplier) / multiplier
+}
  
-export {getElement, map}
+export {getElement, map, clamp, round}
