@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         width: '100%',
-        height: '15%',
         backgroundColor: ColorConstants.blackSecondaryColor,
     },
     logo : {

@@ -23,7 +23,7 @@ const SearchBar = (props : SearchBarProps) => {
 
     return(
         <View style={[styles.mainContainer, props.style]}>
-            <View style={styles.dropDownContainer}>
+            <View style={[styles.dropDownContainer, props.dropDownStyle]}>
                 <IconDropDown
                     style={styles.dropdownButton}>
 

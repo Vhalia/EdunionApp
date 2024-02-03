@@ -2,9 +2,26 @@ import {StyleSheet} from 'react-native';
 import { ColorConstants } from '../../../constants/ThemeConstants';
 
 const styles = StyleSheet.create({
-    mainView: {
+    mainContainer : {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1
+    },
+    headerContainer : {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: "100%",
+        backgroundColor: ColorConstants.blackSecondaryColor,
+    },
+    logo : {
+        alignSelf : 'flex-end',
+        marginBottom: '5%'
+    },
+    scrollContainer: {
         backgroundColor: ColorConstants.blackMainColor,
         display: 'flex',
+        height: "100%",
         flexDirection: 'column'
     },
     mainContainerChildProps : {

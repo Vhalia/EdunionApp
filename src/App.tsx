@@ -14,7 +14,6 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView style={styles.background}>
-      <Header></Header>
       {activePage}
       <Navbar
         onPressHome={() => setActivePage(<Home />)}

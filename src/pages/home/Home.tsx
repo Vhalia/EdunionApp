@@ -6,8 +6,14 @@ import Carousels from "../../components/carousel/Carousel"
 import Post from "../../models/Post"
 import EPostType from "../../models/enums/EPostType"
 import { useRef, useState } from "react"
+import Header from "../header/Header"
+import FoldHeader from "../../components/foldHeader/FoldHeader"
+import { useSharedValue } from "react-native-reanimated"
+import Logo from '../../../images/logo.svg'
 
 const Home = () => {
+    console.log("---------------------------------")
+    const swipeProgress = useSharedValue<number>(0);
 
     const onPressSearch = (value: string) => {
         //TODO: redirect to seach page with result of text input
@@ -94,41 +100,63 @@ const Home = () => {
         }
       })).current;
 
+    const onScroll = (event: any) => {
+        swipeProgress.value = event.nativeEvent.contentOffset.y
+        console.log("SWIPE PROGRESS :: ", swipeProgress.value)
+    }
+
 
     return (
-        <ScrollView
-            style={styles.mainView}
-            contentContainerStyle={styles.mainContainerChildProps}
-            scrollEnabled={isScrollEnabled}
-            {...panResponder.panHandlers}>
-            
-            {/*Seach bar*/}
-            <View style={styles.searchBarContainer}>
-                <MainText
-                    weight={'700'}
-                    fontSize={25}
-                    text="Qu'est ce que tu cherches ?"
-                    style={styles.searchBarTitle}/>
-                <SearchBar
-                    style={styles.searchBar}
-                    onPressSearch={onPressSearch}/>
-            </View>
+        // <View
+        //     style={styles.mainContainer}>
+        <>
+                
+            {/* <Header swipeProgress={swipeProgress}/> */}
+            <FoldHeader
+                baseHeight={150}
+                minHeight={60}
+                swipeProgress={swipeProgress}
+                style={styles.headerContainer}>
 
-            {/*new book posts*/}
-            <View style={styles.newBookPostsContainer}>
-                <MainText weight={'700'} fontSize={20} text="Livres mis récemment en vente" />
-                <Carousels
-                    items={getRecentPosts()}/>
-            </View>
+                <Logo style={styles.logo} width={117} height={23} />
 
-            {/*new course posts*/}
-            <View style={styles.newCoursePostsContainer}>
-                <MainText weight={'700'} fontSize={20} text="Nouvelles propositions de cours" />
-                <Carousels
-                    items={getRecentPosts()}/>
-            </View>
+            </FoldHeader>
+            <ScrollView
+                style={styles.scrollContainer}
+                contentContainerStyle={styles.mainContainerChildProps}
+                onScroll={onScroll}
+                scrollEnabled={isScrollEnabled}
+                {...panResponder.panHandlers}>
+                
+                {/*Seach bar*/}
+                <View style={styles.searchBarContainer}>
+                    <MainText
+                        weight={'700'}
+                        fontSize={25}
+                        text="Qu'est ce que tu cherches ?"
+                        style={styles.searchBarTitle}/>
+                    <SearchBar
+                        style={styles.searchBar}
+                        onPressSearch={onPressSearch}/>
+                </View>
 
-        </ScrollView>
+                {/*new book posts*/}
+                <View style={styles.newBookPostsContainer}>
+                    <MainText weight={'700'} fontSize={20} text="Livres mis récemment en vente" />
+                    <Carousels
+                        items={getRecentPosts()}/>
+                </View>
+
+                {/*new course posts*/}
+                <View style={styles.newCoursePostsContainer}>
+                    <MainText weight={'700'} fontSize={20} text="Nouvelles propositions de cours" />
+                    <Carousels
+                        items={getRecentPosts()}/>
+                </View>
+
+            </ScrollView>
+        {/* </View> */}
+        </>
     )
 }
 
