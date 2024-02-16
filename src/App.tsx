@@ -10,17 +10,32 @@ import Messages from './pages/messages/Messages';
 import Profile from './pages/profile/Profile';
 
 function App(): JSX.Element {
-  let [activePage, setActivePage] = useState<React.JSX.Element>(<Home />)
+  let [activePageName, setActivePageName] = useState<string>('Home')
+
+  const displayActivePage = () => {
+    switch (activePageName) {
+      case 'Home':
+        return <Home />
+      case 'Search':
+        return <Search />
+      case 'AddPost':
+        return <AddPost />
+      case 'Messages':
+        return <Messages />
+      case 'Profile':
+        return <Profile />
+    }
+  }
 
   return (
     <SafeAreaView style={styles.background}>
-      {activePage}
+      {displayActivePage()}
       <Navbar
-        onPressHome={() => setActivePage(<Home />)}
-        onPressSearch={() => setActivePage(<Search />)}
-        onPressAdd={() => setActivePage(<AddPost />)}
-        onPressMessages={() => setActivePage(<Messages />)}
-        onPressProfile={() => setActivePage(<Profile />)} />
+        onPressHome={() => setActivePageName('Home')}
+        onPressSearch={() => setActivePageName('Search')}
+        onPressAdd={() => setActivePageName('AddPost')}
+        onPressMessages={() => setActivePageName('Messages')}
+        onPressProfile={() => setActivePageName('Profile')} />
     </SafeAreaView>
   );
 }
