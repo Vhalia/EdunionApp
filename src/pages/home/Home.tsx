@@ -107,11 +107,9 @@ const Home = () => {
 
 
     return (
-        // <View
-        //     style={styles.mainContainer}>
-        <>
-                
-            {/* <Header swipeProgress={swipeProgress}/> */}
+        <View
+            style={styles.mainContainer}>
+
             <FoldHeader
                 baseHeight={150}
                 minHeight={60}
@@ -155,8 +153,7 @@ const Home = () => {
                 </View>
 
             </ScrollView>
-        {/* </View> */}
-        </>
+        </View>
     )
 }
 

@@ -2,22 +2,22 @@ import { StyleSheet } from "react-native";
 import { ColorConstants } from "../../../constants/ThemeConstants";
 
 const styles = StyleSheet.create({
-    mainContainer:{
+    container: {
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         flex: 1,
+        width: "100%",
         backgroundColor: ColorConstants.blackMainColor,
     },
-    header: {
-        flex: 0.15,
-        backgroundColor: ColorConstants.blackSecondaryColor,
-        paddingTop: 30,
-        paddingBottom: 30,
-        paddingLeft: 20,
-        paddingRight: 20,
+    button: {
+        marginBottom: 10,
+        width: "90%",
     },
-    seachBarStyle: {
-        marginTop: 50
+    profileButton : {
+        marginBottom: 20,
+        marginTop: 20,
+        width: "90%",
     }
 })
 

@@ -1,4 +1,6 @@
+import { View } from "react-native";
 import MainText from "../../modules/text/MainText";
+import { ColorConstants } from "../../constants/ThemeConstants";
 
 const Messages = () => {
     return(

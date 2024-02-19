@@ -4,14 +4,8 @@ import { ColorConstants } from '../../../constants/ThemeConstants';
 const styles = StyleSheet.create({
     mainView: {
         backgroundColor: ColorConstants.blackSecondaryColor,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: "flex-end",
-        padding: '5%',
-        position: 'absolute',
-        bottom: 0,
-        width: '100%'
+        borderTopWidth: 0,
+        height: 60,
     },
     button: {
         display: "flex",

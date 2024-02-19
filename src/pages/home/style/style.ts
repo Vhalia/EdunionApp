@@ -3,9 +3,7 @@ import { ColorConstants } from '../../../constants/ThemeConstants';
 
 const styles = StyleSheet.create({
     mainContainer : {
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1
+        backgroundColor: ColorConstants.blackMainColor,
     },
     headerContainer : {
         display: 'flex',
