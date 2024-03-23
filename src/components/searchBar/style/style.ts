@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopLeftRadius: 11,
         borderBottomLeftRadius: 11,
-        height: "100%",
         flex: 1
     },
     dropdownButton: {
@@ -38,7 +37,6 @@ const styles = StyleSheet.create({
         flex: 4,
         borderTopRightRadius: 11,
         borderBottomRightRadius: 11,
-        height: "100%",
     },
     searchBarInputContainer : {
         position: "relative",
@@ -47,8 +45,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent : "space-between",
         backgroundColor: ColorConstants.blackSecondaryColor,
-        width: "90%",
-        height: "70%",
+        width: 250,
+        height: 40,
         borderRadius: 4,
     },
     searchBarInput: {

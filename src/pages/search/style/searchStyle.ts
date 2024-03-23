@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackMainColor,
     },
     header: {
-        flex: 0.15,
+        flex: 1,
         backgroundColor: ColorConstants.blackSecondaryColor,
         paddingTop: 30,
         paddingBottom: 30,
@@ -18,6 +18,24 @@ const styles = StyleSheet.create({
     },
     seachBarStyle: {
         marginTop: 50
+    },
+    contentContainer: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 5,
+        alignItems: "center",
+    },
+    postsListContainer: {
+        flex : 1,
+        flexGrow: 1,
+        width: 370,
+        marginBottom : 5
+    },
+    postElement: {
+        backgroundColor: "blue"
+    },
+    gap: {
+        marginTop: 10
     }
 })
 

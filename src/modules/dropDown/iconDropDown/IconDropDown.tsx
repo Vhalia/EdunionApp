@@ -1,6 +1,6 @@
 import { Button, Modal, Pressable, StyleProp, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View, ViewStyle } from "react-native";
 import {IIconDropDownProps, IIconDropdownElementProps} from "./props/props";
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import ArrowDown from "../../../../images/arrowDown.svg"
 import styles from "./style/style";
 import { ColorConstants } from "../../../constants/ThemeConstants";
@@ -8,7 +8,6 @@ import { getElement, map } from "../../../utils/utils";
 import IconDropdownElement from "./IconDropdownElement";
 
 const IconDropDown = (props : IIconDropDownProps) => {
-
     const [isActive, setActive] = useState(false);
     const [activeElementIndex, setActiveElementIndex] = useState(0)
     const [dropDownListOriginPosition, setDropDownListOriginPosition] = useState({x: 0, y: 0});
