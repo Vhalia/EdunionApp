@@ -9,15 +9,15 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackMainColor,
     },
     header: {
-        flex: 1,
-        backgroundColor: ColorConstants.blackSecondaryColor,
-        paddingTop: 30,
-        paddingBottom: 30,
-        paddingLeft: 20,
-        paddingRight: 20,
+        backgroundColor: ColorConstants.blackSecondaryColor
     },
     seachBarStyle: {
-        marginTop: 50
+        marginTop: 50,
+        marginLeft: 20,
+        marginRight: 20,
+    },
+    seachBarStyleContainer: {
+        flexGrow: 1,
     },
     contentContainer: {
         display: "flex",
@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
     postsListContainer: {
         flex : 1,
         flexGrow: 1,
-        width: 370,
+        width: 350,
         marginBottom : 5
     },
     postElement: {
-        backgroundColor: "blue"
+        backgroundColor: "blue",
+        height: 500
     },
     gap: {
         marginTop: 10
