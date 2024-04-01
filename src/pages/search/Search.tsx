@@ -1,17 +1,22 @@
 import MainText from "../../modules/text/MainText";
-import { FlatList, View } from "react-native";
+import { FlatList, PanResponder, View } from "react-native";
 import styles from "./style/searchStyle"
 import SearchBar from "../../components/searchBar/SearchBar";
 import { ColorConstants } from "../../constants/ThemeConstants";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Post from "../../models/Post";
 import EPostType from "../../models/enums/EPostType";
 import PostCard from "../../components/postCard/PostCard";
 import { FlashList, MasonryFlashList } from "@shopify/flash-list";
+import FoldHeader from "../../components/foldHeader/FoldHeader";
+import Animated, { clamp, useSharedValue } from "react-native-reanimated";
 
 const Search = () => {
     const [searchInputText, setSearchInputText] = useState("");
+    const [isSearchBarDisplayed, DisplaySearchBar] = useState(true);
     const [posts, setPosts] = useState<Post[]>([]);
+    const swipeProgress = useSharedValue(0);
+    const searchBarOpacity = useSharedValue(1);
 
     useEffect(() => {
         let posts : Post[] = [
@@ -128,6 +133,18 @@ const Search = () => {
         setPosts([...posts]);
     }, [])
 
+    const onScroll = (event: any) => {
+        swipeProgress.value = event.nativeEvent.contentOffset.y
+
+        searchBarOpacity.value = clamp((1 - (swipeProgress.value / 100)*2), 0, 1)
+
+        if (searchBarOpacity && searchBarOpacity.value < 0.33) {
+            DisplaySearchBar(false);
+        } else {
+            DisplaySearchBar(true);
+        }
+    }
+
     const noImageGradientColors = [
         ['#4b75e1', '#7a9cf4'],
         ['#f47a22', '#f98c3d'],
@@ -137,14 +154,32 @@ const Search = () => {
     return(
         <View style={styles.mainContainer}>
             {/*header*/}
-            <View style={styles.header}>
+            {/* <View style={styles.header}>
                 <SearchBar
                     onPressSearch={(value) => {setSearchInputText(value)}}
                     dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
                     style={styles.seachBarStyle}>
 
                 </SearchBar>
-            </View>
+            </View> */}
+
+            <FoldHeader
+                style={styles.header}
+                swipeProgress={swipeProgress}
+                baseHeight={150}
+                minHeight={20}
+                maxHeight={150}>
+                
+                {isSearchBarDisplayed ?
+                    <Animated.View style={[{opacity: searchBarOpacity}, styles.seachBarStyleContainer]}>
+                        <SearchBar
+                            onPressSearch={(value) => {setSearchInputText(value)}}
+                            dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
+                            style={[styles.seachBarStyle]} />
+                    </Animated.View>
+                : <></>}
+
+            </FoldHeader>
 
             {/*Search*/}
             <View style={[styles.gap, styles.contentContainer]}>
@@ -159,6 +194,7 @@ const Search = () => {
                 <View style={[styles.postsListContainer]}>
                     <FlashList
                         data={posts}
+                        onScroll={onScroll}
                         estimatedItemSize={750}
                         ItemSeparatorComponent={() =>
                             <View style={{height: 20}}></View>}

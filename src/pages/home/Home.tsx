@@ -107,7 +107,6 @@ const Home = () => {
 
     const onScroll = (event: any) => {
         swipeProgress.value = event.nativeEvent.contentOffset.y
-        console.log("SWIPE PROGRESS :: ", swipeProgress.value)
     }
 
 
