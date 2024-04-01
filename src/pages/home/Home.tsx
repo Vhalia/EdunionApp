@@ -22,6 +22,7 @@ const Home = () => {
     const getRecentPosts = (): Post[] => {
         return [
             {
+                id : 1,
                 blobPaths: [require("../../../images/postImageExample.png")],
                 title: "New Book 1",
                 shortDescription: "Short desc 1",
@@ -35,6 +36,7 @@ const Home = () => {
                 }
             },
             {
+                id : 2,
                 title: "Random Book 2",
                 shortDescription: "Short desc 2",
                 description: "Description 2",
@@ -46,6 +48,7 @@ const Home = () => {
                 }
             },
             {
+                id : 3,
                 blobPaths: [require("../../../images/postImageExample.png")],
                 title: "Random Book 3",
                 shortDescription: "Short desc 3",
@@ -59,6 +62,7 @@ const Home = () => {
                 }
             },
             {
+                id : 4,
                 blobPaths: [require("../../../images/postImageExample.png")],
                 title: "Random Book 4",
                 shortDescription: "Short desc 4",
@@ -72,6 +76,7 @@ const Home = () => {
                 }
             },
             {
+                id : 5,
                 blobPaths: [require("../../../images/postImageExample.png")],
                 title: "Random Book 5",
                 shortDescription: "Short desc 5",
