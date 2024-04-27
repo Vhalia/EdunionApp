@@ -1,4 +1,4 @@
-import { Button, Modal, Pressable, StyleProp, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View, ViewStyle } from "react-native";
+import { LayoutChangeEvent, Modal, Pressable, StyleProp, TouchableHighlight, View, ViewStyle } from "react-native";
 import {IIconDropDownProps, IIconDropdownElementProps} from "./props/props";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import ArrowDown from "../../../../images/arrowDown.svg"
@@ -13,20 +13,39 @@ const IconDropDown = (props : IIconDropDownProps) => {
     const [dropDownListOriginPosition, setDropDownListOriginPosition] = useState({x: 0, y: 0});
     const DropdownButton = useRef<TouchableHighlight>(null);
     
+    useEffect(() => {
+        setDropdownPosition();
+    }, [])
+    
+    
     const onPressDropdownElement = (index : number) => {
         setActiveElementIndex(index)
         setActive(!isActive);
     }
 
     const onPressDropdown = () => {
-        DropdownButton.current?.measure((x, y, width, height, pageX, pageY) => {
-            let pos = {
-                x : pageY,
-                y:  pageX
-            }
-            setDropDownListOriginPosition(pos);
-        })
-        setActive(!isActive);
+        if (!isActive)
+        {
+            setDropdownPosition()
+                .then(() => setActive(true))
+        }
+        else{
+            setActive(false)
+        }
+    }
+
+    const setDropdownPosition = () : Promise<void> => {
+        return new Promise<void>((resolve, reject) => {
+            DropdownButton.current?.measure((x, y, width, height, pageX, pageY) => {
+                let pos = {
+                    x : pageY,
+                    y:  pageX
+                }
+    
+                setDropDownListOriginPosition(pos);
+                resolve();
+            })
+        });
     }
 
     const setDropdownElementStyle = (indexOfElement: number) : StyleProp<ViewStyle> => {
