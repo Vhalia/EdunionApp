@@ -5,13 +5,12 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "row",
-        flex: 1,
+        padding: 10,
         backgroundColor: ColorConstants.blackSecondaryColor,
         width : 350,
-        // height : 150,
         borderRadius: 14,
         flexWrap: "wrap",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
     },
     photo: {
@@ -22,15 +21,7 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.greyMainColor,
         justifyContent: "center",
         alignItems: "center",
-    },
-    etcContainer: {
-        width: 70,
-        height: 70,
-        margin: 5,
-        borderRadius: 8,
-        justifyContent: "center",
-        alignItems: "center",
-    },
+    }
 });
 
 export default styles;

@@ -9,7 +9,7 @@ import Etc from "../../../images/etc.svg"
 
 const PhotoUploader = (props : PhotoUploaderProps) => {
     const [selectedPhotos, setSelectedPhotos] = useState<string[]>([]);
-    const [photoViewerCount, setPhotoViewerCount] = useState<number>(8);
+    const [photoViewerCount, setPhotoViewerCount] = useState<number>(1);
 
     const options : ImageLibraryOptions = {
         mediaType: "photo",
@@ -37,7 +37,6 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                 }
             ]
         );
-        
     };
 
     const onDeletePhotoPress = (index: number) => {
@@ -62,10 +61,6 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
         );
     }
 
-    const onMorePhotoToAddPress = () => {
-        setPhotoViewerCount(photoViewerCount + 4);
-    }
-
 
     const takePhoto = (index: number) => {
         launchCamera(options, (response) => {
@@ -73,6 +68,7 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                 return;
 
             addSelectedPhotos(response, index);
+            setPhotoViewerCount(photoViewerCount + 1);
         });
     }
     
@@ -82,6 +78,7 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                 return;
             
             addSelectedPhotos(response, index);
+            setPhotoViewerCount(photoViewerCount + 1);
         });
     }
 
@@ -109,17 +106,6 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                     let isNext = index == selectedPhotos.length
                     let selectedPhoto = selectedPhotos[index]
 
-                    if (index == photoViewerCount - 1)
-                    {
-                        return (
-                            <TouchableHighlight
-                                style={styles.etcContainer}
-                                onPress={onMorePhotoToAddPress}
-                                key={index}>
-                                <Etc color={ColorConstants.whiteMainColor} opacity={0.5}/>
-                            </TouchableHighlight>
-                        );
-                    }
                     return (
                         <TouchableHighlight
                             onPress={() => onAddPhotoPress(index)}
