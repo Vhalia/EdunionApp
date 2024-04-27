@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flex : 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: ColorConstants.blackSecondaryColor,
         height: 100,
