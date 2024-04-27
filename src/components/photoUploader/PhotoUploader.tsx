@@ -110,10 +110,10 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
 
     return (
         <View
-            style={styles.container}>
+            style={[styles.container, props.style]}>
 
             <View
-                style={[styles.photoContainer, props.style]}>
+                style={[styles.photoContainer]}>
 
                 {new Array(photoViewerCount).fill(0).map((_, index) => {
                     let isNext = index == selectedPhotos.length
