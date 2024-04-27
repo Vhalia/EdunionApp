@@ -4,14 +4,17 @@ import { ColorConstants } from "../../../constants/ThemeConstants";
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        flexDirection: "row",
         padding: 10,
         backgroundColor: ColorConstants.blackSecondaryColor,
         width : 350,
         borderRadius: 14,
+    },
+    photoContainer : {
+        display: "flex",
+        flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        alignItems: "center",
+        alignItems: "center"
     },
     photo: {
         width: 70,

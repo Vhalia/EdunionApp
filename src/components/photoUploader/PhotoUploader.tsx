@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, Image, Button, GestureResponderEvent, Alert, StyleSheet, ImageBackground, TouchableHighlight } from "react-native";
-import {launchImageLibrary, launchCamera,ImageLibraryOptions, CameraOptions, ImagePickerResponse} from "react-native-image-picker";
+import { View, Image, Alert, TouchableHighlight } from "react-native";
+import {launchImageLibrary, launchCamera,ImageLibraryOptions, ImagePickerResponse} from "react-native-image-picker";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import styles from "./style/photoUploaderStyle";
 import PhotoUploaderProps from "./props/photoUploaderProps";
-import Plus from "../../../images/plus.svg"
-import Etc from "../../../images/etc.svg"
+import PlusSVG from "../../../images/plus.svg"
+
 
 const PhotoUploader = (props : PhotoUploaderProps) => {
     const [selectedPhotos, setSelectedPhotos] = useState<string[]>([]);
@@ -19,6 +19,10 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
     };
 
     const onAddPhotoPress = (index: number) => {
+        addPhoto(index, () => setPhotoViewerCount(photoViewerCount + 1));
+    };
+
+    const addPhoto = (index: number, callback? : () => void) => {
         Alert.alert(
             "Selectionnez une option pour ajouter une photo",
             undefined,
@@ -29,56 +33,62 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                 },
                 {
                     text: 'Sélectionner une photo',
-                    onPress: () => choosePhoto(index)
+                    onPress: () => choosePhoto(index, callback)
                 },
                 {
                     text: 'Prendre une photo',
-                    onPress: () => takePhoto(index)
+                    onPress: () => takePhoto(index, callback)
                 }
             ]
         );
     };
 
-    const onDeletePhotoPress = (index: number) => {
-        selectedPhotos.splice(index, 1);
-        setSelectedPhotos([...selectedPhotos]);
-    }
-
-    const onLongPhotoPress = (index: number) => {
+    const onSelectedPhotoPress = (index: number) => {
         Alert.alert(
-            "Voulez-vous supprimer cette photo ?",
+            "Voulez-vous supprimer ou modifier cette photo ?",
             undefined,
             [
                 {
-                    text: 'Non',
+                    text: 'Annuler',
                     style: 'cancel'
                 },
                 {
-                    text: 'Oui',
-                    onPress: () => onDeletePhotoPress(index)
+                    text: 'Modifier',
+                    onPress: () => addPhoto(index)
                 },
+                {
+                    text: 'Supprimer',
+                    onPress: () => deletePhoto(index)
+                }
             ]
         );
     }
 
+    const deletePhoto = (index: number) => {
+        selectedPhotos.splice(index, 1);
+        setSelectedPhotos([...selectedPhotos]);
+        setPhotoViewerCount(photoViewerCount - 1);
+    }
 
-    const takePhoto = (index: number) => {
+    const takePhoto = (index: number, callback? : () => void) => {
         launchCamera(options, (response) => {
             if (!response.assets)
                 return;
 
             addSelectedPhotos(response, index);
-            setPhotoViewerCount(photoViewerCount + 1);
+            if(callback)
+                callback();
         });
     }
     
-    const choosePhoto = (index: number) => {
+    const choosePhoto = (index: number, callback? : () => void) => {
         launchImageLibrary(options, (response) => {
             if (!response.assets)
                 return;
             
             addSelectedPhotos(response, index);
-            setPhotoViewerCount(photoViewerCount + 1);
+            if(callback)
+                callback();
         });
     }
 
@@ -99,19 +109,22 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
     }
 
     return (
-        <View>
+        <View
+            style={styles.container}>
+
             <View
-                style={[styles.container, props.style]}>
+                style={[styles.photoContainer, props.style]}>
+
                 {new Array(photoViewerCount).fill(0).map((_, index) => {
                     let isNext = index == selectedPhotos.length
                     let selectedPhoto = selectedPhotos[index]
 
                     return (
                         <TouchableHighlight
-                            onPress={() => onAddPhotoPress(index)}
-                            onLongPress={() => onLongPhotoPress(index)}
-                            key={index}
-                            style={{}}>
+                            onPress={() => !selectedPhoto
+                                ? onAddPhotoPress(index)
+                                : onSelectedPhotoPress(index)}
+                            key={index}>
                             <>
                                 {selectedPhoto ?
                                     <Image
@@ -121,7 +134,7 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                                 :
                                 <View style={styles.photo}>
                                     {isNext ?
-                                        <Plus color={ColorConstants.whiteMainColor}/>
+                                        <PlusSVG color={ColorConstants.whiteMainColor}/>
                                         : ""}
                                 </View>}
                                 

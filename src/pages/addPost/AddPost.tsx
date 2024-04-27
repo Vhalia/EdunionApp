@@ -8,11 +8,12 @@ import styles from './style/addPostStyle';
 import PhotoUploader from "../../components/photoUploader/PhotoUploader"; 
 import { ColorConstants } from '../../constants/ThemeConstants';
 import HorizontalLine from "../../modules/horizontalLine/HorizontalLine";
-import Book from "../../../images/book.svg";
-import Course from "../../../images/course.svg";
+import BookSVG from "../../../images/book.svg";
+import CourseSVG from "../../../images/course.svg";
 import Tag from "../../components/tag/Tag";
 import { Tag as TagType } from "../../models/Tag";
 import { TagsProps } from './props/addPostProps';
+
 
 enum Category {
     BOOK,
@@ -217,7 +218,7 @@ const AddPost = () => {
                                     onPress={() => onCategoryButtonPress(Category.BOOK)}>
                                     <View
                                         style={[styles.categoryButton, applyCategoryButtonStyle(Category.BOOK)]}>
-                                        <Book color={applyCategoryButtonStyle(Category.BOOK).color} />
+                                        <BookSVG color={applyCategoryButtonStyle(Category.BOOK).color} />
                                         <MainText
                                             weight={'700'}
                                             fontSize={12}
@@ -229,7 +230,7 @@ const AddPost = () => {
                                     onPress={() => onCategoryButtonPress(Category.COURSE)}>
                                     <View
                                         style={[styles.categoryButton, applyCategoryButtonStyle(Category.COURSE)]}>
-                                        <Course color={applyCategoryButtonStyle(Category.COURSE).color} />
+                                        <CourseSVG color={applyCategoryButtonStyle(Category.COURSE).color} />
                                         <MainText
                                             weight={'700'}
                                             fontSize={12}
