@@ -26,8 +26,6 @@ const FoldHeader = (props: FoldHeaderProps) => {
             height: height,
         };
 
-        console.log("HEIGHT :: ", heightValue)
-
         return style
     });
 

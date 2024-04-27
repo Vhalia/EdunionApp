@@ -1,14 +1,14 @@
-import { TextInput, View } from "react-native";
-import IconDropDown from "../../modules/dropDown/iconDropDown/IconDropDown";
+import { TextInput, Touchable, TouchableWithoutFeedback, View } from "react-native";
 import Book from "../../../images/book.svg"
 import Course from "../../../images/course.svg"
 import Search from "../../../images/search.svg"
-import styles from "./style/style";
+import styles from "./style/searchBarStyle";
 import IconDropdownElement from "../../modules/dropDown/iconDropDown/IconDropdownElement";
 import ButtonWithIcon from "../../modules/buttonWithIcon/ButtonWithIcon";
-import SearchBarProps from "./props/props";
+import SearchBarProps from "./props/searchBarProps";
 import { useState } from "react";
 import { ColorConstants } from "../../constants/ThemeConstants";
+import IconDropDown from "../../modules/dropDown/iconDropDown/IconDropDown";
 
 const SearchBar = (props : SearchBarProps) => {
     const [searchInputText, setSearchInputText] = useState("");
@@ -22,7 +22,8 @@ const SearchBar = (props : SearchBarProps) => {
     }
 
     return(
-        <View style={[styles.mainContainer, props.style]}>
+        <View
+            style={[styles.mainContainer, props.style]}>
             <View style={[styles.dropDownContainer, props.dropDownStyle]}>
                 <IconDropDown
                     style={styles.dropdownButton}>
