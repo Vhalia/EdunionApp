@@ -154,14 +154,6 @@ const Search = () => {
     return(
         <View style={styles.mainContainer}>
             {/*header*/}
-            {/* <View style={styles.header}>
-                <SearchBar
-                    onPressSearch={(value) => {setSearchInputText(value)}}
-                    dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
-                    style={styles.seachBarStyle}>
-
-                </SearchBar>
-            </View> */}
 
             <FoldHeader
                 style={styles.header}
@@ -182,7 +174,7 @@ const Search = () => {
             </FoldHeader>
 
             {/*Search*/}
-            <View style={[styles.gap, styles.contentContainer]}>
+            <Animated.View style={[styles.gap, styles.contentContainer]}>
                 {/* <View style={[styles.gap]}>
                     <MainText
                         weight={'700'}
@@ -214,7 +206,7 @@ const Search = () => {
                         }}
                     />
                 </View>
-            </View>
+            </Animated.View>
         </View>
     );
 }

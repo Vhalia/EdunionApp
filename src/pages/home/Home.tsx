@@ -8,12 +8,13 @@ import EPostType from "../../models/enums/EPostType"
 import { useRef, useState } from "react"
 import Header from "../header/Header"
 import FoldHeader from "../../components/foldHeader/FoldHeader"
-import { useSharedValue } from "react-native-reanimated"
+import Animated, { useSharedValue } from "react-native-reanimated"
 import Logo from '../../../images/logo.svg'
 
 const Home = () => {
     console.log("---------------------------------")
     const swipeProgress = useSharedValue<number>(0);
+    const [isScrollEnabled, enableScroll] = useState(true)
 
     const onPressSearch = (value: string) => {
         //TODO: redirect to seach page with result of text input
@@ -92,7 +93,6 @@ const Home = () => {
         ]
     }
 
-    const [isScrollEnabled, enableScroll] = useState(true)
 
     const panResponder = useRef(PanResponder.create({
         onMoveShouldSetPanResponder : () => true,
@@ -107,11 +107,12 @@ const Home = () => {
 
     const onScroll = (event: any) => {
         swipeProgress.value = event.nativeEvent.contentOffset.y
+        console.log('SWIPE ::', swipeProgress.value)
     }
 
 
     return (
-        <View
+        <Animated.View
             style={styles.mainContainer}>
 
             <FoldHeader
@@ -123,15 +124,17 @@ const Home = () => {
                 <Logo style={styles.logo} width={117} height={23} />
 
             </FoldHeader>
-            <ScrollView
+            <Animated.ScrollView
                 style={styles.scrollContainer}
                 contentContainerStyle={styles.mainContainerChildProps}
                 onScroll={onScroll}
+                showsVerticalScrollIndicator={false}
                 scrollEnabled={isScrollEnabled}
-                {...panResponder.panHandlers}>
+                {...panResponder.panHandlers}
+                >
                 
                 {/*Seach bar*/}
-                <View style={styles.searchBarContainer}>
+                <Animated.View style={styles.searchBarContainer}>
                     <MainText
                         weight={'700'}
                         fontSize={25}
@@ -140,24 +143,24 @@ const Home = () => {
                     <SearchBar
                         style={styles.searchBar}
                         onPressSearch={onPressSearch}/>
-                </View>
+                </Animated.View>
 
                 {/*new book posts*/}
-                <View style={styles.newBookPostsContainer}>
+                <Animated.View style={styles.newBookPostsContainer}>
                     <MainText weight={'700'} fontSize={20} text="Livres mis récemment en vente" />
                     <Carousels
                         items={getRecentPosts()}/>
-                </View>
+                </Animated.View>
 
                 {/*new course posts*/}
-                <View style={styles.newCoursePostsContainer}>
+                <Animated.View style={styles.newCoursePostsContainer}>
                     <MainText weight={'700'} fontSize={20} text="Nouvelles propositions de cours" />
                     <Carousels
                         items={getRecentPosts()}/>
-                </View>
+                </Animated.View>
 
-            </ScrollView>
-        </View>
+            </Animated.ScrollView>
+        </Animated.View>
     )
 }
 
