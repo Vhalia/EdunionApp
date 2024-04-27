@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopLeftRadius: 11,
         borderBottomLeftRadius: 11,
-        flex: 1
+        flex: 1,
+        zIndex: 1
     },
     dropdownButton: {
         backgroundColor: ColorConstants.purpleMainColor,
