@@ -25,9 +25,9 @@ const styles = StyleSheet.create({
     infoBarContainer: {
         display: "flex",
         flexDirection: "row",
-        flex: 1,
         backgroundColor:ColorConstants.blackSecondaryColor,
         width: "100%",
+        height: 100,
         borderBottomLeftRadius: 22,
         borderBottomRightRadius: 22,
         justifyContent: "space-around",

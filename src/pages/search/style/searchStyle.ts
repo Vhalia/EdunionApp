@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
     postElement: {
         backgroundColor: "blue",
-        height: 500
+        height: 400
     },
     gap: {
         marginTop: 10

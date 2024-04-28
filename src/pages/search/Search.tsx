@@ -1,13 +1,12 @@
-import MainText from "../../modules/text/MainText";
-import { FlatList, PanResponder, View } from "react-native";
+import {  View } from "react-native";
 import styles from "./style/searchStyle"
 import SearchBar from "../../components/searchBar/SearchBar";
 import { ColorConstants } from "../../constants/ThemeConstants";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Post from "../../models/Post";
 import EPostType from "../../models/enums/EPostType";
 import PostCard from "../../components/postCard/PostCard";
-import { FlashList, MasonryFlashList } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import FoldHeader from "../../components/foldHeader/FoldHeader";
 import Animated, { clamp, useSharedValue } from "react-native-reanimated";
 
@@ -138,11 +137,19 @@ const Search = () => {
 
         searchBarOpacity.value = clamp((1 - (swipeProgress.value / 100)*2), 0, 1)
 
+        console.log('SWIPE ::', swipeProgress.value)
+
         if (searchBarOpacity && searchBarOpacity.value < 0.33) {
             DisplaySearchBar(false);
         } else {
             DisplaySearchBar(true);
         }
+    }
+
+    const onScollEnd = (event : any) => {
+        swipeProgress.value = event.nativeEvent.contentOffset.y
+        //console.log('SWIPE ::', swipeProgress.value)
+
     }
 
     const noImageGradientColors = [
@@ -183,17 +190,20 @@ const Search = () => {
                 </View> */}
 
                 {/*Posts*/}
-                <View style={[styles.postsListContainer]}>
+                <Animated.View style={[styles.postsListContainer]}>
                     <FlashList
                         data={posts}
                         onScroll={onScroll}
+                        onScrollEndDrag={onScollEnd}
                         estimatedItemSize={750}
+                        showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={() =>
                             <View style={{height: 20}}></View>}
                         renderItem={({item}) => {
                             return (
                                 <PostCard
                                     style={styles.postElement}
+                                    informationBarSyle={{height: 75}}
                                     key={item.id}
                                     owner={item.user.name}
                                     ownerImage={item.user.picture}
@@ -205,7 +215,7 @@ const Search = () => {
                             );
                         }}
                     />
-                </View>
+                </Animated.View>
             </Animated.View>
         </View>
     );

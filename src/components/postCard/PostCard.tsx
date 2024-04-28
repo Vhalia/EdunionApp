@@ -47,7 +47,7 @@ const PostCard = (props: PostCardProps) => {
         <View style={[styles.mainContainer, props.style]}>
             {displayPostImage()}
 
-            <View style={styles.infoBarContainer}>
+            <View style={[styles.infoBarContainer, props.informationBarSyle]}>
                 <View>
                     <MainText 
                         fontSize={20}

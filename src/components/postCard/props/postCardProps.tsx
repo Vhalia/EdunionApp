@@ -8,5 +8,6 @@ export default interface PostCardProps {
     ownerImage?: any
     price: number,
     gradientColors?: string[],
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>,
+    informationBarSyle?: StyleProp<ViewStyle>
 }
