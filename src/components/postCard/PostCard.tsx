@@ -24,7 +24,9 @@ const PostCard = (props: PostCardProps) => {
 
                         <UserWithPicture 
                             userName={props.owner}
-                            picture={props.ownerImage}/>
+                            picture={props.ownerImage}
+                            pictureSize={40}
+                            userNameFontSize={15}/>
                             
                     </LinearGradient>
 
@@ -37,7 +39,9 @@ const PostCard = (props: PostCardProps) => {
                         
                         <UserWithPicture 
                             userName={props.owner}
-                            picture={props.ownerImage}/>
+                            picture={props.ownerImage}
+                            pictureSize={40}
+                            userNameFontSize={15}/>
 
                 </LinearGradient>)
         }
@@ -50,12 +54,12 @@ const PostCard = (props: PostCardProps) => {
             <View style={[styles.infoBarContainer, props.informationBarSyle]}>
                 <View>
                     <MainText 
-                        fontSize={20}
+                        fontSize={18}
                         weight={"700"}
                         text={props.title}/>
                     {props.subtitle ?
                         <MainText 
-                            fontSize={15}
+                            fontSize={13}
                             weight={"500"}
                             text={props.subtitle as string}
                             style={{opacity:0.7}}
@@ -63,7 +67,7 @@ const PostCard = (props: PostCardProps) => {
                         : ""}
                 </View>
                 <MainText
-                    fontSize={22}
+                    fontSize={20}
                     weight={"700"}
                     text={price+" €"}/>
             </View>
