@@ -26,11 +26,11 @@ const Navbar = (props : NavbarProps) => {
 
     const displayIcon = (routeName : string, focused : boolean) : ReactNode => {
         switch(routeName){
-            case 'Home':
+            case 'Accueil':
                 return <HomeSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
-            case 'Search':
+            case 'Chercher':
                 return <SearchSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
-            case 'AddPost':
+            case 'Ajouter':
                 return <AddSvg {...unactiveStyle.icon}/>
             case 'Messages':
                 return <ChatSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
@@ -50,9 +50,9 @@ const Navbar = (props : NavbarProps) => {
                 tabBarActiveTintColor: ColorConstants.whiteMainColor,
             })}>
 
-                <Tab.Screen name="Home" component={Home} />
-                <Tab.Screen name="Search" component={Search} />
-                <Tab.Screen name="AddPost" component={AddPost} />
+                <Tab.Screen name="Accueil" component={Home} />
+                <Tab.Screen name="Chercher" component={Search} />
+                <Tab.Screen name="Ajouter" component={AddPost} />
                 <Tab.Screen name="Messages" component={Messages} />
                 <Tab.Screen name="Profile" component={Profile} />
 
