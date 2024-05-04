@@ -12,6 +12,7 @@ const Login = () => {
     useEffect(() => {
         authContext!.setCurrentUser({
             name: 'Max le Grelle ff',
+            email: 'maxlegrelle@gmail.com',
             id: 1
         })
         navigation.navigate('Navbar')

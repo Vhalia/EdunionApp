@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Setting from "./settings/Setting";
 import LanguageSetting from "./settings/languageSetting/LanguageSetting";
 import { ColorConstants } from "../../constants/ThemeConstants";
+import SecuritySetting from "./settings/securitySetting/SecuritySetting";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -35,6 +36,15 @@ const Profile = (props : ProfileProps) => {
 
                     {() => <Setting
                         renderContent={() => <LanguageSetting/>}
+                    />}
+
+                </stack.Screen>
+                <stack.Screen
+                    name="SecuritySetting"
+                    options={{title: 'Sécurité', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+
+                    {() => <Setting
+                        renderContent={() => <SecuritySetting/>}
                     />}
 
                 </stack.Screen>
