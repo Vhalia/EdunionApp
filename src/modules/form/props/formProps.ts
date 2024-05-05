@@ -11,7 +11,7 @@ interface FormProps {
 
 interface InputConfiguration {
     title?: string,
-    placeholder?: string
+    key: string, placeholder?: string
     secret?: boolean
 }
 

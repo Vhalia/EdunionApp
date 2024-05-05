@@ -35,7 +35,7 @@ const Form = (props : FormProps) => {
                 )})
             }
 
-            <Button onPress={onPress} title={props.buttonTitle}></Button>
+             <Button onPress={onPress} title={props.buttonTitle} color={ColorConstants.purpleMainColor}></Button>
         </View>
     ); 
 }

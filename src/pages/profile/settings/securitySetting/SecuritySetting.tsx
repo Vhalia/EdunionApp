@@ -18,15 +18,18 @@ const SecuritySetting = () => {
             onSubmit={onSubmit}
             inputConfig={[
                 {
+                    key: "email",
                     title: "Changez votre email",
                     placeholder: authContext?.currentUser?.email,
                 },
                 {
+                    key: "password",
                     title: "Changez votre mot de passe",
                     placeholder: "**********",
                     secret: true,
                 },
                 {
+                    key: "confirmPassword",
                     title: "Confirmez votre mot de passe",
                     placeholder: "**********",
                     secret: true,
