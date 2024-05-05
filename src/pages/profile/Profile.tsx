@@ -11,6 +11,9 @@ import Setting from "./settings/Setting";
 import LanguageSetting from "./settings/languageSetting/LanguageSetting";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import SecuritySetting from "./settings/securitySetting/SecuritySetting";
+import Header from "../../components/header/Header";
+import AboutSetting from "./settings/aboutSetting/AboutSetting";
+import LegalNoticeSetting from "./settings/legalNoticeSetting/LegalNoticeSetting";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -48,6 +51,24 @@ const Profile = (props : ProfileProps) => {
                     />}
 
                 </stack.Screen>
+                <stack.Screen
+                    name="AboutSetting"
+                    options={{title: 'A propos', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+
+                    {() => <Setting
+                        renderContent={() => <AboutSetting/>}
+                    />}
+
+                </stack.Screen>
+                <stack.Screen
+                    name="LegalNoticeSetting"
+                    options={{title: 'Mentions légales', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+
+                    {() => <Setting
+                        renderContent={() => <LegalNoticeSetting/>}
+                    />}
+
+                </stack.Screen>
             </stack.Navigator> 
 
         </>
@@ -59,6 +80,9 @@ const Settings = () => {
 
     return (
             <View style={styles.container}>
+                <Header style={styles.header}>
+                    <MainText weight={'700'} fontSize={20} text={"Profile"} />    
+                </Header>
                 <NavigateButton
                     redirectScreenName="ProfileSetting"
                     style={styles.profileButton}>

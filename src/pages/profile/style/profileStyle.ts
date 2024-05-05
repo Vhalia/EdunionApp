@@ -18,6 +18,15 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 20,
         width: "90%",
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: ColorConstants.blackSecondaryColor,
+        height: 100,
+        width: "100%",
     }
 })
 

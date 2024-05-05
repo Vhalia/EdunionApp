@@ -38,7 +38,8 @@ const SecuritySetting = () => {
             inputStyle={
                 {
                     backgroundColor:ColorConstants.blackSecondaryColor,
-                    color: ColorConstants.whiteMainColor
+                    color: ColorConstants.whiteMainColor,
+                    borderRadius: 10,
                 }}/>
     )
 }
