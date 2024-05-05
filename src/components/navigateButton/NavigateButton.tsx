@@ -1,5 +1,5 @@
 import { TouchableHighlight, View } from "react-native"
-import RightArrow from "../../../images/rightArrow.svg";
+import RightArrowSVG from "../../../images/rightArrow.svg";
 import NavigateButtonProps from "./props/navigateButtonProps";
 import styles from "./style/navigateButtonStyle";
 import { ColorConstants } from "../../constants/ThemeConstants";
@@ -24,7 +24,7 @@ const NavigateButton = (props : NavigateButtonProps) => {
                 <View
                     style={styles.buttonContainer}>
                     {props.children}
-                    <RightArrow color={'white'} />
+                    <RightArrowSVG color={'white'} />
                 </View>
 
             </TouchableHighlight>

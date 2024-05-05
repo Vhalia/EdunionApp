@@ -1,3 +1,4 @@
 export default interface SettingProps {
-    renderContent: () => JSX.Element
+    renderContent: () => JSX.Element,
+    navigation: any
 }

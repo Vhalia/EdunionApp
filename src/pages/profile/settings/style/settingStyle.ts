@@ -17,6 +17,16 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
+    },
+    backButtonContainer: {
+        display: "flex",
+        margin: 5,
+        flexDirection: "row",
+        width: 40,
+        height: 40,
+        //backgroundColor: "red",
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 

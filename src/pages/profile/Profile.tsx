@@ -28,44 +28,48 @@ const Profile = (props : ProfileProps) => {
                 <stack.Screen name="Settings" component={Settings} options={{headerShown: false}}/> 
                 <stack.Screen
                     name="ProfileSetting"
-                    options={{title: 'Profile', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+                    options={{title: 'Profile', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
                               
                     {() => <></>}
                 
                 </stack.Screen> 
                 <stack.Screen
                     name="LanguageSetting"
-                    options={{title: 'Language', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+                    options={{title: 'Language', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {() => <Setting
+                    {(props) => <Setting
                         renderContent={() => <LanguageSetting/>}
+                        navigation={props.navigation}
                     />}
 
                 </stack.Screen>
                 <stack.Screen
                     name="SecuritySetting"
-                    options={{title: 'Sécurité', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+                    options={{title: 'Sécurité', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {() => <Setting
+                    {(props) => <Setting
                         renderContent={() => <SecuritySetting/>}
+                        navigation={props.navigation}
                     />}
 
                 </stack.Screen>
                 <stack.Screen
                     name="AboutSetting"
-                    options={{title: 'A propos', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+                    options={{title: 'A propos', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {() => <Setting
+                    {(props) => <Setting
                         renderContent={() => <AboutSetting/>}
+                        navigation={props.navigation}
                     />}
 
                 </stack.Screen>
                 <stack.Screen
                     name="LegalNoticeSetting"
-                    options={{title: 'Mentions légales', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor}}>
+                    options={{title: 'Mentions légales', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {() => <Setting
+                    {(props) => <Setting
                         renderContent={() => <LegalNoticeSetting/>}
+                        navigation={props.navigation}
                     />}
 
                 </stack.Screen>
