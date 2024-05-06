@@ -1,5 +1,9 @@
-import { StyleProp, ViewStyle } from "react-native";
+import { ImageStyle, StyleProp, ViewStyle } from "react-native";
 
 export default interface PhotoUploaderProps{
-    style?: StyleProp<ViewStyle>;
+    style?: StyleProp<ViewStyle>,
+    photoContainerStyle?: StyleProp<ViewStyle>,
+    photoStyle? : StyleProp<ImageStyle>,
+    maxPhoto?: number,
+    photos?: string[]
 }

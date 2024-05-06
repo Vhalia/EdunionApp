@@ -8,8 +8,10 @@ import PlusSVG from "../../../images/plus.svg"
 
 
 const PhotoUploader = (props : PhotoUploaderProps) => {
-    const [selectedPhotos, setSelectedPhotos] = useState<string[]>([]);
-    const [photoViewerCount, setPhotoViewerCount] = useState<number>(1);
+    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(props.photos ?? []);
+    const [photoViewerCount, setPhotoViewerCount] = useState<number>(!props.photos?.length ? 1 : props.photos?.length);
+
+    const maxPhotoCount = props.maxPhoto ?? 15;
 
     const options : ImageLibraryOptions = {
         mediaType: "photo",
@@ -113,11 +115,14 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
             style={[styles.container, props.style]}>
 
             <View
-                style={[styles.photoContainer]}>
+                style={[styles.photoContainer, props.photoContainerStyle]}>
 
                 {new Array(photoViewerCount).fill(0).map((_, index) => {
                     let isNext = index == selectedPhotos.length
                     let selectedPhoto = selectedPhotos[index]
+
+                    if (index >= maxPhotoCount)
+                        return (<></>)
 
                     return (
                         <TouchableHighlight
@@ -130,9 +135,9 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                                     <Image
                                         source={{ uri: selectedPhoto }}
                                         resizeMode="cover"
-                                        style={styles.photo}/>
+                                        style={[styles.photo, props.photoStyle]}/>
                                 :
-                                <View style={styles.photo}>
+                                <View style={[styles.photo, props.photoStyle]}>
                                     {isNext ?
                                         <PlusSVG color={ColorConstants.whiteMainColor}/>
                                         : ""}

@@ -14,6 +14,7 @@ import SecuritySetting from "./settings/securitySetting/SecuritySetting";
 import Header from "../../components/header/Header";
 import AboutSetting from "./settings/aboutSetting/AboutSetting";
 import LegalNoticeSetting from "./settings/legalNoticeSetting/LegalNoticeSetting";
+import ProfileSetting from "./settings/profileSetting/ProfileSetting";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -30,7 +31,10 @@ const Profile = (props : ProfileProps) => {
                     name="ProfileSetting"
                     options={{title: 'Profile', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
                               
-                    {() => <></>}
+                    {(props) => <Setting
+                        renderContent={() => <ProfileSetting/>}
+                        navigation={props.navigation} 
+                    />}
                 
                 </stack.Screen> 
                 <stack.Screen

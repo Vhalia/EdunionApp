@@ -13,6 +13,7 @@ import CourseSVG from "../../../images/course.svg";
 import Tag from "../../components/tag/Tag";
 import { Tag as TagType } from "../../models/Tag";
 import { TagsProps } from './props/addPostProps';
+import MainInput from '../../components/mainInput/MainInput';
 
 
 enum Category {
@@ -182,9 +183,9 @@ const AddPost = () => {
                                 weight={'700'}
                                 fontSize={15}
                                 text="Titre"/>
-                            <TextInput
+                            <MainInput
                                 placeholder="Par exemple: livre de mathématiques"
-                                placeholderTextColor={ColorConstants.white70PercentColor}
+                                placeholderColor={ColorConstants.white70PercentColor}
                                 inputMode="text"
                                 onChangeText={onTitleInputTextChange}
                                 style={[styles.inputs, styles.minorGap]}/>
@@ -195,9 +196,9 @@ const AddPost = () => {
                                 weight={'700'}
                                 fontSize={15}
                                 text="Description"/>  
-                            <TextInput
+                            <MainInput
                                 placeholder="Par exemple: Utilisé une année entière, comme neuf"
-                                placeholderTextColor={ColorConstants.white70PercentColor}
+                                placeholderColor={ColorConstants.white70PercentColor}
                                 inputMode="text"
                                 multiline
                                 numberOfLines={4}

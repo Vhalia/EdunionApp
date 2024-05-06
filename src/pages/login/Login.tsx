@@ -13,7 +13,12 @@ const Login = () => {
         authContext!.setCurrentUser({
             name: 'Max le Grelle ff',
             email: 'maxlegrelle@gmail.com',
-            id: 1
+            id: 1,
+            lastname: 'Le Grelle',
+            School: {
+                id: 1,
+                name: "IPL"
+            }
         })
         navigation.navigate('Navbar')
     }, [])
