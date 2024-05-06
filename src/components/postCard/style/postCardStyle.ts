@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems: "center",
         flex: 1,
-        borderRadius: 22
+        borderRadius: 8
     },
     imageContainer : {
         display: "flex",
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     gradientIfNoImage: {
         height: 300,
         width: '100%',
-        borderTopLeftRadius: 22,
-        borderTopRightRadius: 22
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8
     },
     infoBarContainer: {
         display: "flex",
@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
         backgroundColor:ColorConstants.blackSecondaryColor,
         width: "100%",
         height: 100,
-        borderBottomLeftRadius: 22,
-        borderBottomRightRadius: 22,
+        borderBottomLeftRadius: 8,
+        borderBottomRightRadius: 8,
         justifyContent: "space-around",
         alignItems: "center"
     },

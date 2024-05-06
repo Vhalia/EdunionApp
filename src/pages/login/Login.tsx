@@ -15,7 +15,7 @@ const Login = () => {
             email: 'maxlegrelle@gmail.com',
             id: 1,
             lastname: 'Le Grelle',
-            School: {
+            school: {
                 id: 1,
                 name: "IPL"
             }

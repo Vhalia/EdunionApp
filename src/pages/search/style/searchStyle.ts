@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
     postsListContainer: {
         flex : 1,
         flexGrow: 1,
-        width: 350,
+        width: 380,
         marginBottom : 5
     },
     postElement: {
-        height: 400
+        height: 300,
+        margin: 5
     },
     gap: {
         marginTop: 10

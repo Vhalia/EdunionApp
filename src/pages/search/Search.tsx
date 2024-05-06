@@ -27,7 +27,13 @@ const Search = () => {
                 price: 5,
                 user : {
                     id: 1,
-                    name: "Mathieu"
+                    name: "Mathieu",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -39,7 +45,13 @@ const Search = () => {
                 price: 6,
                 user : {
                     id: 2,
-                    name: "John"
+                    name: "John",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -51,7 +63,13 @@ const Search = () => {
                 price: 7,
                 user : {
                     id: 3,
-                    name: "Bob"
+                    name: "Bob",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -63,7 +81,13 @@ const Search = () => {
                 price: 8,
                 user : {
                     id: 4,
-                    name: "Maria"
+                    name: "Maria",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -75,7 +99,13 @@ const Search = () => {
                 price: 9,
                 user : {
                     id: 5,
-                    name: "Alex"
+                    name: "Alex",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -87,7 +117,13 @@ const Search = () => {
                 price: 10,
                 user : {
                     id: 6,
-                    name: "Samantha"
+                    name: "Samantha", 
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -99,7 +135,13 @@ const Search = () => {
                 price: 11,
                 user : {
                     id: 7,
-                    name: "David"
+                    name: "David", 
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -111,7 +153,13 @@ const Search = () => {
                 price: 12,
                 user : {
                     id: 8,
-                    name: "Emma"
+                    name: "Emma", 
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
@@ -123,7 +171,13 @@ const Search = () => {
                 price: 13,
                 user : {
                     id: 9,
-                    name: "Laura"
+                    name: "Laura",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
         ];
@@ -165,15 +219,16 @@ const Search = () => {
                 <Animated.View style={[styles.postsListContainer]}>
                     <FlashList
                         data={posts}
-                        estimatedItemSize={750}
+                        estimatedItemSize={150}
                         showsVerticalScrollIndicator={false}
+                        numColumns={2}
                         ItemSeparatorComponent={() =>
                             <View style={{height: 20}}></View>}
                         renderItem={({item}) => {
                             return (
                                 <PostCard
                                     style={styles.postElement}
-                                    informationBarSyle={{height: 75}}
+                                    informationBarSyle={{height: 70}}
                                     key={item.id}
                                     owner={item.user.name}
                                     ownerImage={item.user.picture}

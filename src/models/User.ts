@@ -6,5 +6,5 @@ export default interface User {
     lastname: string,
     email: string,
     picture?: string
-    School: School
+    school: School
 }

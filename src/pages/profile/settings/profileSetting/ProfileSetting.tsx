@@ -14,7 +14,7 @@ const ProfileSetting = () => {
 
     const [firstname, setFirstname] = useState(currentUser?.name)
     const [lastname, setLastName] = useState(currentUser?.lastname)
-    const [school, setSchool] = useState(currentUser?.School.name)
+    const [school, setSchool] = useState(currentUser?.school.name)
 
     const onFirstnameChange = () => {
         
