@@ -7,7 +7,6 @@ import ProfileProps from "./props/profileProps";
 import { useContext } from "react";
 import Context from "../../contexts/AuthContext/AuthContext";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Setting from "./settings/Setting";
 import LanguageSetting from "./settings/languageSetting/LanguageSetting";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import SecuritySetting from "./settings/securitySetting/SecuritySetting";
@@ -15,6 +14,7 @@ import Header from "../../components/header/Header";
 import AboutSetting from "./settings/aboutSetting/AboutSetting";
 import LegalNoticeSetting from "./settings/legalNoticeSetting/LegalNoticeSetting";
 import ProfileSetting from "./settings/profileSetting/ProfileSetting";
+import SubPage from "../../components/subPage/SubPage";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -31,7 +31,7 @@ const Profile = (props : ProfileProps) => {
                     name="ProfileSetting"
                     options={{title: 'Profile', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
                               
-                    {(props) => <Setting
+                    {(props) => <SubPage
                         renderContent={() => <ProfileSetting/>}
                         navigation={props.navigation} 
                     />}
@@ -41,7 +41,7 @@ const Profile = (props : ProfileProps) => {
                     name="LanguageSetting"
                     options={{title: 'Language', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {(props) => <Setting
+                    {(props) => <SubPage
                         renderContent={() => <LanguageSetting/>}
                         navigation={props.navigation}
                     />}
@@ -51,7 +51,7 @@ const Profile = (props : ProfileProps) => {
                     name="SecuritySetting"
                     options={{title: 'Sécurité', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {(props) => <Setting
+                    {(props) => <SubPage
                         renderContent={() => <SecuritySetting/>}
                         navigation={props.navigation}
                     />}
@@ -61,7 +61,7 @@ const Profile = (props : ProfileProps) => {
                     name="AboutSetting"
                     options={{title: 'A propos', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {(props) => <Setting
+                    {(props) => <SubPage
                         renderContent={() => <AboutSetting/>}
                         navigation={props.navigation}
                     />}
@@ -71,7 +71,7 @@ const Profile = (props : ProfileProps) => {
                     name="LegalNoticeSetting"
                     options={{title: 'Mentions légales', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
 
-                    {(props) => <Setting
+                    {(props) => <SubPage
                         renderContent={() => <LegalNoticeSetting/>}
                         navigation={props.navigation}
                     />}

@@ -1,10 +1,10 @@
 import { TouchableHighlight, View } from "react-native";
-import SettingProps from "./props/settingProps";
-import styles from "./style/settingStyle";
+import SubPageProps from "./props/subPageProps";
+import styles from "./style/subPageStyle";
 import LeftArrowSVG from "../../../../images/leftArrow.svg"
-import { ColorConstants } from "../../../constants/ThemeConstants";
+import { ColorConstants } from "../../constants/ThemeConstants";
 
-const Setting = (props : SettingProps) => {
+const SubPage = (props : SubPageProps) => {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.contentContainer}>
@@ -20,4 +20,4 @@ const Setting = (props : SettingProps) => {
     );
 }
 
-export default Setting;
+export default SubPage;

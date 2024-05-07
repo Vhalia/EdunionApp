@@ -1,4 +1,4 @@
-export default interface SettingProps {
+export default interface SubPageProps {
     renderContent: () => JSX.Element,
     navigation: any
 }
