@@ -1,7 +1,7 @@
 import { TouchableHighlight, View } from "react-native";
 import SubPageProps from "./props/subPageProps";
 import styles from "./style/subPageStyle";
-import LeftArrowSVG from "../../../../images/leftArrow.svg"
+import LeftArrowSVG from "../../../images/leftArrow.svg"
 import { ColorConstants } from "../../constants/ThemeConstants";
 
 const SubPage = (props : SubPageProps) => {
