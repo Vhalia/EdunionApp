@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     },
     postElement: {
         height: 300,
-        margin: 5
+        width: 185,
+        margin: 2
     },
     gap: {
         marginTop: 10

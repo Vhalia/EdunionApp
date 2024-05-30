@@ -4,5 +4,6 @@ export default interface MainTextProps {
     fontSize : number,
     weight? : TextStyle["fontWeight"],
     text: string,
-    style? : StyleProp<TextStyle>
+    style? : StyleProp<TextStyle>,
+    fontColor?: string
 }

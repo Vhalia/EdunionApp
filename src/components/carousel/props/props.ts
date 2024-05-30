@@ -4,5 +4,6 @@ import CarouselItemProps from "../carouselItem/props/props";
 
 export default interface CarouselProps {
     items: Post[],
-    style? : StyleProp<ViewStyle>
+    style? : StyleProp<ViewStyle>,
+    onPressItem? : (item: Post, index: number) => void
 }

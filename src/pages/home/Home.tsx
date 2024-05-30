@@ -10,87 +10,97 @@ import Header from "../header/Header"
 import FoldHeader from "../../components/foldHeader/FoldHeader"
 import Animated, { useSharedValue } from "react-native-reanimated"
 import Logo from '../../../images/logo.svg'
+import { useNavigation } from "@react-navigation/native"
 
 const Home = () => {
     console.log("---------------------------------")
     const swipeProgress = useSharedValue<number>(0);
     const [isScrollEnabled, enableScroll] = useState(true)
+    const navigation = useNavigation<any>();
 
     const onPressSearch = (value: string) => {
         //TODO: redirect to seach page with result of text input
     }
 
+    const onPostCardPress = (postId: number) => {
+        navigation.navigate("Post", {postId: postId});
+    }
+
     const getRecentPosts = (): Post[] => {
         return [
             {
-                id : 1,
-                blobPaths: [require("../../../images/postImageExample.png")],
-                title: "New Book 1",
-                shortDescription: "Short desc 1",
-                description: "Description 1",
-                price: 9.99,
+                id: 1,
+                title: "Post 1",
+                description: "description 1",
+                shortDescription: "short description 1",
                 type: EPostType.BOOK,
-                user: {
+                price: 5,
+                user : {
                     id: 1,
-                    name: "Mathéo",
-                    picture: require("../../../images/ppExample.png")
+                    name: "Mathieu",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
-                id : 2,
-                title: "Random Book 2",
-                shortDescription: "Short desc 2",
-                description: "Description 2",
-                price: 12.99,
+                id: 2,
+                title: "Post 2",
+                description: "description 2",
+                shortDescription: "short description 2",
                 type: EPostType.BOOK,
-                user: {
+                price: 6,
+                user : {
                     id: 2,
-                    name: "Nicolas"
+                    name: "John",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
-                id : 3,
-                blobPaths: [require("../../../images/postImageExample.png")],
-                title: "Random Book 3",
-                shortDescription: "Short desc 3",
-                description: "Description 3",
-                price: 15.99,
+                id: 3,
+                title: "Post 3",
+                description: "description 3",
+                shortDescription: "short description 3",
                 type: EPostType.BOOK,
-                user: {
+                price: 7,
+                user : {
                     id: 3,
-                    name: "Max",
-                    picture: require("../../../images/ppExample.png")
+                    name: "Bob",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
             {
-                id : 4,
-                blobPaths: [require("../../../images/postImageExample.png")],
-                title: "Random Book 4",
-                shortDescription: "Short desc 4",
-                description: "Description 4",
-                price: 19.99,
+                id: 4,
+                title: "Post 4",
+                description: "description 4",
+                shortDescription: "short description 4",
                 type: EPostType.BOOK,
-                user: {
+                price: 8,
+                user : {
                     id: 4,
-                    name: "Antoine",
-                    picture: require("../../../images/ppExample.png")
+                    name: "Maria",
+                    lastname: "test",
+                    email: "test@exemple.com",
+                    school: {
+                        id: 1,
+                        name: "IPL"
+                    }
                 }
             },
-            {
-                id : 5,
-                blobPaths: [require("../../../images/postImageExample.png")],
-                title: "Random Book 5",
-                shortDescription: "Short desc 5",
-                description: "Description 5",
-                price: 22.99,
-                type: EPostType.BOOK,
-                user: {
-                    id: 5,
-                    name: "Sacha",
-                    picture: require("../../../images/ppExample.png")
-                }
-            }
-        ]
+        ];
     }
 
 
@@ -109,7 +119,6 @@ const Home = () => {
         swipeProgress.value = event.nativeEvent.contentOffset.y
         console.log('SWIPE ::', swipeProgress.value)
     }
-
 
     return (
         <Animated.View
@@ -149,14 +158,16 @@ const Home = () => {
                 <Animated.View style={styles.newBookPostsContainer}>
                     <MainText weight={'700'} fontSize={20} text="Livres mis récemment en vente" />
                     <Carousels
-                        items={getRecentPosts()}/>
+                        items={getRecentPosts()}
+                        onPressItem={(item, index) => onPostCardPress(item.id)}/>
                 </Animated.View>
 
                 {/*new course posts*/}
                 <Animated.View style={styles.newCoursePostsContainer}>
                     <MainText weight={'700'} fontSize={20} text="Nouvelles propositions de cours" />
                     <Carousels
-                        items={getRecentPosts()}/>
+                        items={getRecentPosts()}
+                        onPressItem={(item, index) => onPostCardPress(item.id)}/>
                 </Animated.View>
 
             </Animated.ScrollView>

@@ -1,4 +1,4 @@
-import { Dimensions, View } from "react-native";
+import { Dimensions, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import CarouselProps from "./props/props"
 import Carousel from "react-native-reanimated-carousel";
 import React, { useState } from "react";
@@ -53,16 +53,17 @@ const Carousels = (props: CarouselProps) => {
                         progressValue.value = roundedProgress
                     }
                 }
-                renderItem={(props) =>
-                    <CarouselItem
-                        key={props.index}
-                        owner={props.item.user.name}
-                        ownerImage={props.item.user.picture}
-                        price={props.item.price}
-                        title={props.item.title}
-                        subtitle={props.item.shortDescription}
-                        image={props.item.blobPaths ? props.item.blobPaths[0] : undefined}
-                        gradientColors={noImageGradientColors[props.index%3]}/>
+                renderItem={(carouselProps) =>
+                        <CarouselItem
+                            key={carouselProps.index}
+                            owner={carouselProps.item.user.name}
+                            ownerImage={carouselProps.item.user.picture}
+                            price={carouselProps.item.price}
+                            title={carouselProps.item.title}
+                            subtitle={carouselProps.item.shortDescription}
+                            image={carouselProps.item.blobPaths ? carouselProps.item.blobPaths[0] : undefined}
+                            gradientColors={noImageGradientColors[carouselProps.index%3]}
+                            onPress={() => props.onPressItem && props.onPressItem(carouselProps.item, carouselProps.index)}/>
                 }
                 />
                 <View

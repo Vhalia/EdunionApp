@@ -1,3 +1,4 @@
+import { Contact } from "./Contacts"
 import School from "./School"
 
 export default interface User {
@@ -6,5 +7,6 @@ export default interface User {
     lastname: string,
     email: string,
     picture?: string
-    school: School
+    school: School,
+    contacts?: Contact[]
 }

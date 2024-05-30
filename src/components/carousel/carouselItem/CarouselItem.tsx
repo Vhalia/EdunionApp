@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Text, View } from "react-native";
+import { Image, ImageBackground, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import CarouselItemProps from "./props/props";
 import styles from "./style/style";
 import MainText from "../../../modules/text/MainText";
@@ -45,7 +45,11 @@ const CarouselItem = (props: CarouselItemProps) => {
     }
 
     return (
-        <View style={styles.mainContainer}>
+        <TouchableOpacity
+            style={styles.mainContainer}
+            activeOpacity={0.8}
+            onPress={props.onPress}>
+            
             {displayCarouselImage()}
 
             <View style={styles.infoBarContainer}>
@@ -68,7 +72,7 @@ const CarouselItem = (props: CarouselItemProps) => {
                     weight={"700"}
                     text={price+" €"}/>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

@@ -1,4 +1,4 @@
-import {  View } from "react-native";
+import {  TouchableOpacity, View } from "react-native";
 import styles from "./style/searchStyle"
 import SearchBar from "../../components/searchBar/SearchBar";
 import { ColorConstants } from "../../constants/ThemeConstants";
@@ -10,11 +10,14 @@ import { FlashList } from "@shopify/flash-list";
 import FoldHeader from "../../components/foldHeader/FoldHeader";
 import Header from "../../components/header/Header";
 import Animated, { clamp, useSharedValue } from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Search = () => {
     const [searchInputText, setSearchInputText] = useState("");
     const [isSearchBarDisplayed, DisplaySearchBar] = useState(true);
     const [posts, setPosts] = useState<Post[]>([]);
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     useEffect(() => {
         let posts : Post[] = [
@@ -185,6 +188,10 @@ const Search = () => {
         setPosts([...posts]);
     }, [])
 
+    const onPostCardPress = (postId: number) => {
+        navigation.navigate("Post", {postId: postId});
+    }
+
 
     const noImageGradientColors = [
         ['#4b75e1', '#7a9cf4'],
@@ -226,17 +233,20 @@ const Search = () => {
                             <View style={{height: 20}}></View>}
                         renderItem={({item}) => {
                             return (
-                                <PostCard
-                                    style={styles.postElement}
-                                    informationBarSyle={{height: 70}}
-                                    key={item.id}
-                                    owner={item.user.name}
-                                    ownerImage={item.user.picture}
-                                    price={item.price}
-                                    title={item.title}
-                                    subtitle={item.shortDescription}
-                                    image={item.blobPaths ? item.blobPaths[0] : undefined}
-                                    gradientColors={noImageGradientColors[item.id%3]}/>
+                                <TouchableOpacity
+                                    onPress={() => onPostCardPress(item.id)}
+                                    style={styles.postElement}>
+                                    <PostCard
+                                        informationBarSyle={{height: 70}}
+                                        key={item.id}
+                                        owner={item.user.name}
+                                        ownerImage={item.user.picture}
+                                        price={item.price}
+                                        title={item.title}
+                                        subtitle={item.shortDescription}
+                                        image={item.blobPaths ? item.blobPaths[0] : undefined}
+                                        gradientColors={noImageGradientColors[item.id%3]}/>
+                                </TouchableOpacity>
                             );
                         }}
                     />

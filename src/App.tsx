@@ -1,18 +1,12 @@
-import React, { Profiler, ReactElement, ReactNode, useState } from 'react';
-import {SafeAreaView,Text} from 'react-native';
+import React from 'react';
+import {SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './AppStyle';
-import Home from './pages/home/Home';
-import Header from './pages/header/Header';
 import Navbar from './pages/navbar/Navbar';
-import Search from './pages/search/Search';
-import AddPost from './pages/addPost/AddPost';
-import Messages from './pages/messages/Messages';
-import Profile from './pages/profile/Profile';
 import Login from './pages/login/Login';
 import { AuthContext } from './contexts/AuthContext/AuthContext';
-import { ColorConstants } from './constants/ThemeConstants';
+import Post from './components/post/Post';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,7 +33,7 @@ function App(): JSX.Element {
 
               <Stack.Screen name="Login" component={Login}/>
               <Stack.Screen name="Navbar" component={Navbar} />
-
+              <Stack.Screen name="Post" component={Post}/>
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContext>
