@@ -10,7 +10,9 @@ const styles = StyleSheet.create({
     contentContainer: {
         display: "flex",
         flex: 1,
-        padding: 20,
+        paddingTop: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         backgroundColor: ColorConstants.greyMainColor,
         marginTop: 30,
         marginRight: 10,
@@ -25,6 +27,17 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: "flex-start",
         alignItems: "center"
+    },
+    backButtonContainerFullscreen : {
+        display: "flex",
+        flexDirection: "row",
+        width: 50,
+        height: 50,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        marginRight: 20,
+        marginLeft: 20,
+        marginTop: 20,
     }
 })
 

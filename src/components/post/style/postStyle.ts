@@ -10,8 +10,6 @@ const styles = StyleSheet.create({
     content: {
         backgroundColor: ColorConstants.greyMainColor,
         borderRadius: 14,
-        marginTop: 20,
-        marginBottom: 20,
         marginLeft: 10,
         marginRight: 10
     },
@@ -21,9 +19,19 @@ const styles = StyleSheet.create({
     bigGap : {
         marginTop: 20
     },
+    bigGapDown : {
+        marginBottom: 20
+    },
     horizontalSpacing : {
         marginLeft: 10,
         marginRight: 10
+    },
+    status: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap:10, 
+        padding: 10
     }
 })
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, Alert, TouchableHighlight } from "react-native";
+import { View, Image, Alert, TouchableHighlight, ImageProps, ImageSourcePropType } from "react-native";
 import {launchImageLibrary, launchCamera,ImageLibraryOptions, ImagePickerResponse} from "react-native-image-picker";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import styles from "./style/photoUploaderStyle";
@@ -9,7 +9,7 @@ import PlusSVG from "../../../images/plus.svg"
 
 const PhotoUploader = (props : PhotoUploaderProps) => {
     const [selectedPhotos, setSelectedPhotos] = useState<string[]>(props.photos ?? []);
-    const [photoViewerCount, setPhotoViewerCount] = useState<number>(!props.photos?.length ? 1 : props.photos?.length);
+    const [photoViewerCount, setPhotoViewerCount] = useState<number>(!props.photos ? 1 : props.photos.length + 1);
 
     const maxPhotoCount = props.maxPhoto ?? 15;
 
@@ -105,8 +105,12 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
             selectedPhotos[index] = tempUri[0];
       
             setSelectedPhotos([...selectedPhotos]);
+            if (props.OnAddPhoto)
+                props.OnAddPhoto(tempUri[0]);
         }else{
             setSelectedPhotos([...selectedPhotos, ...tempUri]);
+            if (props.OnAddPhoto)
+                props.OnAddPhoto(tempUri[0]);
         }
     }
 
@@ -124,6 +128,12 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                     if (index >= maxPhotoCount)
                         return (<></>)
 
+                    const source : ImageSourcePropType =
+                        (typeof selectedPhoto == "string" && selectedPhoto.includes("://"))
+                            ? { uri: selectedPhoto }
+                            : selectedPhoto as unknown as number
+                    console.log(source)
+
                     return (
                         <TouchableHighlight
                             onPress={() => !selectedPhoto
@@ -133,7 +143,7 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                             <>
                                 {selectedPhoto ?
                                     <Image
-                                        source={{ uri: selectedPhoto }}
+                                        source={source}
                                         resizeMode="cover"
                                         style={[styles.photo, props.photoStyle]}/>
                                 :

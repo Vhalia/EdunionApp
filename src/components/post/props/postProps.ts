@@ -1,4 +1,4 @@
 
 export default interface PostProps {
-    postId?: number
+    postId?: number,
 }

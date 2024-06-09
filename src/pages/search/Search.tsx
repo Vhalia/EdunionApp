@@ -1,7 +1,7 @@
 import {  TouchableOpacity, View } from "react-native";
 import styles from "./style/searchStyle"
 import SearchBar from "../../components/searchBar/SearchBar";
-import { ColorConstants } from "../../constants/ThemeConstants";
+import { ColorConstants, noImageGradientColors } from "../../constants/ThemeConstants";
 import { useEffect, useState } from "react";
 import Post from "../../models/Post";
 import EPostType from "../../models/enums/EPostType";
@@ -12,6 +12,8 @@ import Header from "../../components/header/Header";
 import Animated, { clamp, useSharedValue } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import EPostStatus from "../../models/enums/EPostStatus";
+import PostCardsList from "../../components/postCardsList/PostCardsList";
 
 const Search = () => {
     const [searchInputText, setSearchInputText] = useState("");
@@ -37,7 +39,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 2,
@@ -55,7 +72,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 3,
@@ -73,7 +105,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 4,
@@ -91,7 +138,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 5,
@@ -109,7 +171,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 6,
@@ -127,7 +204,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 7,
@@ -145,7 +237,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 8,
@@ -163,7 +270,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 9,
@@ -181,7 +303,22 @@ const Search = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
         ];
 
@@ -191,13 +328,6 @@ const Search = () => {
     const onPostCardPress = (postId: number) => {
         navigation.navigate("Post", {postId: postId});
     }
-
-
-    const noImageGradientColors = [
-        ['#4b75e1', '#7a9cf4'],
-        ['#f47a22', '#f98c3d'],
-        ['#e04b4b', '#e85e5e'],
-    ]
 
     return(
         <View style={styles.mainContainer}>
@@ -223,34 +353,12 @@ const Search = () => {
                 </View> */}
 
                 {/*Posts*/}
-                <Animated.View style={[styles.postsListContainer]}>
-                    <FlashList
-                        data={posts}
-                        estimatedItemSize={150}
-                        showsVerticalScrollIndicator={false}
-                        numColumns={2}
-                        ItemSeparatorComponent={() =>
-                            <View style={{height: 20}}></View>}
-                        renderItem={({item}) => {
-                            return (
-                                <TouchableOpacity
-                                    onPress={() => onPostCardPress(item.id)}
-                                    style={styles.postElement}>
-                                    <PostCard
-                                        informationBarSyle={{height: 70}}
-                                        key={item.id}
-                                        owner={item.user.name}
-                                        ownerImage={item.user.picture}
-                                        price={item.price}
-                                        title={item.title}
-                                        subtitle={item.shortDescription}
-                                        image={item.blobPaths ? item.blobPaths[0] : undefined}
-                                        gradientColors={noImageGradientColors[item.id%3]}/>
-                                </TouchableOpacity>
-                            );
-                        }}
-                    />
-                </Animated.View>
+                <PostCardsList
+                    posts={posts}
+                    itemWidth={185}
+                    estimatedItemSize={150}
+                    numberOfColumns={2}
+                    onPostCardPress={(post) => onPostCardPress(post.id)}/>
             </Animated.View>
         </View>
     );

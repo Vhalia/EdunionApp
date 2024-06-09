@@ -4,13 +4,14 @@ import HomeSvg from "../../../images/home.svg"
 import ProfileSvg from "../../../images/profile.svg"
 import AddSvg from "../../../images/add.svg"
 import ChatSvg from "../../../images/chat.svg"
+import BagSvg from "../../../images/bag.svg"
 import NavbarProps from "./props/props";
 import { ReactNode, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from '../home/Home';
 import Search from '../search/Search';
 import AddPost from '../addPost/AddPost';
-import Messages from '..//messages/Messages';
+import PurchasesAndMyPosts from '../purchasesAndMyPosts/PurchasesAndMyPosts';
 import Profile from '..//profile/Profile';
 import { ColorConstants } from "../../constants/ThemeConstants";
 
@@ -24,6 +25,8 @@ const Navbar = (props : NavbarProps) => {
         icon : {color:"#ffff", opacity:0.6}
     }
 
+    const iconSize = 30
+
     const displayIcon = (routeName : string, focused : boolean) : ReactNode => {
         switch(routeName){
             case 'Accueil':
@@ -32,8 +35,8 @@ const Navbar = (props : NavbarProps) => {
                 return <SearchSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
             case 'Ajouter':
                 return <AddSvg {...unactiveStyle.icon}/>
-            case 'Messages':
-                return <ChatSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
+            case 'Gestion':
+                return <BagSvg {... focused ? activeStyle.icon : unactiveStyle.icon} width={iconSize} height={iconSize}/>
             case 'Profile':
                 return <ProfileSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
         }
@@ -53,7 +56,7 @@ const Navbar = (props : NavbarProps) => {
                 <Tab.Screen name="Accueil" component={Home} />
                 <Tab.Screen name="Chercher" component={Search} />
                 <Tab.Screen name="Ajouter" component={AddPost} />
-                <Tab.Screen name="Messages" component={Messages} />
+                <Tab.Screen name="Gestion" component={PurchasesAndMyPosts} />
                 <Tab.Screen name="Profile" component={Profile} />
 
         </Tab.Navigator>

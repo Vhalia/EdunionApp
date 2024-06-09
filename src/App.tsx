@@ -7,6 +7,8 @@ import Navbar from './pages/navbar/Navbar';
 import Login from './pages/login/Login';
 import { AuthContext } from './contexts/AuthContext/AuthContext';
 import Post from './components/post/Post';
+import PostEdit from './components/postEdit/PostEdit';
+import SubPage from './components/subPage/SubPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,12 @@ function App(): JSX.Element {
               <Stack.Screen name="Login" component={Login}/>
               <Stack.Screen name="Navbar" component={Navbar} />
               <Stack.Screen name="Post" component={Post}/>
+              <Stack.Screen name="PostEdit">
+                {(props) => <SubPage
+                  navigation={props.navigation}
+                  renderContent={() =><PostEdit />}
+                  mode='fullscreen'/>}
+              </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContext>

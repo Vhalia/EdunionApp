@@ -5,5 +5,6 @@ export default interface PhotoUploaderProps{
     photoContainerStyle?: StyleProp<ViewStyle>,
     photoStyle? : StyleProp<ImageStyle>,
     maxPhoto?: number,
-    photos?: string[]
+    photos?: string[],
+    OnAddPhoto ? : (photoUri: string) => void
 }

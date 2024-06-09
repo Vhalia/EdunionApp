@@ -1,4 +1,6 @@
+import { Tag } from "./Tag";
 import User from "./User";
+import EPostStatus from "./enums/EPostStatus";
 import EPostType from "./enums/EPostType";
 
 export default interface Post {
@@ -9,5 +11,7 @@ export default interface Post {
     blobPaths? : string[],
     price: number,
     user: User,
-    type : EPostType
+    type : EPostType,
+    status: EPostStatus,
+    tags: Tag[]
 }

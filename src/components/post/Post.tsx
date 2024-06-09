@@ -12,6 +12,8 @@ import UserWithPicture from "../userWithPicture/UserWithPicture";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import UserContact from "../userContacts/UserContact";
 import EContactType from "../../models/enums/EContactType";
+import EPostStatus, { PostStatusToColor, PostStatusToString } from "../../models/enums/EPostStatus";
+import EllipseFilledSVG from "../../../images/ellipseFilled.svg" 
 
 const Post = (props : PostProps) => {
     const [post, setPost] = useState<PostModel | undefined>(undefined);
@@ -19,6 +21,7 @@ const Post = (props : PostProps) => {
     const route = useRoute();
     const navigation = useNavigation();
     const routeParams = route.params as PostProps;
+    
     const postId = props.postId ?? routeParams.postId;
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
@@ -78,7 +81,22 @@ const Post = (props : PostProps) => {
                 require("../../../images/postImageExample.png"),
                 require("../../../images/ppExample.png"),
                 require("../../../images/defaultProfilePicture.png"),
-            ]
+            ],
+            status: EPostStatus.AVAILABLE,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
         }
         
         setPost(post);
@@ -123,10 +141,15 @@ const Post = (props : PostProps) => {
                     <UserWithPicture
                         userName={post.user.name + " " + post.user.lastname}
                         picture={post.user?.picture}
-                        style={styles.content}
+                        style={[styles.content, styles.bigGap, styles.bigGapDown]}
                         userNameFontSize={14}/>
 
-                    <View style={styles.content}>
+                    <View style={[styles.content, styles.status, styles.bigGap]}>
+                        <EllipseFilledSVG color={PostStatusToColor(post.status)} width={20} height={20} />
+                        <MainText text={PostStatusToString(post.status)} fontSize={14}/>
+                    </View>
+
+                    <View style={[styles.content, styles.bigGap, styles.bigGapDown]}>
                         <View style={[styles.bigGap, styles.horizontalSpacing]}>
                             <MainText
                                 text={post.title}
