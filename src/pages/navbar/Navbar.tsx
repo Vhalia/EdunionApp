@@ -19,7 +19,7 @@ const Navbar = (props : NavbarProps) => {
     const Tab = createBottomTabNavigator()
 
     const activeStyle = {
-        icon : {color:"#6D0FF2", opacity:1}
+        icon : {color:ColorConstants.purpleMainColor, opacity:1}
     }
     const unactiveStyle = {
         icon : {color:"#ffff", opacity:0.6}
@@ -34,7 +34,7 @@ const Navbar = (props : NavbarProps) => {
             case 'Chercher':
                 return <SearchSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
             case 'Ajouter':
-                return <AddSvg {...unactiveStyle.icon}/>
+                return <AddSvg {... focused ? activeStyle.icon : unactiveStyle.icon} color={ColorConstants.purpleMainColor}/>
             case 'Gestion':
                 return <BagSvg {... focused ? activeStyle.icon : unactiveStyle.icon} width={iconSize} height={iconSize}/>
             case 'Profile':

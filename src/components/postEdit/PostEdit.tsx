@@ -12,6 +12,9 @@ import CourseSVG from "../../../images/course.svg";
 import Tags from "../tags/Tags";
 import EPostType from "../../models/enums/EPostType";
 import { useRoute } from "@react-navigation/native";
+import SelectList from "../../modules/SelectList/SelectList";
+import EPostStatus, { PostStatusToString } from "../../models/enums/EPostStatus";
+import { getEnumValue } from "../../utils/utils";
 
 const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
@@ -22,6 +25,9 @@ const PostEdit = (props: PostEditProps) => {
     const [title, setTitle] = useState(post?.title ?? "");
     const [description, setDescription] = useState(post?.description ?? "");
     const [photos, setPhotos] = useState<string[]>(post?.blobPaths ?? []);
+    const status : string[] = Object.values(EPostStatus)
+        .filter(value => value != EPostStatus.CREATED)
+        .map(value => PostStatusToString(value))
 
     const onTitleInputTextChange = (value: string) => {
         setTitle(value);
@@ -138,6 +144,13 @@ const PostEdit = (props: PostEditProps) => {
         ]
     }
 
+    const onSelectStatus = (value: string) => {
+        if (!post)
+            return;
+
+        post.status = getEnumValue(EPostStatus, value)
+    }
+
     return (
         
         <ScrollView
@@ -146,13 +159,28 @@ const PostEdit = (props: PostEditProps) => {
             <View style={styles.contentContainer}>
                 <View style={[styles.informationsContainer, styles.gap]}>
 
+                    <MainText weight="700" fontSize={18} text="Status"/>
+
+                    <SelectList
+                        data={status}
+                        initialSelected={post?.status ?? EPostStatus.CREATED}
+                        onSelect={onSelectStatus}
+                        orientation="horizontal"
+                        elementStyle={{backgroundColor: "rgba(0,0,0,0)"}}
+                        ellipseColor={ColorConstants.white70PercentColor}
+                        ellipseSelectedColor={ColorConstants.purpleMainColor}
+                        style={[styles.informations, styles.minorGap]}/>
+
+                </View>
+                <View style={[styles.informationsContainer, styles.gap]}>
+
                     <MainText
                         weight={'700'}
                         fontSize={18}
                         text="Photos"/>
 
                     <PhotoUploader
-                        style={styles.minorGap}
+                        style={[styles.minorGap, {width: "100%"}]}
                         photos={photos}
                         OnAddPhoto={onAddPhoto} />
 
@@ -241,7 +269,7 @@ const PostEdit = (props: PostEditProps) => {
                                 weight={'700'}
                                 fontSize={15}
                                 text="Tags"/> 
-                            <Tags tags={getTags()} selectedTags={post?.tags}/>
+                            <Tags tags={getTags()} selectedTags={post?.tags} multipleSelect={false}/>
                         </View>
                     </View>
                 </View>

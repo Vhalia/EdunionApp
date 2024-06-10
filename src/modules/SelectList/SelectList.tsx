@@ -7,25 +7,28 @@ import { useState } from "react";
 import MainText from "../text/MainText";
 
 const SelectList = (props : SelectListProps) => {
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
-    
-    const onPress = (index: number) =>
+    const [selected, setSelected] = useState<string>(props.initialSelected ?? props.data[0]);
+
+    const orientation = props.orientation ?? "vertical";
+
+    const onPress = (value: string) =>
     {
-        setSelectedIndex(index);
-        props.onSelect(index);   
+        setSelected(value);
+        props.onSelect(value);   
     }
 
     return (
-        <View style={[props.style, styles.container]}>
+        <View style={[styles.container, props.style]}>
             <FlatList
                 data={props.data}
+                horizontal={orientation === "horizontal"}
                 renderItem={({item, index}) => {
                     return (
                     <TouchableOpacity
-                        onPress={() => onPress(index)}
+                        onPress={() => onPress(item)}
                         activeOpacity={0.6}> 
-                        <View style={[props.elementStyle, styles.element]}>
-                            {selectedIndex == index
+                        <View style={[styles.element, props.elementStyle, orientation == "horizontal" ? {} : {marginBottom: 10}]}>
+                            {selected == item
                             ? <EllipseFilledSVG color={props.ellipseSelectedColor}/>
                             : <EllipseSVG color={props.ellipseColor} />}
                             <MainText fontSize={props.fontSize ?? 12} text={item} weight={"500"} style={{marginLeft: 10}}/>

@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import TagsProps from "./props/TagsProps";
-import { Tag as TagType, Category } from "../../models/Tag";
+import { Tag as TagType } from "../../models/Tag";
 import { View } from "react-native";
 import style from "./style/TagsStyle";
 import MainText from "../../modules/text/MainText";
 import Tag from "../tag/Tag";
-import { act } from "react-test-renderer";
 
 const Tags = (props : TagsProps) => {
     const [activeTags, setActiveTags] = useState<TagType[]>(props.selectedTags ?? []);
     const [tags, setTags] = useState<TagType[]>(props.tags);
     const [tagsByCategory, setTagsByCategory] = useState<Map<string, TagType[]>>(
         new Map<string, TagType[]>());
+
+    const multipleSelect = props.multipleSelect ?? true
 
     useEffect(() => {
         setTagsByCategory(orderTagsByCategory())
@@ -33,9 +34,17 @@ const Tags = (props : TagsProps) => {
 
     const onPressTag = (tag : TagType) => {
         if (activeTags.includes(tag)) {
-            setActiveTags(activeTags.filter(activeTag => activeTag !== tag));
+            if (!multipleSelect) {
+                setActiveTags([...activeTags.filter(activeTag => activeTag.category.name != tag.category.name), tag]);
+            }else{
+                setActiveTags(activeTags.filter(activeTag => activeTag !== tag));
+            }
         }else {
-            setActiveTags([...activeTags, tag]);
+            if (!multipleSelect) {
+                setActiveTags([...activeTags.filter(activeTag => activeTag.category.name != tag.category.name), tag]);
+            }else{
+                setActiveTags([...activeTags, tag]);
+            }
         }
         
     }

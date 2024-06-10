@@ -43,12 +43,6 @@ const MyPosts = (props : MyPostsProps) => {
                             name: "Cours"
                         }
                     },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
                 ] 
             },
             {
@@ -70,12 +64,6 @@ const MyPosts = (props : MyPostsProps) => {
                 },
                 status: EPostStatus.AVAILABLE,
                 tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
                     {
                         name: "Physique",
                         category: {
@@ -103,18 +91,6 @@ const MyPosts = (props : MyPostsProps) => {
                 },
                 status: EPostStatus.UNAVAILABLE,
                 tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
                 ]
             },
         ]

@@ -35,7 +35,12 @@ function App(): JSX.Element {
 
               <Stack.Screen name="Login" component={Login}/>
               <Stack.Screen name="Navbar" component={Navbar} />
-              <Stack.Screen name="Post" component={Post}/>
+              <Stack.Screen name="Post">
+                {(props) => <SubPage
+                  navigation={props.navigation}
+                  renderContent={() =><Post />}
+                  mode='fullscreen'/>}
+              </Stack.Screen>
               <Stack.Screen name="PostEdit">
                 {(props) => <SubPage
                   navigation={props.navigation}

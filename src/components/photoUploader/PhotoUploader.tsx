@@ -132,7 +132,6 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                         (typeof selectedPhoto == "string" && selectedPhoto.includes("://"))
                             ? { uri: selectedPhoto }
                             : selectedPhoto as unknown as number
-                    console.log(source)
 
                     return (
                         <TouchableHighlight

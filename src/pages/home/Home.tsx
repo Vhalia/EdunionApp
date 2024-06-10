@@ -11,6 +11,7 @@ import FoldHeader from "../../components/foldHeader/FoldHeader"
 import Animated, { useSharedValue } from "react-native-reanimated"
 import Logo from '../../../images/logo.svg'
 import { useNavigation } from "@react-navigation/native"
+import EPostStatus from "../../models/enums/EPostStatus"
 
 const Home = () => {
     console.log("---------------------------------")
@@ -44,7 +45,22 @@ const Home = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 2,
@@ -62,7 +78,22 @@ const Home = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 3,
@@ -80,7 +111,22 @@ const Home = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 4,
@@ -98,7 +144,22 @@ const Home = () => {
                         id: 1,
                         name: "IPL"
                     }
-                }
+                },
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
         ];
     }

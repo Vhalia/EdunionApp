@@ -34,7 +34,21 @@ const Purchases = (props : PurchasesProps) => {
                         name: "IPL"
                     }
                 },
-                status: EPostStatus.CREATED
+                status: EPostStatus.CREATED,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
             {
                 id: 5,
@@ -53,7 +67,22 @@ const Purchases = (props : PurchasesProps) => {
                         name: "IPL"
                     }
                 },
-                status: EPostStatus.AVAILABLE
+                status: EPostStatus.AVAILABLE,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
+
             },
             {
                 id: 6,
@@ -72,7 +101,21 @@ const Purchases = (props : PurchasesProps) => {
                         name: "IPL"
                     }
                 },
-                status: EPostStatus.UNAVAILABLE
+                status: EPostStatus.UNAVAILABLE,
+                tags : [
+                    {
+                        name: "Mathématiques",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                    {
+                        name: "Physique",
+                        category: {
+                            name: "Cours"
+                        }
+                    },
+                ]
             },
         ]
 

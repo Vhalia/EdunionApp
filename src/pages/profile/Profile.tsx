@@ -102,11 +102,6 @@ const Settings = () => {
                             pictureSize={39}/>
                 </NavigateButton>
                 <NavigateButton
-                    redirectScreenName="LanguageSetting"
-                    style={styles.button}>
-                        <MainText weight={'500'} fontSize={13} text={"Langue"} />
-                </NavigateButton>
-                <NavigateButton
                     redirectScreenName="SecuritySetting"
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"Sécurité"} />

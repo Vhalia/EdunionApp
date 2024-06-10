@@ -31,7 +31,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        marginBottom: 150
+        marginBottom: 150,
+        marginLeft: 15,
+        marginRight:15 
     },
     photoUploaderContainer : {
         display: 'flex',
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flex : 2,
         justifyContent: 'center',
+        width: "100%",
     },
     informations : {
         display: 'flex',

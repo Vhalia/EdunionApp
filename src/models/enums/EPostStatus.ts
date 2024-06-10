@@ -2,7 +2,7 @@ import { ColorConstants } from "../../constants/ThemeConstants";
 
 enum EPostStatus {
     CREATED = "CREATED",
-    AVAILABLE = "AVAILABLE",
+    AVAILABLE = "AVAILABLE" ,
     UNAVAILABLE = "UNAVAILABLE",
 }
 

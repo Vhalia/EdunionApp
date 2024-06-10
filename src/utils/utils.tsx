@@ -28,5 +28,9 @@ function round(value: number, precision: number) {
 function getRandomInt(max: number) :number {
     return Math.floor(Math.random() * max);
   }
+
+function getEnumValue<E>(enumObject: E, key: string) : E[keyof E] {
+    return enumObject[key as keyof E];
+}
  
-export {getElement, map, clamp, round, getRandomInt}
+export {getElement, map, clamp, round, getRandomInt, getEnumValue}
