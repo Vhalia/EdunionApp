@@ -40,7 +40,7 @@ const ProfileSetting = () => {
                 <MainInput
                     style={[styles.inputs, styles.gap]}
                     inputMode="text"
-                    onChangeText={onFirstnameChange}
+                    onChange={onFirstnameChange}
                     value={firstname}/>
             </View>
             <View style={styles.bigGap}>
@@ -51,7 +51,7 @@ const ProfileSetting = () => {
                 <MainInput
                     style={[styles.inputs, styles.gap]}
                     inputMode="text"
-                    onChangeText={onLastnameChange}
+                    onChange={onLastnameChange}
                     value={lastname}/>
             </View>
             <View style={styles.bigGap}>

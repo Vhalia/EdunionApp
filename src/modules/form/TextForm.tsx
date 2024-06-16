@@ -1,11 +1,11 @@
 import { Button, TextInput, View } from "react-native";
-import {FormProps, SubmitResult} from "./props/FormProps";
+import {FormProps as TextFormProps, SubmitResult} from "./props/TextFormProps";
 import MainText from "../text/MainText";
 import { useState } from "react";
-import styles from "./style/formStyle";
+import styles from "./style/TextFormStyle";
 import { ColorConstants } from "../../constants/ThemeConstants";
 
-const Form = (props : FormProps) => {
+const TextForm = (props : TextFormProps) => {
     const [submitResponses, setSubmitResponses] = useState<SubmitResult[]>([]);
     
     const onPress = () => {
@@ -40,4 +40,4 @@ const Form = (props : FormProps) => {
     ); 
 }
 
-export default Form;
+export default TextForm;

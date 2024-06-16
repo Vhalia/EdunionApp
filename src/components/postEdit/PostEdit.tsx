@@ -206,7 +206,7 @@ const PostEdit = (props: PostEditProps) => {
                                 placeholder="Par exemple: livre de mathématiques"
                                 placeholderColor={ColorConstants.white70PercentColor}
                                 inputMode="text"
-                                onChangeText={onTitleInputTextChange}
+                                onChange={onTitleInputTextChange}
                                 style={[styles.inputs, styles.minorGap]}
                                 value={title}/>
                         </View>
@@ -222,7 +222,7 @@ const PostEdit = (props: PostEditProps) => {
                                 inputMode="text"
                                 multiline
                                 numberOfLines={4}
-                                onChangeText={onDescriptionInputTextChange}
+                                onChange={onDescriptionInputTextChange}
                                 style={[styles.inputs, styles.minorGap, styles.descriptionInput]}
                                 value={description}/>
                         </View>

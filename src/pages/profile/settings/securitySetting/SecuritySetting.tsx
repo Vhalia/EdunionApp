@@ -1,6 +1,6 @@
 import { View } from "react-native";
-import Form from "../../../../modules/form/Form";
-import { SubmitResult } from "../../../../modules/form/props/FormProps";
+import TextForm from "../../../../modules/form/TextForm";
+import { SubmitResult } from "../../../../modules/form/props/TextFormProps";
 import { ColorConstants } from "../../../../constants/ThemeConstants";
 import { useContext } from "react";
 import Context from "../../../../contexts/AuthContext/AuthContext";
@@ -13,7 +13,7 @@ const SecuritySetting = () => {
     }
     
     return (
-        <Form
+        <TextForm
             buttonTitle="Confirmer"
             onSubmit={onSubmit}
             inputConfig={[

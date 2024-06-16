@@ -9,6 +9,11 @@ import { AuthContext } from './contexts/AuthContext/AuthContext';
 import Post from './components/post/Post';
 import PostEdit from './components/postEdit/PostEdit';
 import SubPage from './components/subPage/SubPage';
+import Register from './pages/register/Register';
+import { ColorConstants } from './constants/ThemeConstants';
+import Toast, { ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-message';
+import ResetPassword from './pages/resetPassword/ResetPassword';
+import ConfirmEmail from './pages/confirmEmail/ConfirmEmail';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,17 +29,73 @@ type StackNavigationList = {
 
 function App(): JSX.Element {
 
+  const toastConfig : ToastConfig = {
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        style={{
+          backgroundColor: ColorConstants.red,
+          borderLeftColor: ColorConstants.red70PercentColor
+        }}
+        text1Style={{
+          color: ColorConstants.whiteMainColor,
+          fontSize: 15
+        }}
+        />
+    ),
+    info: (props) => (
+      <InfoToast
+        {...props}
+        style={{
+          backgroundColor: ColorConstants.blue,
+          borderLeftColor: ColorConstants.blue70PercentColor
+        }}
+        text1Style={{
+          color: ColorConstants.whiteMainColor,
+          fontSize: 15
+        }}
+        />
+    ),
+    success : (props) => (
+      <InfoToast
+        {...props}
+        style={{
+          backgroundColor: ColorConstants.green,
+          borderLeftColor: ColorConstants.green70PercentColor
+        }}
+        text1Style={{
+          color: ColorConstants.whiteMainColor,
+          fontSize: 15
+        }}
+        />
+    )
+  }
+
   return (
     <SafeAreaView style={styles.background}>
       <AuthContext>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login" screenOptions={
-            {
-              headerShown: false
-            }}>
+          <Stack.Navigator initialRouteName="Login">
 
-              <Stack.Screen name="Login" component={Login}/>
-              <Stack.Screen name="Navbar" component={Navbar} />
+              <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+              <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{
+                  title: 'Inscription',
+                  headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
+                  headerTintColor: ColorConstants.whiteMainColor
+                }}/>
+              <Stack.Screen
+                name="ResetPassword"
+                component={ResetPassword}
+                options={{
+                  title: 'Reinitialisation du mot de passe',
+                  headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
+                  headerTintColor: ColorConstants.whiteMainColor
+                }}/>
+              <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{headerShown: false}} />
+              <Stack.Screen name="Navbar" component={Navbar} options={{headerShown: false}} />
               <Stack.Screen name="Post">
                 {(props) => <SubPage
                   navigation={props.navigation}
@@ -50,6 +111,7 @@ function App(): JSX.Element {
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContext>
+      <Toast config={toastConfig}/>
     </SafeAreaView>
   );
 }

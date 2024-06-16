@@ -126,7 +126,7 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                     let selectedPhoto = selectedPhotos[index]
 
                     if (index >= maxPhotoCount)
-                        return (<></>)
+                        return (<View key={index}></View>)
 
                     const source : ImageSourcePropType =
                         (typeof selectedPhoto == "string" && selectedPhoto.includes("://"))

@@ -6,7 +6,7 @@ import AddSvg from "../../../images/add.svg"
 import ChatSvg from "../../../images/chat.svg"
 import BagSvg from "../../../images/bag.svg"
 import NavbarProps from "./props/props";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from '../home/Home';
 import Search from '../search/Search';
@@ -14,9 +14,11 @@ import AddPost from '../addPost/AddPost';
 import PurchasesAndMyPosts from '../purchasesAndMyPosts/PurchasesAndMyPosts';
 import Profile from '..//profile/Profile';
 import { ColorConstants } from "../../constants/ThemeConstants";
+import { useNavigation } from "@react-navigation/native";
 
 const Navbar = (props : NavbarProps) => {
     const Tab = createBottomTabNavigator()
+    const navigation = useNavigation<any>()
 
     const activeStyle = {
         icon : {color:ColorConstants.purpleMainColor, opacity:1}
@@ -42,6 +44,13 @@ const Navbar = (props : NavbarProps) => {
         }
     }
 
+    useEffect(() => {
+        //prevent going back
+        navigation.addListener('beforeRemove', (e: any) => {
+            e.preventDefault();
+        })
+    }, [navigation]);
+    
     return (
         <Tab.Navigator
             initialRouteName='Home'
