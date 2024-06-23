@@ -1,10 +1,10 @@
 import NavigateButton from "../../components/navigateButton/NavigateButton";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { StyleProp, TouchableHighlight, View, ViewStyle } from "react-native";
 import MainText from "../../modules/text/MainText";
 import UserWithPicture from "../../components/userWithPicture/UserWithPicture";
 import styles from "./style/profileStyle";
 import ProfileProps from "./props/profileProps";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../contexts/AuthContext/AuthContext";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LanguageSetting from "./settings/languageSetting/LanguageSetting";
@@ -15,6 +15,8 @@ import AboutSetting from "./settings/aboutSetting/AboutSetting";
 import LegalNoticeSetting from "./settings/legalNoticeSetting/LegalNoticeSetting";
 import ProfileSetting from "./settings/profileSetting/ProfileSetting";
 import SubPage from "../../components/subPage/SubPage";
+import { useNavigation } from "@react-navigation/native";
+import useStorage from "../../hooks/useStorage";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -22,7 +24,7 @@ const Profile = (props : ProfileProps) => {
     const headerBgStyle= {
         backgroundColor: ColorConstants.blackSecondaryColor
     }
-    
+
     return(
         <>
             <stack.Navigator initialRouteName="Settings">
@@ -85,6 +87,14 @@ const Profile = (props : ProfileProps) => {
 
 const Settings = () => {
     const authContext = useContext(Context);
+    const navigation = useNavigation<any>();
+    const storage = useStorage();
+
+    const onPressLogout = () => {
+        navigation.navigate("Login");
+        authContext?.logout();
+        storage.delete("token")
+    }
 
     return (
             <View style={styles.container}>
@@ -95,7 +105,7 @@ const Settings = () => {
                     redirectScreenName="ProfileSetting"
                     style={styles.profileButton}>
                         <UserWithPicture
-                            userName={authContext!.currentUser?.name ?? ''}
+                            userName={authContext!.currentUser?.firstName ?? ''}
                             extraText="Voir mon profile"
                             userNameFontSize={14}
                             extraTextFontSize={12}
@@ -116,6 +126,21 @@ const Settings = () => {
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"Mention légales"} />
                 </NavigateButton>
+                <View
+                    style={styles.logoutContainer}>
+                
+                    <TouchableHighlight
+                        onPress={onPressLogout}
+                        underlayColor={ColorConstants.greyMainColor}
+                        style={styles.button}>
+
+                        <View style={styles.logoutButton}>
+                            <MainText weight={'500'} fontSize={13} text={"Se déconnecter"} />
+                        </View>
+
+                    </TouchableHighlight>
+
+                </View>
             </View>
         
     );

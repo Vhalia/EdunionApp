@@ -5,19 +5,31 @@ import SearchBar from "../../components/searchBar/SearchBar"
 import Carousels from "../../components/carousel/Carousel"
 import Post from "../../models/Post"
 import EPostType from "../../models/enums/EPostType"
-import { useRef, useState } from "react"
-import Header from "../header/Header"
+import { useContext, useEffect, useRef, useState } from "react"
 import FoldHeader from "../../components/foldHeader/FoldHeader"
 import Animated, { useSharedValue } from "react-native-reanimated"
 import Logo from '../../../images/logo.svg'
 import { useNavigation } from "@react-navigation/native"
 import EPostStatus from "../../models/enums/EPostStatus"
+import Context from "../../contexts/AuthContext/AuthContext";
+import useUserService from "../../hooks/useUserService"
+
 
 const Home = () => {
     console.log("---------------------------------")
     const swipeProgress = useSharedValue<number>(0);
     const [isScrollEnabled, enableScroll] = useState(true)
     const navigation = useNavigation<any>();
+    const authContext = useContext(Context);
+    const userService = useUserService();
+
+    useEffect(() => {
+        userService.get()
+             .then(res => {
+                authContext!.setCurrentUser(res)
+             })
+             .catch(err => console.log(err))
+    }, [authContext!.token])
 
     const onPressSearch = (value: string) => {
         //TODO: redirect to seach page with result of text input
@@ -38,8 +50,8 @@ const Home = () => {
                 price: 5,
                 user : {
                     id: 1,
-                    name: "Mathieu",
-                    lastname: "test",
+                    firstName: "Mathieu",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -71,8 +83,8 @@ const Home = () => {
                 price: 6,
                 user : {
                     id: 2,
-                    name: "John",
-                    lastname: "test",
+                    firstName: "John",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -104,8 +116,8 @@ const Home = () => {
                 price: 7,
                 user : {
                     id: 3,
-                    name: "Bob",
-                    lastname: "test",
+                    firstName: "Bob",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -137,8 +149,8 @@ const Home = () => {
                 price: 8,
                 user : {
                     id: 4,
-                    name: "Maria",
-                    lastname: "test",
+                    firstName: "Maria",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -178,7 +190,6 @@ const Home = () => {
 
     const onScroll = (event: any) => {
         swipeProgress.value = event.nativeEvent.contentOffset.y
-        console.log('SWIPE ::', swipeProgress.value)
     }
 
     return (

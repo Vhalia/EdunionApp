@@ -12,8 +12,8 @@ const ProfileSetting = () => {
     const authContext = useContext(AuthContext)
     const currentUser = authContext?.currentUser
 
-    const [firstname, setFirstname] = useState(currentUser?.name)
-    const [lastname, setLastName] = useState(currentUser?.lastname)
+    const [firstname, setFirstname] = useState(currentUser?.firstName)
+    const [lastname, setLastName] = useState(currentUser?.lastName)
     const [school, setSchool] = useState(currentUser?.school.name)
 
     const onFirstnameChange = () => {
@@ -29,7 +29,7 @@ const ProfileSetting = () => {
         <View>
             <PhotoUploader
                 maxPhoto={1}
-                photos={currentUser?.picture ? [currentUser?.picture!] : []}
+                photos={currentUser?.picturePath ? [currentUser?.picturePath!] : []}
                 style={{width: 163, padding: 1, backgroundColor: ColorConstants.blackMainColor}}
                 photoStyle={styles.photo}/>
             <View style={styles.bigGap}>

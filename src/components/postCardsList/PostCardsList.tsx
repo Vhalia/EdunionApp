@@ -25,8 +25,8 @@ const PostCardsList = (props : PostCardsListProps) => {
                             <PostCard
                                 informationBarSyle={{height: 70}}
                                 key={item.id}
-                                owner={item.user.name}
-                                ownerImage={item.user.picture}
+                                owner={item.user.firstName}
+                                ownerImage={item.user.picturePath}
                                 price={item.price}
                                 title={item.title}
                                 subtitle={item.shortDescription}

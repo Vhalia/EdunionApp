@@ -42,8 +42,8 @@ const Post = (props : PostProps) => {
             type: EPostType.BOOK,
             user : {
                 id: 1,
-                name: "test",
-                lastname: "test",
+                firstName: "test",
+                lastName: "test",
                 email: "test@exemple.com",
                 school: {
                     id: 1,
@@ -139,8 +139,8 @@ const Post = (props : PostProps) => {
                 />
                 <View style={{flex: 0.5}}>
                     <UserWithPicture
-                        userName={post.user.name + " " + post.user.lastname}
-                        picture={post.user?.picture}
+                        userName={post.user.firstName + " " + post.user.lastName}
+                        picture={post.user?.picturePath}
                         style={[styles.content, styles.bigGap, styles.bigGapDown]}
                         userNameFontSize={14}/>
 

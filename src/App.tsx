@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {SafeAreaView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './AppStyle';
 import Navbar from './pages/navbar/Navbar';
@@ -14,6 +14,8 @@ import { ColorConstants } from './constants/ThemeConstants';
 import Toast, { ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-message';
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import ConfirmEmail from './pages/confirmEmail/ConfirmEmail';
+import useStorage from './hooks/useStorage';
+import SplashScreen from './pages/splashScreen/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +29,7 @@ type StackNavigationList = {
   Navbar: undefined;
 };
 
-function App(): JSX.Element {
+function App(): JSX.Element { 
 
   const toastConfig : ToastConfig = {
     error: (props) => (
@@ -75,8 +77,8 @@ function App(): JSX.Element {
     <SafeAreaView style={styles.background}>
       <AuthContext>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
-
+          <Stack.Navigator initialRouteName={'SplashScreen'}>
+              <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
               <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
               <Stack.Screen
                 name="Register"

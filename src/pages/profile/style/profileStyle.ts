@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     button: {
         marginBottom: 10,
         width: "90%",
+        borderRadius: 14
     },
     profileButton : {
         marginBottom: 20,
@@ -27,6 +28,18 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackSecondaryColor,
         height: 100,
         width: "100%",
+    },
+    logoutContainer : {
+        marginLeft: 40,
+        width: "100%"
+    },
+    logoutButton :{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 15,
+        backgroundColor: ColorConstants.greyMainColor,
+        borderRadius: 14,
     }
 })
 

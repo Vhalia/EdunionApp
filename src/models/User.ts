@@ -3,10 +3,10 @@ import School from "./School"
 
 export default interface User {
     id: number,
-    name: string,
-    lastname: string,
+    firstName: string,
+    lastName: string,
     email: string,
-    picture?: string
+    picturePath?: string
     school: School,
     contacts?: Contact[]
 }

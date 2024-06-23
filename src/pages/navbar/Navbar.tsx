@@ -31,13 +31,13 @@ const Navbar = (props : NavbarProps) => {
 
     const displayIcon = (routeName : string, focused : boolean) : ReactNode => {
         switch(routeName){
-            case 'Accueil':
+            case 'Home':
                 return <HomeSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
-            case 'Chercher':
+            case 'Search':
                 return <SearchSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
-            case 'Ajouter':
+            case 'Add':
                 return <AddSvg {... focused ? activeStyle.icon : unactiveStyle.icon} color={ColorConstants.purpleMainColor}/>
-            case 'Gestion':
+            case 'Management':
                 return <BagSvg {... focused ? activeStyle.icon : unactiveStyle.icon} width={iconSize} height={iconSize}/>
             case 'Profile':
                 return <ProfileSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
@@ -47,7 +47,8 @@ const Navbar = (props : NavbarProps) => {
     useEffect(() => {
         //prevent going back
         navigation.addListener('beforeRemove', (e: any) => {
-            e.preventDefault();
+            if (e.data.action.type !== 'NAVIGATE')
+                e.preventDefault();
         })
     }, [navigation]);
     
@@ -62,11 +63,11 @@ const Navbar = (props : NavbarProps) => {
                 tabBarActiveTintColor: ColorConstants.whiteMainColor,
             })}>
 
-                <Tab.Screen name="Accueil" component={Home} />
-                <Tab.Screen name="Chercher" component={Search} />
-                <Tab.Screen name="Ajouter" component={AddPost} />
-                <Tab.Screen name="Gestion" component={PurchasesAndMyPosts} />
-                <Tab.Screen name="Profile" component={Profile} />
+                <Tab.Screen name="Home" component={Home} options={{title: 'Accueil'}}/>
+                <Tab.Screen name="Search" component={Search} options={{title: 'Chercher'}}/>
+                <Tab.Screen name="Add" component={AddPost} options={{title: 'Ajouter'}}/>
+                <Tab.Screen name="Management" component={PurchasesAndMyPosts} options={{title: 'Gestion'}}/>
+                <Tab.Screen name="Profile" component={Profile} options={{title: 'Profile'}}/>
 
         </Tab.Navigator>
     );

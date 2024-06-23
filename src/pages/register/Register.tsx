@@ -11,15 +11,20 @@ import {Picker} from "@react-native-picker/picker";
 import Constants from "../../constants/Constants";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import School from "../../models/School";
+import HttpClient from "../../services/httpClient/HttpClient";
+import useStorage from "../../hooks/useStorage";
+import useAuthorizationService from "../../hooks/useAuthorizationService";
+import useSchoolService from "../../hooks/useSchoolService";
 
 const Register = (props: RegisterProps) => {
-    const [schools, setSchools] = useState<string[]>([]);
+    const [schools, setSchools] = useState<School[]>([]);
     const [firstname, setFirstname] = useState<string>("");
     const [lastname, setLastName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
-    const [selectedSchool, setSelectedSchool] = useState<string>("");
+    const [selectedSchool, setSelectedSchool] = useState<School>();
     const [schoolProof, setSchoolProof] = useState<string>("");
 
     const [firstnameErrorMessage, setFirstnameErrorMessage] = useState<string|undefined>(undefined);
@@ -29,19 +34,44 @@ const Register = (props: RegisterProps) => {
     const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState<string|undefined>(undefined);
 
     const navigation = useNavigation<any>();
+    const storage = useStorage();
+    const authorizationService = useAuthorizationService();
+    const schoolService = useSchoolService();
 
     useEffect(() => {
-        setSchools([
-            "Assomption",
-            "Saint-Joseph",
-            "Saint-André",
-            "Saint-Luc",
-            "La Sapiniere"
-        ])
+        schoolService.get()
+            .then(res => {
+                setSchools(res)
+            })
+            .catch(err => console.log(err))
     }, [])
 
-    const onPressRegister = () => {
-        navigation.navigate('ConfirmEmail')
+    const onPressRegister = async () => {
+        try {
+            var registerResponse = await authorizationService.register({
+                email: email,
+                password: password,
+                firstName: firstname,
+                lastName: lastname,
+                schoolId: selectedSchool!.id,
+                registerToNewsletter: false
+            })
+
+            if (!registerResponse) {
+                Toast.show({
+                    type: "error",
+                    text1: "Une erreur est survenue, veuillez reessayer plus tard",
+                })
+                return;
+            }
+
+            var loginResponse = await authorizationService.login(email, password)
+            
+            storage.set("token", loginResponse.accessToken)
+            navigation.navigate('ConfirmEmail')
+        }catch(err) {
+            console.log(err)
+        }
     }
     
     const renderPersonnalInformations = () => {
@@ -113,7 +143,7 @@ const Register = (props: RegisterProps) => {
                         {schools.map((school, index) => (
                             <Picker.Item
                                 key={index}
-                                label={school}
+                                label={school.name}
                                 value={school}/>
                         ))}
                     </Picker>

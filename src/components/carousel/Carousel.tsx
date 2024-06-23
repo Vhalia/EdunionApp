@@ -56,8 +56,8 @@ const Carousels = (props: CarouselProps) => {
                 renderItem={(carouselProps) =>
                         <CarouselItem
                             key={carouselProps.index}
-                            owner={carouselProps.item.user.name}
-                            ownerImage={carouselProps.item.user.picture}
+                            owner={carouselProps.item.user.firstName}
+                            ownerImage={carouselProps.item.user.picturePath}
                             price={carouselProps.item.price}
                             title={carouselProps.item.title}
                             subtitle={carouselProps.item.shortDescription}

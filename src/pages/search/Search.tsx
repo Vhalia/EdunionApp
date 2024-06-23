@@ -32,8 +32,8 @@ const Search = () => {
                 price: 5,
                 user : {
                     id: 1,
-                    name: "Mathieu",
-                    lastname: "test",
+                    firstName: "Mathieu",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -65,8 +65,8 @@ const Search = () => {
                 price: 6,
                 user : {
                     id: 2,
-                    name: "John",
-                    lastname: "test",
+                    firstName: "John",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -98,8 +98,8 @@ const Search = () => {
                 price: 7,
                 user : {
                     id: 3,
-                    name: "Bob",
-                    lastname: "test",
+                    firstName: "Bob",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -131,8 +131,8 @@ const Search = () => {
                 price: 8,
                 user : {
                     id: 4,
-                    name: "Maria",
-                    lastname: "test",
+                    firstName: "Maria",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -164,8 +164,8 @@ const Search = () => {
                 price: 9,
                 user : {
                     id: 5,
-                    name: "Alex",
-                    lastname: "test",
+                    firstName: "Alex",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -197,8 +197,8 @@ const Search = () => {
                 price: 10,
                 user : {
                     id: 6,
-                    name: "Samantha", 
-                    lastname: "test",
+                    firstName: "Samantha", 
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -230,8 +230,8 @@ const Search = () => {
                 price: 11,
                 user : {
                     id: 7,
-                    name: "David", 
-                    lastname: "test",
+                    firstName: "David", 
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -263,8 +263,8 @@ const Search = () => {
                 price: 12,
                 user : {
                     id: 8,
-                    name: "Emma", 
-                    lastname: "test",
+                    firstName: "Emma", 
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,
@@ -296,8 +296,8 @@ const Search = () => {
                 price: 13,
                 user : {
                     id: 9,
-                    name: "Laura",
-                    lastname: "test",
+                    firstName: "Laura",
+                    lastName: "test",
                     email: "test@exemple.com",
                     school: {
                         id: 1,

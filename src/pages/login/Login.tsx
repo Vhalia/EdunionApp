@@ -1,4 +1,4 @@
-import { Text, TouchableHighlight, View } from "react-native"
+import { TouchableHighlight, View } from "react-native"
 import Context from "../../contexts/AuthContext/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -9,6 +9,8 @@ import { ColorConstants } from "../../constants/ThemeConstants";
 import MainText from "../../modules/text/MainText";
 import MainButton from "../../modules/mainButton/MainButton";
 import Constants from "../../constants/Constants";
+import useStorage from "../../hooks/useStorage";
+import useAuthorizationService from "../../hooks/useAuthorizationService";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("")
@@ -16,33 +18,37 @@ const Login = () => {
     const [errorMessageEmail, setErrorMessageEmail] = useState<string|undefined>(undefined)
     const [errorMessagePassword, setErrorMessagePassword] = useState<string|undefined>(undefined)
 
+    const storage = useStorage();
     const authContext = useContext(Context);
     const navigation = useNavigation<any>();
+    const authorizationService = useAuthorizationService();
     
     const onLoginPress = () => {
         setErrorMessageEmail(undefined)
-        setErrorMessagePassword(undefined)
-
-
-        authContext!.setCurrentUser({
-            name: 'Max le Grelle ff',
-            email: 'maxlegrelle@gmail.com',
-            id: 1,
-            lastname: 'Le Grelle',
-            school: {
-                id: 1,
-                name: "IPL"
-            }
-        })
+        setErrorMessagePassword(undefined) 
         
         if (email === "" || password === "") {
             setErrorMessageEmail("Veuillez renseigner tous les champs")
             setErrorMessagePassword("Veuillez renseigner tous les champs")
+            return;
         }else if (!Constants.emailRegex.test(email)){
             setErrorMessageEmail("Email incorrecte")
-        }else{
-            navigation.navigate('Navbar')
+            return;
         }
+
+        authorizationService.login(email, password)
+            .then(res => {
+                storage.set("token", res.accessToken)
+                authContext!.setToken(res.accessToken)
+                navigation.navigate('Navbar')
+            })
+            .catch(err => {
+                if (err.status == 401) {
+                    setErrorMessagePassword("L'email ou le mot de passe est incorrecte")
+                    setErrorMessageEmail("L'email ou le mot de passe est incorrecte")
+                }
+                console.log(err)
+            })
     }
 
     const onPressResetPassword = () => {
@@ -90,6 +96,7 @@ const Login = () => {
                     style={styles.resetPasswordButton}>
                     <MainText
                         text="Réinitialiser le mot de passe"
+        
                         fontSize={13}
                         fontColor={ColorConstants.white70PercentColor}
                         style={{justifyContent: "flex-start"}}/>

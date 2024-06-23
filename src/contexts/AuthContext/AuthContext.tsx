@@ -6,16 +6,19 @@ const Context = React.createContext<AuthExposed|undefined>(undefined)
 
 const AuthContext = (props : ContextProps) => {
     const [currentUser, setCurrentUser] = useState<User>();
+    const [token, setToken] = useState<string>("");
     
     const logout = () => {
         setCurrentUser(undefined);
-        //redirect
+        setToken("")
     }
 
     const exposedValue : AuthExposed = {
         currentUser,
         setCurrentUser,
-        logout
+        logout,
+        token,
+        setToken
     }
 
     return (
@@ -27,8 +30,10 @@ const AuthContext = (props : ContextProps) => {
 
 interface AuthExposed {
     currentUser?: User,
-    setCurrentUser: (user: User) => void
-    logout: () => void
+    setCurrentUser: (user: User) => void,
+    logout: () => void,
+    token: string,
+    setToken: (token: string) => void
 }
 
 export {Context, AuthContext}
