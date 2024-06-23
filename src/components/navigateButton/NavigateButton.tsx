@@ -19,7 +19,8 @@ const NavigateButton = (props : NavigateButtonProps) => {
             <TouchableHighlight
                 onPress={onPress}
                 underlayColor={ColorConstants.greyMainColor}
-                style={styles.button}>
+                style={styles.button}
+                disabled={props.disabled}>
                 
                 <View
                     style={styles.buttonContainer}>

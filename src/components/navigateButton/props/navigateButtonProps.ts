@@ -4,5 +4,6 @@ import { StyleProp, ViewStyle } from "react-native";
 export default interface NavigateButtonProps {
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>
-    redirectScreenName: string
+    redirectScreenName: string,
+    disabled?: boolean
 }

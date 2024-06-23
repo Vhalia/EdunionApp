@@ -17,6 +17,7 @@ import ProfileSetting from "./settings/profileSetting/ProfileSetting";
 import SubPage from "../../components/subPage/SubPage";
 import { useNavigation } from "@react-navigation/native";
 import useStorage from "../../hooks/useStorage";
+import Loading from "../../modules/Loading/Loading";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -89,6 +90,13 @@ const Settings = () => {
     const authContext = useContext(Context);
     const navigation = useNavigation<any>();
     const storage = useStorage();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (authContext?.currentUser) {
+            setIsLoading(false);
+        }
+    }, [authContext?.currentUser])
 
     const onPressLogout = () => {
         navigation.navigate("Login");
@@ -103,13 +111,17 @@ const Settings = () => {
                 </Header>
                 <NavigateButton
                     redirectScreenName="ProfileSetting"
-                    style={styles.profileButton}>
+                    style={styles.profileButton}
+                    disabled={isLoading}>
+                        {isLoading ? 
+                        <Loading /> :
                         <UserWithPicture
                             userName={authContext!.currentUser?.firstName ?? ''}
                             extraText="Voir mon profile"
                             userNameFontSize={14}
                             extraTextFontSize={12}
                             pictureSize={39}/>
+                        }
                 </NavigateButton>
                 <NavigateButton
                     redirectScreenName="SecuritySetting"

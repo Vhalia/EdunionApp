@@ -24,6 +24,9 @@ const Home = () => {
     const userService = useUserService();
 
     useEffect(() => {
+        if (!authContext!.token)
+            return;
+        
         userService.get()
              .then(res => {
                 authContext!.setCurrentUser(res)
