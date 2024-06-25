@@ -9,6 +9,9 @@ const useSchoolService = () => {
     return {
         get: () => {
             return HttpClient.get<School[]>("/api/school", authContext?.token)
+        },
+        getById: (id: number) => {
+            return HttpClient.get<School>("/api/school/" + id, authContext?.token)
         }
     }
 }

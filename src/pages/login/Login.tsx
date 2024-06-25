@@ -11,12 +11,14 @@ import MainButton from "../../modules/mainButton/MainButton";
 import Constants from "../../constants/Constants";
 import useStorage from "../../hooks/useStorage";
 import useAuthorizationService from "../../hooks/useAuthorizationService";
+import Loading from "../../modules/Loading/Loading";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [errorMessageEmail, setErrorMessageEmail] = useState<string|undefined>(undefined)
     const [errorMessagePassword, setErrorMessagePassword] = useState<string|undefined>(undefined)
+    const [isLoading, setIsLoading] = useState(false)
 
     const storage = useStorage();
     const authContext = useContext(Context);
@@ -24,6 +26,7 @@ const Login = () => {
     const authorizationService = useAuthorizationService();
     
     const onLoginPress = () => {
+        setIsLoading(true)
         setErrorMessageEmail(undefined)
         setErrorMessagePassword(undefined) 
         
@@ -40,12 +43,19 @@ const Login = () => {
             .then(res => {
                 storage.set("token", res.accessToken)
                 authContext!.setToken(res.accessToken)
+                setIsLoading(false)
                 navigation.navigate('Navbar')
             })
             .catch(err => {
+                setIsLoading(false)
                 if (err.status == 401) {
                     setErrorMessagePassword("L'email ou le mot de passe est incorrecte")
                     setErrorMessageEmail("L'email ou le mot de passe est incorrecte")
+                }else if (err.error === "Email is not verified") {
+                    navigation.navigate("ConfirmEmail", {
+                        email: email
+                    })
+                    return;
                 }
                 console.log(err)
             })
@@ -96,7 +106,6 @@ const Login = () => {
                     style={styles.resetPasswordButton}>
                     <MainText
                         text="Réinitialiser le mot de passe"
-        
                         fontSize={13}
                         fontColor={ColorConstants.white70PercentColor}
                         style={{justifyContent: "flex-start"}}/>
@@ -105,11 +114,13 @@ const Login = () => {
                     <MainButton
                         onPress={onLoginPress}
                         text="Connexion"
-                        style={styles.loginButton}/>
+                        style={styles.loginButton}
+                        isLoading={isLoading}/>
                     <MainButton
                         text="S'inscrire"
                         style={styles.registerButton}
-                        onPress={onPressRegister}/>
+                        onPress={onPressRegister}
+                        disabled={isLoading}/>
                 </View>
                 
             </View>

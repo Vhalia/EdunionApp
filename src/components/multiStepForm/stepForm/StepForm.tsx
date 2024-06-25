@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Step } from "../MultiStepForm";
 import { ColorConstants } from "../../../constants/ThemeConstants";
 import MainButton from "../../../modules/mainButton/MainButton";
+import Loading from "../../../modules/Loading/Loading";
 
 const StepForm = (props: StepFormProps) => {
     const onPressNext = () => {
@@ -32,14 +33,15 @@ const StepForm = (props: StepFormProps) => {
                 {props.step.renderContent()}
 
                 <View style={styles.buttonsContainer}>
-                    {props.hasPrevious && <MainButton
+                    {props.hasPrevious && !props.disablePreviousButton && <MainButton
                         onPress={onPressPrevious} 
                         text="Précedent"
                         style={styles.previousButton}/>}
                     <MainButton
                         onPress={onPressNext} 
                         text={props.hasNext ? "Suivant" : "Terminer"}
-                        style={styles.nextButton}/>
+                        style={styles.nextButton}
+                        isLoading={props.isLoading}/>
                 </View>
             </View>
         </View>
@@ -52,6 +54,8 @@ interface StepFormProps {
     navigation: any,
     hasNext? : boolean,
     hasPrevious? : boolean,
+    disablePreviousButton? : boolean,
+    isLoading? : boolean,
     onPressNext? : () => void,
     onPressPrevious? : () => void,
     onPressSubmit? : () => void

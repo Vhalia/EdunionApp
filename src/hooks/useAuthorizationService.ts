@@ -1,22 +1,21 @@
 import RegisterDto from "../models/DTO/RegisterDto";
 import LoginResponseDto from "../models/DTO/LoginResponseDto";
-import useHttpClient from "./useHttpClient";
+import HttpClient from "../services/httpClient/HttpClient";
 
 const useAuthorizationService = () => {
-    const httpClient = useHttpClient()
 
     return {
         login: (email: string, password: string) => {
-            return httpClient.post<LoginResponseDto>("/api/auth/login", {
+            return HttpClient.post<LoginResponseDto>("/api/auth/login", {
                 email: email,
                 password: password
-            })
+            }, undefined, false)
         },
         register: (registerDto: RegisterDto) => {
-            return httpClient.post<boolean>("/api/auth/register", registerDto)
+            return HttpClient.post<boolean>("/api/auth/register", registerDto)
         },
         resetPassword: (email: string, password: string, guid: string) => {
-            return httpClient.post<boolean>("/api/auth/resetPassword", {
+            return HttpClient.post<boolean>("/api/auth/resetPassword", {
                 email : email,
                 password: password,
                 guid: guid

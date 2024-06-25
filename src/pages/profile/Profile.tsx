@@ -18,6 +18,7 @@ import SubPage from "../../components/subPage/SubPage";
 import { useNavigation } from "@react-navigation/native";
 import useStorage from "../../hooks/useStorage";
 import Loading from "../../modules/Loading/Loading";
+import SchoolProofSetting from "./settings/schoolProofSetting/SchoolProofSetting";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -80,6 +81,16 @@ const Profile = (props : ProfileProps) => {
                     />}
 
                 </stack.Screen>
+                <stack.Screen
+                    name="SchoolProofSetting"
+                    options={{title: 'Preuve de scolarité', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
+
+                    {(props) => <SubPage
+                        renderContent={() => <SchoolProofSetting/>}
+                        navigation={props.navigation}
+                    />}
+
+                </stack.Screen>
             </stack.Navigator> 
 
         </>
@@ -137,6 +148,11 @@ const Settings = () => {
                     redirectScreenName="LegalNoticeSetting"
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"Mention légales"} />
+                </NavigateButton>
+                <NavigateButton
+                    redirectScreenName="SchoolProofSetting"
+                    style={styles.button}>
+                        <MainText weight={'500'} fontSize={13} text={"Preuve de scolarité"} />
                 </NavigateButton>
                 <View
                     style={styles.logoutContainer}>

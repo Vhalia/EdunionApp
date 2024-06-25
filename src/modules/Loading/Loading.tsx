@@ -30,8 +30,8 @@ const Loading = (props: LoadingProps) => {
         )
     }, [])
 
-    const radius = 20
-    const strokeWidth = 3
+    const radius = props.radius ?? 20
+    const strokeWidth = props.strokeWidth ?? 3
     const circumference = radius * 2 * Math.PI
 
     const AnimatedCircle = Animated.createAnimatedComponent(Circle)
@@ -68,7 +68,8 @@ const Loading = (props: LoadingProps) => {
 }
 
 interface LoadingProps {
-
+    radius?: number,
+    strokeWidth?: number
 }
 
 const styles = StyleSheet.create({

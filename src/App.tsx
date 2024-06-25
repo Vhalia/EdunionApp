@@ -54,8 +54,14 @@ function App(): JSX.Element {
         }}
         text1Style={{
           color: ColorConstants.whiteMainColor,
-          fontSize: 15
+          fontSize: 15,
         }}
+        text2Style={{
+          color: ColorConstants.whiteMainColor,
+          opacity: 0.7,
+          fontSize: 14,
+        }}
+        text2NumberOfLines={2}
         />
     ),
     success : (props) => (
@@ -96,15 +102,15 @@ function App(): JSX.Element {
                   headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
                   headerTintColor: ColorConstants.whiteMainColor
                 }}/>
-              <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{headerShown: false}} />
+              <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{headerShown: false}}/>
               <Stack.Screen name="Navbar" component={Navbar} options={{headerShown: false}} />
-              <Stack.Screen name="Post">
+              <Stack.Screen name="Post" options={{headerShown: false}}>
                 {(props) => <SubPage
                   navigation={props.navigation}
                   renderContent={() =><Post />}
                   mode='fullscreen'/>}
               </Stack.Screen>
-              <Stack.Screen name="PostEdit">
+              <Stack.Screen name="PostEdit" options={{headerShown: false}}>
                 {(props) => <SubPage
                   navigation={props.navigation}
                   renderContent={() =><PostEdit />}

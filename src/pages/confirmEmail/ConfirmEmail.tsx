@@ -6,13 +6,19 @@ import MainInput from "../../components/mainInput/MainInput"
 import { useState } from "react"
 import MainButton from "../../modules/mainButton/MainButton"
 import Toast from "react-native-toast-message"
+import useEmailService from "../../hooks/useEmailService"
 import { useNavigation } from "@react-navigation/native"
 
 const ConfirmEmail = (props: ConfirmEmailProps) => {
     const [code, setCode] = useState<string>("")
     const [codeErrorMessage, setCodeErrorMessage] = useState<string|undefined>(undefined)
+    const [submitCodeIsLoading, setSubmitCodeIsLoading] = useState(false)
+    const [resendIsLoading, setResendIsLoading] = useState(false)
 
     const navigation = useNavigation<any>()
+    const emailService = useEmailService()
+
+    const routeProps: ConfirmEmailProps = props.route.params
 
     const onChangeCode = (value: string) => {
         setCodeErrorMessage(undefined)
@@ -25,31 +31,64 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
         setCode(value)
     }
 
-    const onPressSubmit = () => {
+    const onPressSubmit = async () => {
         setCodeErrorMessage(undefined)
-
-        if (code === ""){
-            Toast.show({
-                type: "error",
-                text1: "Code invalide"
-            })
+        
+        if (code === ""){ 
             setCodeErrorMessage("Veuillez renseigner le code")
             return;
         }
+        
+        setSubmitCodeIsLoading(true)
+        try {
+            let success = await emailService.verify(routeProps.email!, code)
 
-        Toast.show({
-            type: "success",
-            text1: "Email confirmé!"
-        })
+            setSubmitCodeIsLoading(false)
 
-        navigation.navigate("Navbar")
+            if (!success){
+                Toast.show({
+                    type: "error",
+                    text1: "Code invalide"
+                })
+                return;
+            }
+
+            Toast.show({
+                type: "success",
+                text1: "Email confirmé!"
+            })
+
+            navigation.navigate("Navbar")
+        }catch(err){ 
+            console.log(err)
+            setSubmitCodeIsLoading(false)
+        } 
     }
 
-    const onPressResend = () => {
-        Toast.show({
-            type: "success",
-            text1: "Code renvoyé!"
-        })
+    const onPressResend = async () => {
+        setResendIsLoading(true)
+        try {
+            let success = await emailService.sendVerify(routeProps.email!)
+
+            setResendIsLoading(false)
+
+            if (!success){
+                Toast.show({
+                    type: "error",
+                    text1: "Le mail n'a pas pu être renvoyé, réessayez plus tard"
+                })
+                return;
+            }
+
+            Toast.show({
+                type: "success",
+                text1: "Code renvoyé!"
+            })
+        }catch(err){
+            console.log(err)
+            setResendIsLoading(false)
+        }
+        
     }
 
     return (
@@ -82,7 +121,8 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
                 <MainButton
                     onPress={onPressSubmit}
                     text="Confirmer"
-                    style={styles.button}/>
+                    style={styles.button}
+                    isLoading={submitCodeIsLoading}/>
                 <View style={{marginTop: 30}}>
                     <MainText
                         text="Vous n'avez pas recu le code?"
@@ -94,7 +134,8 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
                         text="Renvoyer l'email"
                         fontSize={14}
                         fontColor={ColorConstants.purpleMainColor}
-                        style={{backgroundColor: ColorConstants.blackMainColor}}/>
+                        style={{backgroundColor: ColorConstants.blackMainColor}}
+                        isLoading={resendIsLoading}/>
                 </View>
             </View>
         </View>
@@ -102,7 +143,9 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
 }
 
 interface ConfirmEmailProps {
-
+    email?: string,
+    onVerified?: () => void,
+    route: any
 }
 
 const styles = StyleSheet.create({
@@ -113,7 +156,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         display: "flex",
-        marginTop: 100,
+        marginTop: 70,
         margin: 30,
         alignItems: "center",
         justifyContent: "center",

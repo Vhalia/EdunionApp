@@ -10,8 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const MultiStepForm = (props: MultiStepFormProps) => {
     const stack = createNativeStackNavigator();
-    const [step, setStep] = useState(0)
-    const progress = useSharedValue<number>(0)
+    const [step, setStep] = useState(props.step ?? 0)
+    const progress = useSharedValue<number>(props.step ? step / (props.steps.length - 1) : 0)
 
     const onPressNext = () => {
         props.onNext && props.onNext(step)
@@ -49,7 +49,7 @@ const MultiStepForm = (props: MultiStepFormProps) => {
                 <MainText text={step+1 + " sur " + (props.steps.length)} fontSize={14} weight="700"/>
             </View>
 
-            <stack.Navigator initialRouteName={props.steps[0].index.toString()} screenOptions={{headerShown: false}}>
+            <stack.Navigator initialRouteName={props.steps[props.step ? props.step : 0].index.toString()} screenOptions={{headerShown: false}}>
                 {props.steps.map((step, index) => (
                     <stack.Screen name={step.index.toString()} key={index} options={{animation: 'slide_from_right'}}>
                         {(screenProps) => <StepForm
@@ -59,7 +59,9 @@ const MultiStepForm = (props: MultiStepFormProps) => {
                             hasPrevious={step.index > 0}
                             onPressNext={onPressNext}
                             onPressPrevious={onPressPrevious}
-                            onPressSubmit={props.onPressSubmit}/>
+                            onPressSubmit={props.onPressSubmit}
+                            disablePreviousButton={props.disablePreviousButtons}
+                            isLoading={props.isLoading}/>
                         }
                     </stack.Screen>
                 ))}
@@ -71,7 +73,10 @@ const MultiStepForm = (props: MultiStepFormProps) => {
 interface MultiStepFormProps {
     steps: Step[],
     onPressSubmit?: () => void,
-    onNext? : (step: number) => void
+    onNext? : (step: number) => void,
+    step?: number,
+    disablePreviousButtons?: boolean,
+    isLoading?: boolean
 }
 
 export interface Step {

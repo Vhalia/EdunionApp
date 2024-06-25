@@ -6,6 +6,7 @@ import EyeCloseSVG from "../../../images/eye-off.svg";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import { useEffect, useState } from "react";
 import MainText from "../../modules/text/MainText";
+import Loading from "../../modules/Loading/Loading";
 
 const MainInput = (props: MainInputProps) => {
     const [secretHidden, hideSecret] = useState(true)
@@ -21,6 +22,10 @@ const MainInput = (props: MainInputProps) => {
             setErrorMessage(props.errorMessage)
         }
     }, [props.isOnError, props.errorMessage])
+
+    useEffect(() => {
+        setText(props.value ?? "")
+    }, [props.value])
 
     const onShowSecretPress = () => {
         hideSecret(!secretHidden)
@@ -47,20 +52,25 @@ const MainInput = (props: MainInputProps) => {
     return (
         <View style={[styles.mainContainer]}>
             <View style={[styles.container, showErrorStyle(), props.containerStyle]}>
-
-                <TextInput
-                    style={[styles.inputs, props.style]}
-                    inputMode={props.inputMode}
-                    onChangeText={onChangeText}
-                    value={text}
-                    placeholder={props.placeholder}
-                    placeholderTextColor={props.placeholderColor}
-                    multiline={props.multiline}
-                    numberOfLines={props.numberOfLines}
-                    secureTextEntry={props.isSecret && secretHidden}
-                    onBlur={onLosingFocus}
-                    autoCapitalize={props.autoCapitalize ?? "sentences"}
-                    keyboardType={props.keyboardType}/>
+                {props.isLoading
+                    ? <Loading />
+                    :
+                    <TextInput
+                        style={[styles.inputs, props.style]}
+                        inputMode={props.inputMode}
+                        onChangeText={onChangeText}
+                        value={text}
+                        placeholder={props.placeholder}
+                        placeholderTextColor={props.placeholderColor}
+                        multiline={props.multiline}
+                        numberOfLines={props.numberOfLines}
+                        secureTextEntry={props.isSecret && secretHidden}
+                        onBlur={onLosingFocus}
+                        autoCapitalize={props.autoCapitalize ?? "sentences"}
+                        keyboardType={props.keyboardType}
+                        editable={!props.disabled}
+                        selectTextOnFocus={!props.disabled}/>
+                }
 
                 {props.isSecret &&
                     <TouchableOpacity onPress={onShowSecretPress} style={styles.eyeIcon}>

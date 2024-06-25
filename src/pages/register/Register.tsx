@@ -16,16 +16,17 @@ import HttpClient from "../../services/httpClient/HttpClient";
 import useStorage from "../../hooks/useStorage";
 import useAuthorizationService from "../../hooks/useAuthorizationService";
 import useSchoolService from "../../hooks/useSchoolService";
+import ConfirmEmail from "../confirmEmail/ConfirmEmail";
 
 const Register = (props: RegisterProps) => {
-    const [schools, setSchools] = useState<School[]>([]);
     const [firstname, setFirstname] = useState<string>("");
     const [lastname, setLastName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
-    const [selectedSchool, setSelectedSchool] = useState<School>();
-    const [schoolProof, setSchoolProof] = useState<string>("");
+    const [schools, setSchools] = useState<School[]>([]);
+    const [selectedSchool, setSelectedSchool] = useState<School|undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [firstnameErrorMessage, setFirstnameErrorMessage] = useState<string|undefined>(undefined);
     const [lastnameErrorMessage, setLastnameErrorMessage] = useState<string|undefined>(undefined);
@@ -34,19 +35,20 @@ const Register = (props: RegisterProps) => {
     const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState<string|undefined>(undefined);
 
     const navigation = useNavigation<any>();
-    const storage = useStorage();
     const authorizationService = useAuthorizationService();
     const schoolService = useSchoolService();
-
+    
     useEffect(() => {
         schoolService.get()
             .then(res => {
                 setSchools(res)
+                setSelectedSchool(res[0])
             })
             .catch(err => console.log(err))
     }, [])
 
     const onPressRegister = async () => {
+        setIsLoading(true)
         try {
             var registerResponse = await authorizationService.register({
                 email: email,
@@ -57,6 +59,8 @@ const Register = (props: RegisterProps) => {
                 registerToNewsletter: false
             })
 
+            setIsLoading(false)
+
             if (!registerResponse) {
                 Toast.show({
                     type: "error",
@@ -65,15 +69,15 @@ const Register = (props: RegisterProps) => {
                 return;
             }
 
-            var loginResponse = await authorizationService.login(email, password)
-            
-            storage.set("token", loginResponse.accessToken)
-            navigation.navigate('ConfirmEmail')
+            navigation.navigate('ConfirmEmail', {
+                email: email
+            })
         }catch(err) {
             console.log(err)
+            setIsLoading(false)
         }
     }
-    
+
     const renderPersonnalInformations = () => {
         return (
             <View style={styles.inputContainer}>
@@ -93,6 +97,21 @@ const Register = (props: RegisterProps) => {
                     isOnError={lastnameErrorMessage != undefined}
                     errorMessage={lastnameErrorMessage}
                     autoCapitalize="words"/>
+
+                <View style={styles.dropDown}>
+                    <Picker
+                        selectedValue={selectedSchool}
+                        onValueChange={(itemValue, itemIndex) => setSelectedSchool(itemValue)}
+                        style={styles.dropDown}
+                        dropdownIconColor={ColorConstants.whiteMainColor}>
+                        {schools.map((school, index) => (
+                            <Picker.Item
+                                key={index}
+                                label={school.name}
+                                value={school}/>
+                        ))}
+                    </Picker>
+                </View>
             </View>
         )
     }
@@ -127,30 +146,6 @@ const Register = (props: RegisterProps) => {
                     isOnError={confirmPasswordErrorMessage !== undefined}
                     errorMessage={confirmPasswordErrorMessage}
                     autoCapitalize="none"/>
-            </View>
-        )
-    }
-
-    const renderSchoolProof = () => {
-        return (
-            <View style={styles.inputContainer}>
-                <View style={styles.dropDown}>
-                    <Picker
-                        selectedValue={selectedSchool}
-                        onValueChange={(itemValue, itemIndex) => setSelectedSchool(itemValue)}
-                        style={styles.dropDown}
-                        dropdownIconColor={ColorConstants.whiteMainColor}>
-                        {schools.map((school, index) => (
-                            <Picker.Item
-                                key={index}
-                                label={school.name}
-                                value={school}/>
-                        ))}
-                    </Picker>
-                </View>
-                <PhotoUploader
-                    maxPhoto={1}
-                    OnAddPhoto={setSchoolProof}/>
             </View>
         )
     }
@@ -207,22 +202,6 @@ const Register = (props: RegisterProps) => {
         return canGoNext
     }
 
-    const canGoNextSchoolConfirmation = () => {
-        if (schoolProof === undefined || schoolProof === ""){
-            Toast.show({
-                type: "error",
-                text1: "Veuillez ajouter une photo",
-                position: "top",
-                visibilityTime: 3000,
-                swipeable: true,
-            })
-
-            return false
-        }
-
-        return true;
-    }
-
     const steps : Step[] = [
         {
             name: "Informations personnelles",
@@ -236,18 +215,13 @@ const Register = (props: RegisterProps) => {
             renderContent: () => renderLoginInformations(),
             canGoNext: () => canGoNextLoginInformations()
         },
-        {
-            name: "Confirmation de l'école",
-            index: 2,
-            renderContent: () => renderSchoolProof(),
-            canGoNext: () => canGoNextSchoolConfirmation()
-        },
     ]
     return (
         <View style={styles.mainContainer}>
             <MultiStepForm 
                 steps={steps}
-                onPressSubmit={onPressRegister}/>
+                onPressSubmit={onPressRegister}
+                isLoading={isLoading}/>
         </View>
     )
 

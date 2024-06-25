@@ -7,5 +7,6 @@ export default interface MainButtonProps {
     fontColor? : string,
     onPress: () => void,
     style? : StyleProp<ViewStyle>,
-    disabled? : boolean
+    disabled? : boolean,
+    isLoading? : boolean
 }

@@ -7,6 +7,8 @@ import MainText from "../../modules/text/MainText"
 import { useNavigation } from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import Constants from "../../constants/Constants"
+import useAuthorizationService from "../../hooks/useAuthorizationService"
+import useEmailService from "../../hooks/useEmailService"
 
 const ResetPassword = (props: ResetPasswordProps) => {
     const [password, setPassword] = useState<string>("")
@@ -19,26 +21,37 @@ const ResetPassword = (props: ResetPasswordProps) => {
     const [codeErrorMessage, setCodeErrorMessage] = useState<string|undefined>(undefined)
     const [emailErrorMessage, setEmailErrorMessage] = useState<string|undefined>(undefined)
 
+    const [isLoading, setIsLoading] = useState(false)
+
+    const authorizationService = useAuthorizationService();
+    const emailService = useEmailService();
     const navigation = useNavigation<any>();
 
     const onSubmit = () => {
-        navigation.navigate('Login')
+        setIsLoading(true)
+        setCodeErrorMessage(undefined)
+
+        authorizationService.resetPassword(email, password, code).then((response) => {
+                setIsLoading(false)
+
+                if (!response) {
+                    setCodeErrorMessage("Code invalide")
+                    return;
+                }
+
+                Toast.show({
+                    type: "success",
+                    text1: "Mot de passe réinitialisé",
+                    text2: "Veuillez vous connecter à nouveau"
+                })
+
+                navigation.navigate('Login')
+        }).catch(err => {
+            setIsLoading(false)
+            console.log(err)
+        })
     }
 
-    const renderSecurity = () => {
-        return (
-            <View style={styles.inputContainer}> 
-                <MainInput
-                    containerStyle={styles.input}
-                    placeholderColor={ColorConstants.white70PercentColor}
-                    placeholder="Code"
-                    onChange={setCode}
-                    isOnError={codeErrorMessage !== undefined}
-                    errorMessage={codeErrorMessage} />
-            </View>
-        )
-    }
-    
     const canGoNextSecurity = () => {
         setCodeErrorMessage(undefined)
 
@@ -88,12 +101,20 @@ const ResetPassword = (props: ResetPasswordProps) => {
                 <MainInput
                     containerStyle={styles.input}
                     placeholderColor={ColorConstants.white70PercentColor}
+                    placeholder="Code"
+                    onChange={setCode}
+                    isOnError={codeErrorMessage !== undefined}
+                    errorMessage={codeErrorMessage} />
+                <MainInput
+                    containerStyle={styles.input}
+                    placeholderColor={ColorConstants.white70PercentColor}
                     placeholder="Nouveau mot de passe"
                     onChange={setPassword}
                     isOnError={passwordErrorMessage !== undefined}
                     errorMessage={passwordErrorMessage}
                     isSecret
-                    autoCapitalize="none"/>
+                    autoCapitalize="none"
+                    disabled={code === ""}/>
                 <MainInput
                     containerStyle={styles.input}
                     placeholderColor={ColorConstants.white70PercentColor}
@@ -102,7 +123,8 @@ const ResetPassword = (props: ResetPasswordProps) => {
                     isOnError={confirmPasswordErrorMessage !== undefined}
                     errorMessage={confirmPasswordErrorMessage}
                     isSecret
-                    autoCapitalize="none"/>
+                    autoCapitalize="none"
+                    disabled={code === "" && confirmPassword === ""}/>
             </View>
         )
     }
@@ -110,31 +132,42 @@ const ResetPassword = (props: ResetPasswordProps) => {
     const canGoNextResetPassword = () => {
         setPasswordErrorMessage(undefined)
         setConfirmPasswordErrorMessage(undefined)
+        setCodeErrorMessage(undefined)
+
+        let canGoNext = true;
 
         if (password === "") {
             setPasswordErrorMessage("Veuillez renseigner le nouveau mot de passe")
-            return false
+            canGoNext = false
         }
 
         if (confirmPassword === "") {
             setConfirmPasswordErrorMessage("Veuillez confirmer le nouveau mot de passe")
-            return false
+            canGoNext = false
         }
 
         if (password !== confirmPassword) {
             setConfirmPasswordErrorMessage("Les mots de passe ne sont pas identiques")
-            return false;
+            canGoNext = false;
         }
 
-        return true;
+        if (code === "") {
+            setCodeErrorMessage("Veuillez renseigner le code")
+            canGoNext = false
+        }
+
+        return canGoNext;
     }
 
     const onNext = (step: number) => {
         if (step == 0) {
             Toast.show({
                 type: "success",
-                text1: "Code envoyé"
+                text1: "Code envoyé !",
             })
+
+            emailService.sendResetPassword(email)
+            .catch(err => console.log(err))
         }
     }
 
@@ -144,15 +177,9 @@ const ResetPassword = (props: ResetPasswordProps) => {
             name: "Email",
             renderContent: () => renderEmail(),
             canGoNext: () => canGoNextEmail()
-        },
+        }, 
         {
             index: 1,
-            name: "Code",
-            renderContent: () => renderSecurity(),
-            canGoNext: () => canGoNextSecurity()
-        },
-        {
-            index: 2,
             name: "Réinitialisation du mot de passe",
             renderContent: () => renderResetPassword(),
             canGoNext: () => canGoNextResetPassword()

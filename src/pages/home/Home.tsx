@@ -13,7 +13,8 @@ import { useNavigation } from "@react-navigation/native"
 import EPostStatus from "../../models/enums/EPostStatus"
 import Context from "../../contexts/AuthContext/AuthContext";
 import useUserService from "../../hooks/useUserService"
-
+import Toast from "react-native-toast-message"
+import EUserState from "../../models/enums/EUserState"
 
 const Home = () => {
     console.log("---------------------------------")
@@ -30,8 +31,22 @@ const Home = () => {
         userService.get()
              .then(res => {
                 authContext!.setCurrentUser(res)
+                console.log(res)
+
+                if (res.state === EUserState.INACTIVE){
+                    Toast.show({
+                        type: "info",
+                        text1: "Appuyez ici pour valider votre école",
+                        text2: "Certaines fonctionnalitées sont désactivées tant que ce n'est pas fait.",
+                        swipeable: true,
+                        visibilityTime: 50000,
+                        onPress: () => navigation.navigate("Profile")
+                    })
+                }
              })
-             .catch(err => console.log(err))
+             .catch(err => {
+                console.log(err)
+            })
     }, [authContext!.token])
 
     const onPressSearch = (value: string) => {

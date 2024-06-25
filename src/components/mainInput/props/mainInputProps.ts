@@ -16,5 +16,7 @@ export default interface MainInputProps{
     errorMessage? : string,
     onError? : () => void,
     autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined,
-    keyboardType? : "email-address" | "numeric" | "phone-pad" | "default" | undefined
+    keyboardType? : "email-address" | "numeric" | "phone-pad" | "default" | undefined,
+    disabled? : boolean,
+    isLoading? : boolean
 }
