@@ -5,5 +5,6 @@ export default interface NavigateButtonProps {
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>
     redirectScreenName: string,
-    disabled?: boolean
+    disabled?: boolean,
+    onPress? : () => void
 }

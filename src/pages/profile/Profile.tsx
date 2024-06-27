@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import useStorage from "../../hooks/useStorage";
 import Loading from "../../modules/Loading/Loading";
 import SchoolProofSetting from "./settings/schoolProofSetting/SchoolProofSetting";
+import MainButton from "../../modules/mainButton/MainButton";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -136,8 +137,9 @@ const Settings = () => {
                 </NavigateButton>
                 <NavigateButton
                     redirectScreenName="SecuritySetting"
-                    style={styles.button}>
-                        <MainText weight={'500'} fontSize={13} text={"Sécurité"} />
+                    style={styles.button}
+                    onPress={() => navigation.navigate("ResetPassword")}>
+                        <MainText weight={'500'} fontSize={13} text={"Changer mon mot de passe"} />
                 </NavigateButton>
                 <NavigateButton
                     redirectScreenName="AboutSetting"

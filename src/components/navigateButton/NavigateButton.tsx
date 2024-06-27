@@ -9,6 +9,11 @@ const NavigateButton = (props : NavigateButtonProps) => {
     const navigation = useNavigation<any>();
     
     const onPress = () => {
+        if (props.onPress) {
+            props.onPress()
+            return;
+        }
+        
         navigation.navigate(props.redirectScreenName);
     }
     

@@ -16,7 +16,18 @@ const styles = StyleSheet.create({
     photo: {
         width: 150,
         height: 150
-    }
+    },
+    button: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: ColorConstants.purpleMainColor,
+        padding: 10,
+        width: 295,
+        marginTop: 20,
+        marginBottom: 70
+    },
 })
 
 export default styles;

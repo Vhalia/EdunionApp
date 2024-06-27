@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native"
 import { ColorConstants } from "../../constants/ThemeConstants"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import MultiStepForm, { Step } from "../../components/multiStepForm/MultiStepForm"
 import MainInput from "../../components/mainInput/MainInput"
 import MainText from "../../modules/text/MainText"
@@ -9,6 +9,7 @@ import Toast from "react-native-toast-message"
 import Constants from "../../constants/Constants"
 import useAuthorizationService from "../../hooks/useAuthorizationService"
 import useEmailService from "../../hooks/useEmailService"
+import Context from "../../contexts/AuthContext/AuthContext"
 
 const ResetPassword = (props: ResetPasswordProps) => {
     const [password, setPassword] = useState<string>("")
@@ -26,6 +27,15 @@ const ResetPassword = (props: ResetPasswordProps) => {
     const authorizationService = useAuthorizationService();
     const emailService = useEmailService();
     const navigation = useNavigation<any>();
+    const authContext = useContext(Context);
+
+    useEffect(() => {
+        console.log("oui");
+        
+       if (authContext?.currentUser?.email) {
+           setEmail(authContext?.currentUser.email)
+       }
+    }, [])
 
     const onSubmit = () => {
         setIsLoading(true)
@@ -52,17 +62,6 @@ const ResetPassword = (props: ResetPasswordProps) => {
         })
     }
 
-    const canGoNextSecurity = () => {
-        setCodeErrorMessage(undefined)
-
-        let canGoNext = true
-        if (code === "") {
-            setCodeErrorMessage("Veuillez renseigner le code")
-            canGoNext = false
-        }
-
-        return canGoNext;
-    }
 
     const renderEmail = () => {
        return (
@@ -74,7 +73,8 @@ const ResetPassword = (props: ResetPasswordProps) => {
                     onChange={setEmail}
                     isOnError={emailErrorMessage !== undefined}
                     errorMessage={emailErrorMessage}
-                    autoCapitalize="none"/>
+                    autoCapitalize="none"
+                    value={email}/>
             </View>
        ) 
     }

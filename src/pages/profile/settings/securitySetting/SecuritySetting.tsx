@@ -4,9 +4,12 @@ import { SubmitResult } from "../../../../modules/form/props/TextFormProps";
 import { ColorConstants } from "../../../../constants/ThemeConstants";
 import { useContext } from "react";
 import Context from "../../../../contexts/AuthContext/AuthContext";
+import useUserService from "../../../../hooks/useUserService";
 
 const SecuritySetting = () => {
     const authContext = useContext(Context)
+
+    const userService = useUserService();
     
     const onSubmit = (results : SubmitResult[]) => {
 
