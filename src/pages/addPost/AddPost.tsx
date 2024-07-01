@@ -14,7 +14,7 @@ const AddPost = () => {
                     fontSize={20}
                     text="Ajoute un article ou un cours"/>
             </View>
-            <PostEdit />
+            <PostEdit disableEditStatus={true}/>
         </View>
     )
 }

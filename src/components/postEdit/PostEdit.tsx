@@ -20,7 +20,7 @@ const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
     const routeParams = route.params as PostEditProps;
     const post = props.post ?? routeParams?.post;
-
+    
     const [categoryButtonSelected, setCategoryButtonSelected] = useState<EPostType>(post?.type ?? EPostType.BOOK);
     const [title, setTitle] = useState(post?.title ?? "");
     const [description, setDescription] = useState(post?.description ?? "");
@@ -55,95 +55,6 @@ const PostEdit = (props: PostEditProps) => {
         return styles.inactiveCategoryButton;
     }
 
-    const getTags = () : TagType[] => {
-        return [
-            {
-                name: "Mathématiques",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Physique",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Chimie",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Informatique",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Histoire",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Géographie",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Anglais",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Néerlandais",
-                category: {
-                    name: "Cours"
-                }
-            },
-            {
-                name: "Mauvais",
-                category: {
-                    name: "État"
-                }
-            },
-            {
-                name: "Neuf",
-                category: {
-                    name: "État"
-                }
-            },
-            {
-                name: "ok tier",
-                category: {
-                    name: "État"
-                }
-            },
-            {
-                name: "Français",
-                category: {
-                    name: "Langue"
-                }
-            },
-            {
-                name: "Néerlandais",
-                category: {
-                    name: "Langue"
-                }
-            },
-            {
-                name: "Anglais",
-                category: {
-                    name: "Langue"
-                }
-            },
-        ]
-    }
-
     const onSelectStatus = (value: string) => {
         if (!post)
             return;
@@ -157,7 +68,7 @@ const PostEdit = (props: PostEditProps) => {
             style={styles.mainContainer}>
 
             <View style={styles.contentContainer}>
-                <View style={[styles.informationsContainer, styles.gap]}>
+                {!props.disableEditStatus && <View style={[styles.informationsContainer, styles.gap]}>
 
                     <MainText weight="700" fontSize={18} text="Status"/>
 
@@ -171,7 +82,7 @@ const PostEdit = (props: PostEditProps) => {
                         ellipseSelectedColor={ColorConstants.purpleMainColor}
                         style={[styles.informations, styles.minorGap]}/>
 
-                </View>
+                </View>}
                 <View style={[styles.informationsContainer, styles.gap]}>
 
                     <MainText
@@ -269,7 +180,7 @@ const PostEdit = (props: PostEditProps) => {
                                 weight={'700'}
                                 fontSize={15}
                                 text="Tags"/> 
-                            <Tags tags={getTags()} selectedTags={post?.tags} multipleSelect={false}/>
+                            <Tags selectedTags={post?.tags} multipleSelect={false}/>
                         </View>
                     </View>
                 </View>

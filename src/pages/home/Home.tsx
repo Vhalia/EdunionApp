@@ -39,7 +39,7 @@ const Home = () => {
                         text1: "Appuyez ici pour valider votre école",
                         text2: "Certaines fonctionnalitées sont désactivées tant que ce n'est pas fait.",
                         swipeable: true,
-                        visibilityTime: 50000,
+                        visibilityTime: 30000,
                         onPress: () => navigation.navigate("Profile")
                     })
                 }

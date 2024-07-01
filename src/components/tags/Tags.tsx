@@ -5,40 +5,56 @@ import { View } from "react-native";
 import style from "./style/TagsStyle";
 import MainText from "../../modules/text/MainText";
 import Tag from "../tag/Tag";
+import useTagService from "../../hooks/useTagService";
+import Loading from "../../modules/Loading/Loading";
 
 const Tags = (props : TagsProps) => {
     const [activeTags, setActiveTags] = useState<TagType[]>(props.selectedTags ?? []);
-    const [tags, setTags] = useState<TagType[]>(props.tags);
-    const [tagsByCategory, setTagsByCategory] = useState<Map<string, TagType[]>>(
-        new Map<string, TagType[]>());
+    const [tags, setTags] = useState<TagType[]>(props.tags ?? []);
+    const [tagsByCategory, setTagsByCategory] = useState(new Map<string, TagType[]>());
+    const [isLoading, setIsLoading] = useState(false);
+
+    const tagService = useTagService();
 
     const multipleSelect = props.multipleSelect ?? true
 
     useEffect(() => {
+        setIsLoading(true)
+        
+        tagService.get()
+            .then((tags) => {
+                setTags([...tags, ...(props.tags??[])])
+                setIsLoading(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setIsLoading(false)
+            })
+    }, [props.tags])
+    
+    useEffect(() => {
         setTagsByCategory(orderTagsByCategory())
+        setIsLoading(false)
     }, [tags])
-
+    
     const orderTagsByCategory = () : Map<string, TagType[]> => {
         const tagsByCategory = new Map<string, TagType[]>();
-
-        props.tags.forEach(tag => {
+        
+        console.log(tags)
+        for (const tag of tags) {
             if (tagsByCategory.has(tag.category.name)) {
                 tagsByCategory.get(tag.category.name)?.push(tag);
             } else {
                 tagsByCategory.set(tag.category.name, [tag]);
             }
-        });
-
+        }
+        
         return tagsByCategory;
     }
 
     const onPressTag = (tag : TagType) => {
         if (activeTags.includes(tag)) {
-            if (!multipleSelect) {
-                setActiveTags([...activeTags.filter(activeTag => activeTag.category.name != tag.category.name), tag]);
-            }else{
-                setActiveTags(activeTags.filter(activeTag => activeTag !== tag));
-            }
+            setActiveTags(activeTags.filter(activeTag => activeTag !== tag));
         }else {
             if (!multipleSelect) {
                 setActiveTags([...activeTags.filter(activeTag => activeTag.category.name != tag.category.name), tag]);
@@ -46,7 +62,6 @@ const Tags = (props : TagsProps) => {
                 setActiveTags([...activeTags, tag]);
             }
         }
-        
     }
 
     const displayTags = (categoy: string, tags: TagType[], index: number) : React.JSX.Element => {
@@ -77,8 +92,11 @@ const Tags = (props : TagsProps) => {
 
     return(
         <View style={[style.tagsContainer, style.minorGap]}>
-            {
-                Array.from(tagsByCategory!.keys()).map((category, index) => {
+            {isLoading
+            ?
+                <Loading/>
+            :
+                Array.from(tagsByCategory.keys()).map((category, index) => {
                     return displayTags(category, tagsByCategory!.get(category) as TagType[], index);
                 })
             }
