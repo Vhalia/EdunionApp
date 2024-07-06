@@ -62,6 +62,8 @@ const Tags = (props : TagsProps) => {
                 setActiveTags([...activeTags, tag]);
             }
         }
+
+        props.onChange && props.onChange(activeTags);
     }
 
     const displayTags = (categoy: string, tags: TagType[], index: number) : React.JSX.Element => {

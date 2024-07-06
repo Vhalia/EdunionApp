@@ -128,11 +128,12 @@ const Settings = () => {
                         {isLoading ? 
                         <Loading /> :
                         <UserWithPicture
-                            userName={authContext!.currentUser?.firstName ?? ''}
+                            userName={authContext?.currentUser?.firstName ?? ''}
                             extraText="Voir mon profile"
                             userNameFontSize={14}
                             extraTextFontSize={12}
-                            pictureSize={39}/>
+                            pictureSize={39}
+                            picture={authContext?.currentUser?.picturePath}/>
                         }
                 </NavigateButton>
                 <NavigateButton

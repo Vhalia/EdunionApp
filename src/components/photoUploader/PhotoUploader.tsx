@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Alert, TouchableHighlight, ImageProps, ImageSourcePropType } from "react-native";
 import {launchImageLibrary, launchCamera,ImageLibraryOptions, ImagePickerResponse} from "react-native-image-picker";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import styles from "./style/photoUploaderStyle";
 import PhotoUploaderProps from "./props/photoUploaderProps";
 import PlusSVG from "../../../images/plus.svg"
+import File from "../../models/File";
+import Loading from "../../modules/Loading/Loading";
 
 
 const PhotoUploader = (props : PhotoUploaderProps) => {
-    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(props.photos ?? []);
+    const [selectedPhotos, setSelectedPhotos] = useState<File[]>(props.photos ?? []);
     const [photoViewerCount, setPhotoViewerCount] = useState<number>(!props.photos ? 1 : props.photos.length + 1);
 
     const maxPhotoCount = props.maxPhoto ?? 15;
@@ -16,9 +18,16 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
     const options : ImageLibraryOptions = {
         mediaType: "photo",
         quality: 1,
-        includeBase64: true,
+        includeBase64: false,
         selectionLimit: 0
     };
+
+    useEffect(() => {
+        if (!selectedPhotos || selectedPhotos.length === 0) {
+            setSelectedPhotos(props.photos ?? [])
+            setPhotoViewerCount(!props.photos ? 1 : props.photos.length + 1)
+        }
+    }, [props.photos]);
 
     const onAddPhotoPress = (index: number) => {
         addPhoto(index, () => setPhotoViewerCount(photoViewerCount + 1));
@@ -67,9 +76,10 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
     }
 
     const deletePhoto = (index: number) => {
-        selectedPhotos.splice(index, 1);
+        let files = selectedPhotos.splice(index, 1);
         setSelectedPhotos([...selectedPhotos]);
         setPhotoViewerCount(photoViewerCount - 1);
+        props.OnDeletePhoto && props.OnDeletePhoto(files[0]);
     }
 
     const takePhoto = (index: number, callback? : () => void) => {
@@ -98,19 +108,24 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
         if (!response.assets)
             return;
 
-        const base64OfImages = response.assets.map((asset) => asset.base64) as string[]; 
-        const tempUri = response.assets.map((asset) => asset.uri) as string[]; 
+        const files = response.assets.map((asset) => {
+            return {
+                uri: asset.uri,
+                type: asset.type,
+                name: asset.fileName
+            } as File
+        });
 
         if (index < selectedPhotos.length ){
-            selectedPhotos[index] = tempUri[0];
+            selectedPhotos[index] = files[0];
       
             setSelectedPhotos([...selectedPhotos]);
             if (props.OnAddPhoto)
-                props.OnAddPhoto(tempUri[0]);
+                props.OnAddPhoto(files[0]);
         }else{
-            setSelectedPhotos([...selectedPhotos, ...tempUri]);
+            setSelectedPhotos([...selectedPhotos, ...files]);
             if (props.OnAddPhoto)
-                props.OnAddPhoto(tempUri[0]);
+                props.OnAddPhoto(files[0]);
         }
     }
 
@@ -120,8 +135,12 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
 
             <View
                 style={[styles.photoContainer, props.photoContainerStyle]}>
+                {props.isLoading
+                ?
+                    <Loading />
+                :
 
-                {new Array(photoViewerCount).fill(0).map((_, index) => {
+                new Array(photoViewerCount).fill(0).map((_, index) => {
                     let isNext = index == selectedPhotos.length
                     let selectedPhoto = selectedPhotos[index]
 
@@ -129,9 +148,9 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                         return (<View key={index}></View>)
 
                     const source : ImageSourcePropType =
-                        (typeof selectedPhoto == "string" && selectedPhoto.includes("://"))
-                            ? { uri: selectedPhoto }
-                            : selectedPhoto as unknown as number
+                        (selectedPhoto && selectedPhoto.uri.includes("://"))
+                            ? { uri: selectedPhoto.uri }
+                            : selectedPhoto?.uri as unknown as number
 
                     return (
                         <TouchableHighlight

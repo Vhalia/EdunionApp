@@ -7,7 +7,7 @@ const UserWithPicture = (props: UserWithPictureProps) => {
     return(
         <View style={[props.style, styles.container]}>
             <Image
-                source={props.picture ?? require("../../../images/defaultProfilePicture.png")}
+                source={props.picture ? {uri: props.picture} : require("../../../images/defaultProfilePicture.png")}
                 style={[styles.imageStyle, {width: props.pictureSize ?? 50, height: props.pictureSize ?? 50}]}
                 resizeMode="cover"
                 borderRadius={55}/>

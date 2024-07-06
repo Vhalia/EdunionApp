@@ -56,7 +56,7 @@ const MainInput = (props: MainInputProps) => {
                     ? <Loading />
                     :
                     <TextInput
-                        style={[styles.inputs, props.style]}
+                        style={[styles.inputs, props.style, props.multiline ? {textAlignVertical: "top"} : {}]}
                         inputMode={props.inputMode}
                         onChangeText={onChangeText}
                         value={text}

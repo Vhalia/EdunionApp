@@ -68,7 +68,6 @@ const Navbar = (props : NavbarProps) => {
                 <Tab.Screen name="Add" component={AddPost} options={{title: 'Ajouter'}}/>
                 <Tab.Screen name="Management" component={PurchasesAndMyPosts} options={{title: 'Gestion'}}/>
                 <Tab.Screen name="Profile" component={Profile} options={{title: 'Profile'}}/>
-
         </Tab.Navigator>
     );
 }

@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackSecondaryColor,
         borderRadius: 14
     },
-    addTitleContainer : {
-
+    titles:{
+        marginLeft: 5
     },
     inputs : {
         backgroundColor: ColorConstants.greyMainColor,
@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
     },
     descriptionInput : {
         textAlignVertical: "top",
+    },
+    priceInput: {
+        alignItems: "center",
+        width: 60
     },
     categoryButtonsContainer : {
         display: 'flex',

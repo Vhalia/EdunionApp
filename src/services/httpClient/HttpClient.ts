@@ -6,7 +6,6 @@ import MultipartFormData from "../../models/MultipartFormData";
 
 const HttpClient = {
     get: async <T,>(url: string, token?: string) : Promise<T> => {
-        console.log(url, getFullUrl(url))
         try{
             const response = await fetch(getFullUrl(url), {
                 headers: {
@@ -51,6 +50,14 @@ const HttpClient = {
             const formData = new FormData();
       
             for(const data of datas) {
+                if (Array.isArray(data.value))
+                {
+                    for (const ele of data.value) {
+                        formData.append(data.key, ele);
+                    }
+                    continue
+                }
+
                 formData.append(data.key, data.value);
             }
             const response = await fetch(getFullUrl(url), {
@@ -95,6 +102,33 @@ const HttpClient = {
             throw new ApiError(error as string);
         }
         
+    },
+    putMultipartFormData : async <T,>(url: string, datas: MultipartFormData[], token?: string) : Promise<T> => {
+        try {
+            const formData = new FormData();
+      
+            for(const data of datas) {
+                formData.append(data.key, data.value);
+            }
+            const response = await fetch(getFullUrl(url), {
+                method: 'PUT',
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : '',
+                    'Content-Type': 'multipart/form-data'
+                },
+                body: formData
+            });
+            
+            if (!response.ok){
+                await handleFailedRequest(response)
+            }
+    
+            const responseJson = await response.json() as ApiResponse;
+            return responseJson.data;
+        }catch(error){
+            handleApiError(error)
+            throw new ApiError(error as string);
+        }
     },
     delete: async (url: string, token?: string) => {
         try {

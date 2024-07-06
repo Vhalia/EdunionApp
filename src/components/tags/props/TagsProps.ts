@@ -3,5 +3,6 @@ import { Tag } from "../../../models/Tag";
 export default interface TagsProps {
     tags ?: Tag[],
     selectedTags ? : Tag[],
-    multipleSelect? : boolean
+    multipleSelect? : boolean,
+    onChange? (tags: Tag[]) : void
 }

@@ -12,6 +12,7 @@ import useSchoolService from "../../../../hooks/useSchoolService"
 import MainButton from "../../../../modules/mainButton/MainButton"
 import useUserService from "../../../../hooks/useUserService"
 import Toast from "react-native-toast-message"
+import File from "../../../../models/File"
 
 const ProfileSetting = () => {
     const authContext = useContext(AuthContext)
@@ -22,6 +23,8 @@ const ProfileSetting = () => {
     const [description, setDescription] = useState(currentUser?.description)
     const [schoolYear, setSchoolYear] = useState(currentUser?.schoolYear)
     const [school, setSchool] = useState<School>()
+    const [profilePicture, setProfilePicture] = useState<File|undefined>(
+        currentUser?.picturePath ? {uri: currentUser?.picturePath} as File : undefined)
     const [isLoading, setIsLoading] = useState(false)
 
     const schoolService = useSchoolService()
@@ -50,10 +53,21 @@ const ProfileSetting = () => {
                 lastName: lastname ?? "",
                 schoolYear: schoolYear ?? 1,
             })
+            if (!profilePicture
+                || (profilePicture && profilePicture.uri != currentUser?.picturePath)) {
+                
+                await userService.updateProfilePicture(profilePicture!)
+            }
+
+            
             Toast.show({
                 type: "success",
                 text1: "Profile mis à jour"
             })
+
+            var updatedUser = await userService.get()
+            authContext!.setCurrentUser(updatedUser)
+
             setIsLoading(false)
         }catch (err) {
             setIsLoading(false)
@@ -83,11 +97,14 @@ const ProfileSetting = () => {
             overScrollMode="never">
             <PhotoUploader
                 maxPhoto={1}
-                photos={currentUser?.picturePath ? [currentUser?.picturePath!] : []}
+                photos={profilePicture ? [profilePicture] : []}
                 style={{width: 163, padding: 1, backgroundColor: ColorConstants.blackMainColor}}
-                photoStyle={styles.photo}/>
+                photoStyle={styles.photo}
+                OnAddPhoto={(value) => setProfilePicture(value)}
+                OnDeletePhoto={(_) => setProfilePicture(undefined)}/>
             <View style={styles.bigGap}>
                 <MainText
+                    style={styles.title}
                     weight={'700'}
                     fontSize={15}
                     text="Prénom"/>
@@ -99,6 +116,7 @@ const ProfileSetting = () => {
             </View>
             <View style={styles.bigGap}>
                 <MainText
+                    style={styles.title}
                     weight={'700'}
                     fontSize={15}
                     text="Nom de famille"/>
@@ -110,6 +128,7 @@ const ProfileSetting = () => {
             </View>
             <View style={styles.bigGap}>
                 <MainText
+                    style={styles.title}
                     weight={'700'}
                     fontSize={15}
                     text="Bio"/>
@@ -123,6 +142,7 @@ const ProfileSetting = () => {
             </View>
             <View style={styles.bigGap}>
                 <MainText
+                    style={styles.title}
                     weight={'700'}
                     fontSize={15}
                     text="Année scolaire"/>
@@ -134,6 +154,7 @@ const ProfileSetting = () => {
             </View>
             <View style={[styles.bigGap, {marginBottom: 20}]}>
                 <MainText
+                    style={styles.title}
                     weight={'700'}
                     fontSize={15}
                     text="Ecole"/>

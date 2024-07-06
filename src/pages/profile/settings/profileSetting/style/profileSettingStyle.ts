@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     bigGap : {
         marginTop: 20
     },
+    title:{
+        marginLeft: 3
+    },
     photo: {
         width: 150,
         height: 150

@@ -15,6 +15,8 @@ import { useRoute } from "@react-navigation/native";
 import SelectList from "../../modules/SelectList/SelectList";
 import EPostStatus, { PostStatusToString } from "../../models/enums/EPostStatus";
 import { getEnumValue } from "../../utils/utils";
+import File from "../../models/File";
+import MainButton from "../../modules/mainButton/MainButton";
 
 const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
@@ -24,7 +26,12 @@ const PostEdit = (props: PostEditProps) => {
     const [categoryButtonSelected, setCategoryButtonSelected] = useState<EPostType>(post?.type ?? EPostType.BOOK);
     const [title, setTitle] = useState(post?.title ?? "");
     const [description, setDescription] = useState(post?.description ?? "");
-    const [photos, setPhotos] = useState<string[]>(post?.blobPaths ?? []);
+    const photoFiles = post?.blobPaths?.map(p => { return {uri: p} as File}) ?? [];
+    const [photos, setPhotos] = useState<File[]>(photoFiles);
+    const [price, setPrice] = useState(post?.price ?? 0);
+    const [postStatus, setPostStatus] = useState<EPostStatus>(post?.status ?? EPostStatus.CREATED);
+    const [activeTags, setActiveTags] = useState<TagType[]>(post?.tags ?? []);
+
     const status : string[] = Object.values(EPostStatus)
         .filter(value => value != EPostStatus.CREATED)
         .map(value => PostStatusToString(value))
@@ -37,15 +44,12 @@ const PostEdit = (props: PostEditProps) => {
         setDescription(value);
     }
 
-    const onAddPhoto = (photoUri: string) => {
-       setPhotos([...photos, photoUri]); 
+    const onAddPhoto = (photo: File) => {
+       setPhotos([...photos, photo]); 
     }
 
     const onCategoryButtonPress = (category: EPostType) => {
         setCategoryButtonSelected(category);
-    }
-
-    const onAddButtonPress = () => {
     }
 
     const applyCategoryButtonStyle = (category: EPostType) => {
@@ -54,14 +58,38 @@ const PostEdit = (props: PostEditProps) => {
         }
         return styles.inactiveCategoryButton;
     }
-
+    
     const onSelectStatus = (value: string) => {
         if (!post)
             return;
-
-        post.status = getEnumValue(EPostStatus, value)
+        
+        setPostStatus(getEnumValue(EPostStatus, value))
     }
 
+    const onAddButtonPress = () => {
+        props.onAddButtonPress && props.onAddButtonPress({
+            id: 0,
+            title: title,
+            description: description,
+            price: price,
+            type: categoryButtonSelected,
+            tags: activeTags
+        },
+        photos);
+    }
+
+    const onModifyButtonPress = () => {
+        props.onModifyButtonPress && props.onModifyButtonPress({
+            id: post!.id,
+            title: title,
+            description: description,
+            price: price,
+            type: categoryButtonSelected,
+            tags: activeTags
+        },
+        photos);
+    }
+    
     return (
         
         <ScrollView
@@ -70,11 +98,11 @@ const PostEdit = (props: PostEditProps) => {
             <View style={styles.contentContainer}>
                 {!props.disableEditStatus && <View style={[styles.informationsContainer, styles.gap]}>
 
-                    <MainText weight="700" fontSize={18} text="Status"/>
+                    <MainText style={styles.titles} weight="700" fontSize={18} text="Status"/>
 
                     <SelectList
                         data={status}
-                        initialSelected={post?.status ?? EPostStatus.CREATED}
+                        initialSelected={post?.status ?? postStatus}
                         onSelect={onSelectStatus}
                         orientation="horizontal"
                         elementStyle={{backgroundColor: "rgba(0,0,0,0)"}}
@@ -86,6 +114,7 @@ const PostEdit = (props: PostEditProps) => {
                 <View style={[styles.informationsContainer, styles.gap]}>
 
                     <MainText
+                        style={styles.titles}
                         weight={'700'}
                         fontSize={18}
                         text="Photos"/>
@@ -101,6 +130,7 @@ const PostEdit = (props: PostEditProps) => {
                     style={[styles.informationsContainer, styles.gap]}>
 
                     <MainText
+                        style={styles.titles}
                         weight={'700'}
                         fontSize={18}
                         text="Informations"/>
@@ -176,31 +206,60 @@ const PostEdit = (props: PostEditProps) => {
                         </View>
 
                         <View style={[styles.gap]}>
+                             <MainText
+                                weight={'700'}
+                                fontSize={15}
+                                text="Prix"/>            
+                            <MainInput
+                                inputMode="numeric"
+                                value={price?.toString()+" €"}
+                                style={[styles.inputs, styles.minorGap, styles.priceInput]}
+                                onChange={(value) => setPrice(parseInt(value.substring(0, value.length - 2)))}/>
+                        </View>
+
+                        <View style={[styles.gap]}>
                             <MainText
                                 weight={'700'}
                                 fontSize={15}
                                 text="Tags"/> 
-                            <Tags selectedTags={post?.tags} multipleSelect={false}/>
+                            <Tags
+                                selectedTags={activeTags}
+                                multipleSelect={false}
+                                onChange={(tags) => setActiveTags(tags)}/>
                         </View>
                     </View>
                 </View>
 
-                <TouchableHighlight
-                    style={styles.gap}
-                    onPress={onAddButtonPress}>
-
-                    <View
-                        style={[styles.addButton]}>
+            {categoryButtonSelected === EPostType.BOOK &&
+                <View style={[styles.gap, styles.informationsContainer]}>
+                    <MainText
+                        text="Livre"
+                        fontSize={18}
+                        weight="700"/>
+                    <View style={styles.informations}>
                         <MainText
-                            weight={'700'}
-                            fontSize={15}
-                            text={post ? "Modifier" : "Ajouter"}/>
+                            text="Titre"
+                            fontSize={16}
+                            weight="700"/>
+                        <MainInput
+                            placeholder="Par exemple: livre de mathématiques"
+                            placeholderColor={ColorConstants.white70PercentColor}
+                            inputMode="text"
+                            onChange={onTitleInputTextChange}
+                            style={[styles.inputs, styles.minorGap]}
+                            value={title}/>
                     </View>
+                </View>
+            }
 
-                </TouchableHighlight>
+                <MainButton
+                    style={[styles.gap, styles.addButton]}
+                    text={post ? "Modifier" : "Ajouter"}
+                    fontSize={15}
+                    fontWeight="700"
+                    onPress={post ? onModifyButtonPress : onAddButtonPress}
+                    isLoading={props.isLoading}/>
             </View>
-
-            
 
         </ScrollView>
     );

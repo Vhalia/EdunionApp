@@ -25,13 +25,12 @@ const Home = () => {
     const userService = useUserService();
 
     useEffect(() => {
-        if (!authContext!.token)
+        if (!authContext?.token)
             return;
         
         userService.get()
              .then(res => {
                 authContext!.setCurrentUser(res)
-                console.log(res)
 
                 if (res.state === EUserState.INACTIVE){
                     Toast.show({

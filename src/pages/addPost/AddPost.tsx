@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PostEdit from '../../components/postEdit/PostEdit';
 import { View } from 'react-native';
 import MainText from '../../modules/text/MainText';
 import styles from './style/addPostStyle';
+import usePostService from '../../hooks/usePostService';
+import AddEditPostDto from '../../models/DTO/AddEditPostDto';
+import File from '../../models/File';
 
 const AddPost = () => {
+    const postService = usePostService();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onSubmit = async (newPost: AddEditPostDto, photos: File[]) => {
+        setIsLoading(true)
+        try {
+            const id = await postService.post(newPost);
+            await postService.addPhotos(id, photos)
+            setIsLoading(false)
+        }catch(err) {
+            console.log(err);
+            setIsLoading(false)
+        }
+    }
+
     return (
         <View style={styles.mainContainer}>
             <View
@@ -14,7 +32,10 @@ const AddPost = () => {
                     fontSize={20}
                     text="Ajoute un article ou un cours"/>
             </View>
-            <PostEdit disableEditStatus={true}/>
+            <PostEdit
+                disableEditStatus={true}
+                onAddButtonPress={onSubmit}
+                isLoading={isLoading}/>
         </View>
     )
 }
