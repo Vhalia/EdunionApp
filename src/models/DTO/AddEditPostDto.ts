@@ -1,11 +1,15 @@
+import Book from "../Book";
 import EPostType from "../enums/EPostType";
-import { Tag } from "../Tag";
+import Schedule from "../Schedule";
 
 export default interface AddEditPostDto{
     id: number,
     title: string,
+    shortDescription: string,
     description: string,
     price: number,
     type: EPostType,
-    tags: Tag[]
+    tags: number[],
+    books? : Book[],
+    schedules? : Schedule[]
 }

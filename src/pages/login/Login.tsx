@@ -41,6 +41,7 @@ const Login = () => {
 
         authorizationService.login(email, password)
             .then(res => {
+                console.log('LOGIN TOKEN', res.accessToken)
                 storage.set("token", res.accessToken)
                 authContext!.setToken(res.accessToken)
                 setIsLoading(false)

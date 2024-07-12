@@ -1,3 +1,5 @@
+import Book from "./Book";
+import Schedule from "./Schedule";
 import { Tag } from "./Tag";
 import User from "./User";
 import EPostStatus from "./enums/EPostStatus";
@@ -13,5 +15,7 @@ export default interface Post {
     user: User,
     type : EPostType,
     status: EPostStatus,
-    tags: Tag[]
+    tags: Tag[],
+    books?: Book[],
+    schedules?: Schedule[]
 }

@@ -6,6 +6,8 @@ export default interface ButtonWithIconProps {
     children : ReactElement | ReactElement[],
     iconStyle? : SvgProps,
     onPress : () => void,
-    style: StyleProp<ViewStyle>
+    containerStyle? : StyleProp<ViewStyle>,
+    style?: StyleProp<ViewStyle>,
+    underlayColor?: string
 }
 

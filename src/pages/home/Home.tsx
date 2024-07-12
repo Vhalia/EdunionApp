@@ -45,6 +45,7 @@ const Home = () => {
              })
              .catch(err => {
                 console.log(err)
+                navigation.navigate("Login")
             })
     }, [authContext!.token])
 

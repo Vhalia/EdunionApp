@@ -5,12 +5,13 @@ import useStorage from "../../hooks/useStorage";
 import { useContext, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Context from "../../contexts/AuthContext/AuthContext";
+import useUserService from "../../hooks/useUserService";
 
 const SplashScreen = () => {
     const storage = useStorage();
     const navigation = useNavigation<any>();
     const authContext = useContext(Context)
-
+ 
     useEffect(() => {
         storage.get<string>("token")
             .then(token => {
@@ -21,6 +22,11 @@ const SplashScreen = () => {
                 }else{
                     navigation.navigate("Login")
                 }
+
+            })
+            .catch(err => {
+                console.log(err)
+                navigation.navigate("Login")
             })
     }, [])
     

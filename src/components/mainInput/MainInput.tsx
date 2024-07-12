@@ -1,4 +1,4 @@
-import { TextInput, TouchableOpacity, View } from "react-native"
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 import MainInputProps from "./props/mainInputProps";
 import styles from "./style/mainInputStyle";
 import EyeOpenSVG from "../../../images/eye-open.svg";
@@ -69,7 +69,8 @@ const MainInput = (props: MainInputProps) => {
                         autoCapitalize={props.autoCapitalize ?? "sentences"}
                         keyboardType={props.keyboardType}
                         editable={!props.disabled}
-                        selectTextOnFocus={!props.disabled}/>
+                        selectTextOnFocus={!props.disabled}
+                        maxLength={props.maxLength}/>
                 }
 
                 {props.isSecret &&

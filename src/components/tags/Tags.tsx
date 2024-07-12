@@ -40,7 +40,6 @@ const Tags = (props : TagsProps) => {
     const orderTagsByCategory = () : Map<string, TagType[]> => {
         const tagsByCategory = new Map<string, TagType[]>();
         
-        console.log(tags)
         for (const tag of tags) {
             if (tagsByCategory.has(tag.category.name)) {
                 tagsByCategory.get(tag.category.name)?.push(tag);
@@ -70,8 +69,14 @@ const Tags = (props : TagsProps) => {
         return (
             <View
                 key={index}
-                style={[style.tagCategoryContainer, style.minorGap]}>
+                style={[style.tagCategoryContainer]}>
+                {isLoading
+                ?
+                    <Loading/>
+                :
+                <>
                 <MainText
+                    style={index > 0 ? style.gap : {}}
                     weight={'500'}
                     fontSize={15}
                     text={categoy}/>
@@ -88,6 +93,7 @@ const Tags = (props : TagsProps) => {
                     })
                     }
                 </View>
+                </>}
             </View>
         )
     }

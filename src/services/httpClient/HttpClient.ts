@@ -3,6 +3,8 @@ import ApiErrorResponse from "../../models/ApiErrorResponse";
 import ApiError from "../../models/ApiError";
 import Toast from "react-native-toast-message";
 import MultipartFormData from "../../models/MultipartFormData";
+import { isJson } from "../../utils/utils";
+import { useNavigation } from "@react-navigation/native";
 
 const HttpClient = {
     get: async <T,>(url: string, token?: string) : Promise<T> => {
@@ -182,7 +184,10 @@ const handleApiError = (error: any, handleError: boolean = true) => {
             })
         }
 
-
+        if (isJson(error.error)){
+            error.message = JSON.stringify(error.error)
+        }
+        
         throw error;
     }
 

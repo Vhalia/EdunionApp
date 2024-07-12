@@ -3,7 +3,7 @@ import ButtonWithIconProps from "./props/buttonWithIconProps";
 
 const ButtonWithIcon = (props : ButtonWithIconProps) => {
     return (
-        <TouchableHighlight onPress={props.onPress}>
+        <TouchableHighlight style={props.containerStyle} onPress={props.onPress} underlayColor={props.underlayColor}>
             <View style={props.style}>
                 {props.children}
             </View>

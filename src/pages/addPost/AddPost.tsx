@@ -6,17 +6,23 @@ import styles from './style/addPostStyle';
 import usePostService from '../../hooks/usePostService';
 import AddEditPostDto from '../../models/DTO/AddEditPostDto';
 import File from '../../models/File';
+import { useNavigation } from '@react-navigation/native';
 
 const AddPost = () => {
     const postService = usePostService();
     const [isLoading, setIsLoading] = useState(false);
 
+    const navigation = useNavigation<any>();
+
     const onSubmit = async (newPost: AddEditPostDto, photos: File[]) => {
+        console.log("SUBMIT", newPost);
         setIsLoading(true)
         try {
             const id = await postService.post(newPost);
             await postService.addPhotos(id, photos)
             setIsLoading(false)
+
+            navigation.navigate("Post", {postId: id})
         }catch(err) {
             console.log(err);
             setIsLoading(false)

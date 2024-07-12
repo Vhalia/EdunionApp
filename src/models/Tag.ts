@@ -4,6 +4,7 @@ interface Category {
 }
 
 interface Tag {
+    id: number,
     name: string
     category: Category
 }

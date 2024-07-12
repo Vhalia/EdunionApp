@@ -107,6 +107,79 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 8,
         width: 350
+    },
+    booksMainContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+    },
+    booksContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+        flex: 1
+    },
+    bookButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: ColorConstants.purpleDark,
+        padding: 10,
+        borderRadius: 8,
+        width: 100
+    },
+    addBookButton: {
+        backgroundColor: ColorConstants.purpleMainColor,
+        width: 50
+    },
+    addBookModalContent: {
+        display: 'flex',
+        flex: 0.90,
+        backgroundColor: ColorConstants.blackMainColor,
+    },
+    addBookModelCloseButton: {
+        width: "100%",
+        display: 'flex',
+        flex: 0.1,
+        backgroundColor: ColorConstants.blackMainColor,
+        alignItems: 'flex-end',
+    },
+    modalInputs: {
+        backgroundColor: ColorConstants.greyMainColor,
+        borderRadius: 14,
+        color: ColorConstants.whiteMainColor,
+        width: "100%",
+    },
+    scheduleMainContainer: {
+        display: 'flex',
+        gap: 10
+    },
+    scheduleContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10 
+    },
+    schedule: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: ColorConstants.greyMainColor,
+        padding: 10,
+        borderRadius: 8,
+        width: '100%'
+    },
+    scheduleDate: {
+        width: 140,
+    },
+    scheduleTime: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10
     }
 })
 

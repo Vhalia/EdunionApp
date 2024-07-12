@@ -14,7 +14,6 @@ import { ColorConstants } from './constants/ThemeConstants';
 import Toast, { ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-message';
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import ConfirmEmail from './pages/confirmEmail/ConfirmEmail';
-import useStorage from './hooks/useStorage';
 import SplashScreen from './pages/splashScreen/SplashScreen';
 
 const Stack = createNativeStackNavigator();

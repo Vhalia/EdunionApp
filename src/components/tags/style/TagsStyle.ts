@@ -16,6 +16,9 @@ const style = StyleSheet.create({
     minorGap: {
         marginTop: 5
     },
+    gap: {
+        marginTop: 10
+    },
 })
 
 export default style;

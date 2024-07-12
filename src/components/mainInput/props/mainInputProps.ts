@@ -18,5 +18,6 @@ export default interface MainInputProps{
     autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined,
     keyboardType? : "email-address" | "numeric" | "phone-pad" | "default" | undefined,
     disabled? : boolean,
-    isLoading? : boolean
+    isLoading? : boolean,
+    maxLength? : number
 }
