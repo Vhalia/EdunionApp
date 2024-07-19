@@ -23,6 +23,7 @@ import CloseSVG from "../../../images/close.svg";
 import Schedule from "../../models/Schedule";
 import dayjs from "dayjs";
 import MainDatePicker from "../../modules/mainDatePicker/MainDatePicker";
+import PostTypeSelector from "../postTypeSelector/PostTypeSelector";
 
 const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
@@ -71,13 +72,6 @@ const PostEdit = (props: PostEditProps) => {
 
     const onCategoryButtonPress = (category: EPostType) => {
         setPostType(category);
-    }
-
-    const applyCategoryButtonStyle = (category: EPostType) => {
-        if (postType === category) {
-            return styles.activeCategoryButton;
-        }
-        return styles.inactiveCategoryButton;
     }
     
     const onSelectStatus = (value: string) => {
@@ -268,34 +262,9 @@ const PostEdit = (props: PostEditProps) => {
                                 fontSize={15}
                                 text="Catégorie"/> 
 
-                            <View style={[styles.categoryButtonsContainer, styles.minorGap]}>
-                                
-                                <TouchableHighlight
-                                    onPress={() => onCategoryButtonPress(EPostType.BOOK)}>
-                                    <View
-                                        style={[styles.categoryButton, applyCategoryButtonStyle(EPostType.BOOK)]}>
-                                        <BookSVG color={applyCategoryButtonStyle(EPostType.BOOK).color} />
-                                        <MainText
-                                            weight={'700'}
-                                            fontSize={12}
-                                            text="Livre"
-                                            style={[styles.categoyButtonText, applyCategoryButtonStyle(EPostType.BOOK)]}/> 
-                                    </View>
-                                </TouchableHighlight>
-                                <TouchableHighlight
-                                    onPress={() => onCategoryButtonPress(EPostType.COURSE)}>
-                                    <View
-                                        style={[styles.categoryButton, applyCategoryButtonStyle(EPostType.COURSE)]}>
-                                        <CourseSVG color={applyCategoryButtonStyle(EPostType.COURSE).color} />
-                                        <MainText
-                                            weight={'700'}
-                                            fontSize={12}
-                                            text="Cours"
-                                            style={[styles.categoyButtonText, applyCategoryButtonStyle(EPostType.COURSE)]}/> 
-                                    </View>
-                                </TouchableHighlight>
-
-                            </View>
+                            <PostTypeSelector
+                                postType={postType}
+                                onChange={onCategoryButtonPress}/>
                         </View>
 
                         <View style={[styles.gap]}>

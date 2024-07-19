@@ -30,9 +30,9 @@ const usePostService = () => {
 
             return HttpClient.get<PagedResponseDto<Post>>(
                 "/api/post/detailed?count="+count+"&startIndex="+startIndex
-                    +(postType ? "&type="+postType : "")
+                    +(postType ? "&posttype="+postType : "")
                     +(search ? "&search="+search : "")
-                    +(tagIds ? "&tagIds="+tagIds.join("%2B") : ""),
+                    +((tagIds && tagIds.length > 0) ? "&tagIds="+tagIds.join("%2B") : ""),
                 authContext?.token);
         }
     }

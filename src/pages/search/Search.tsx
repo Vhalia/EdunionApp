@@ -17,6 +17,9 @@ import Tags from "../../components/tags/Tags";
 import { Tag } from "../../models/Tag";
 import useTagService from "../../hooks/useTagService";
 import MainButton from "../../modules/mainButton/MainButton";
+import BookSVG from '../../../images/book.svg';
+import CourseSVG from '../../../images/course.svg';
+import PostTypeSelector from "../../components/postTypeSelector/PostTypeSelector";
 
 const Search = () => {
     const [searchInputText, setSearchInputText] = useState("");
@@ -27,6 +30,7 @@ const Search = () => {
     const [isRefreshing, setIsRefreshing] = useState(true);
     const [tags, setTags] = useState<Tag[]>([]);
     const [activeTags, setActiveTags] = useState<Tag[]>([]);
+    const [postType, setPostType] = useState<EPostType|undefined>(undefined);
 
     const defaultSearchCount = 6
     const onEndSearchCount = 2
@@ -41,7 +45,7 @@ const Search = () => {
             return;
 
         setIsLoading(true)
-        getPosts(undefined, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id)).then((posts) => {
+        getPosts(postType, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id)).then((posts) => {
             setIsLoading(false)
             setIsRefreshing(false)
             if (posts){
@@ -92,7 +96,7 @@ const Search = () => {
 
     const onEndReached = async () => {
         if (!isLoading){
-            const newPosts = await getPosts(undefined, onEndSearchCount, currentIndex, searchInputText, activeTags.map((tag) => tag.id))
+            const newPosts = await getPosts(postType, onEndSearchCount, currentIndex, searchInputText, activeTags.map((tag) => tag.id))
             if (newPosts) {
                 setPosts([...posts, ...newPosts])
             }
@@ -104,7 +108,7 @@ const Search = () => {
             return;
 
         setSearchInputText(value)
-        const searchedPosts = await getPosts(undefined, defaultSearchCount, 0, value, activeTags.map((tag) => tag.id))
+        const searchedPosts = await getPosts(postType, defaultSearchCount, 0, value, activeTags.map((tag) => tag.id))
         if (searchedPosts) {
             setPosts([...searchedPosts])
         }else {
@@ -115,7 +119,7 @@ const Search = () => {
     const onPressAdvancedSearchConfirmed = async () => {
         showAdvancedSearch(false);
 
-        const searchedPosts = await getPosts(undefined, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id))
+        const searchedPosts = await getPosts(postType, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id))
         if (searchedPosts) {
             setPosts([...searchedPosts])
         }else {
@@ -130,6 +134,10 @@ const Search = () => {
 
     const onChangeTags = (tags: []) => {
         setActiveTags([...tags])
+    }
+
+    const onChangePostType = (postType?: EPostType) => {
+        setPostType(postType)
     }
 
     return(
@@ -171,6 +179,15 @@ const Search = () => {
                             tags={tags}
                             selectedTags={activeTags}
                             onChange={onChangeTags}/>
+
+                        <PostTypeSelector
+                            inactiveTypeBackgroundColor={ColorConstants.blackMainColor}
+                            inactiveTypeColor={ColorConstants.whiteMainColor}
+                            style={{marginTop: 20}}
+                            canSelectNone
+                            onChange={onChangePostType}
+                            postType={postType}/>
+
                         <MainButton
                             text="Rechercher"
                             onPress={onPressAdvancedSearchConfirmed}

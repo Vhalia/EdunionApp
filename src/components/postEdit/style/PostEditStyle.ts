@@ -71,33 +71,7 @@ const styles = StyleSheet.create({
     priceInput: {
         alignItems: "center",
         width: 60
-    },
-    categoryButtonsContainer : {
-        display: 'flex',
-        flexDirection: 'row',
-        width: "80%",
-        alignItems: 'center'
-    },
-    categoryButton : {
-        padding: 10,
-        borderRadius: 14,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginRight: 10
-    },
-    activeCategoryButton : {
-        backgroundColor: ColorConstants.purpleMainColor,
-        color: ColorConstants.whiteMainColor,
-    },
-    inactiveCategoryButton : {
-        backgroundColor: ColorConstants.greyMainColor,
-        color: ColorConstants.white70PercentColor,
-    },
-    categoyButtonText : {
-        marginLeft: 5,
-    },
+    }, 
     addButton: {
         display: 'flex',
         justifyContent: 'center',
