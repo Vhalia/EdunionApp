@@ -23,7 +23,6 @@ import CloseSVG from "../../../images/close.svg";
 import Schedule from "../../models/Schedule";
 import dayjs from "dayjs";
 import MainDatePicker from "../../modules/mainDatePicker/MainDatePicker";
-import Toast from "react-native-toast-message";
 
 const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
@@ -44,10 +43,19 @@ const PostEdit = (props: PostEditProps) => {
         startDate: dayjs().toDate(),
         endDate: dayjs().add(1, 'hour').toDate()
     }]);
+    
+    const [titleErrorMessage, setTitleErrorMessage] = useState<string|undefined>();
+    const [descriptionErrorMessage, setDescriptionErrorMessage] = useState<string|undefined>();
 
     const status : string[] = Object.values(EPostStatus)
         .filter(value => value != EPostStatus.CREATED)
         .map(value => PostStatusToString(value))
+
+    useEffect(() => {
+       if(props.resetState) {
+           resetStates()
+       }
+    }, [props.resetState])
 
     const onTitleInputTextChange = (value: string) => {
         setTitle(value);
@@ -80,6 +88,9 @@ const PostEdit = (props: PostEditProps) => {
     }
 
     const onAddButtonPress = () => {
+        if (!validatePost())
+            return;
+
         props.onAddButtonPress && props.onAddButtonPress({
             id: 0,
             title: title,
@@ -95,6 +106,9 @@ const PostEdit = (props: PostEditProps) => {
     }
 
     const onModifyButtonPress = () => {
+        if (!validatePost())
+            return;
+
         props.onModifyButtonPress && props.onModifyButtonPress({
             id: post!.id,
             title: title,
@@ -107,6 +121,41 @@ const PostEdit = (props: PostEditProps) => {
             shortDescription: ""
         },
         photos);
+    }
+
+    const validatePost = () => {
+        setTitleErrorMessage(undefined)
+        setDescriptionErrorMessage(undefined)
+
+        let isValid = true;
+
+        if (!title) {
+            setTitleErrorMessage("Ce champ est requis");
+            isValid = false
+        }
+
+        if (!description) {
+            setDescriptionErrorMessage("Ce champ est requis");
+            isValid = false
+        }
+
+        return isValid
+    }
+
+    const resetStates = () => {
+        setPostType(EPostType.COURSE);
+        setTitle("");
+        setDescription("");
+        setPrice(0);
+        setPostStatus(EPostStatus.CREATED);
+        setActiveTags([]);
+        setBooks([]);
+        setSchedules([{
+            id: 0,
+            startDate: dayjs().toDate(),
+            endDate: dayjs().add(1, 'hour').toDate()
+        }]);
+        setPhotos([]);
     }
 
     const onAddBook = (book: Book) => {
@@ -124,6 +173,10 @@ const PostEdit = (props: PostEditProps) => {
         else{
             setPrice(parseInt(value))
         }
+    }
+
+    const onScheduleChange = (schedules: Schedule[]) => {
+        setSchedules([...schedules])
     }
 
     return (
@@ -185,7 +238,9 @@ const PostEdit = (props: PostEditProps) => {
                                 inputMode="text"
                                 onChange={onTitleInputTextChange}
                                 style={[styles.inputs, styles.minorGap]}
-                                value={title}/>
+                                value={title}
+                                isOnError={!!titleErrorMessage}
+                                errorMessage={titleErrorMessage}/>
                         </View>
 
                         <View style={[styles.gap]}>
@@ -201,7 +256,9 @@ const PostEdit = (props: PostEditProps) => {
                                 numberOfLines={4}
                                 onChange={onDescriptionInputTextChange}
                                 style={[styles.inputs, styles.minorGap, styles.descriptionInput]}
-                                value={description}/>
+                                value={description}
+                                isOnError={!!descriptionErrorMessage}
+                                errorMessage={descriptionErrorMessage}/>
                         </View>
 
                         <View style={[styles.gap]}>
@@ -295,7 +352,7 @@ const PostEdit = (props: PostEditProps) => {
                         <View style={[styles.informations, styles.minorGap]}>
                             <PostSchedulesEdit
                                 schedules={schedules}
-                                onChange={(schedules) => setSchedules([...schedules])}/>
+                                onChange={onScheduleChange}/>
                         </View>
                     </View>
                 }
@@ -534,14 +591,16 @@ const PostSchedulesEdit = (props: PostSchedulesEditProps) => {
     const [scheduleIndex, setScheduleIndex] = useState(0);
     const [selectedTime, setSelectedTime] = useState<'start' | 'end'>('start');
 
+    useEffect(() => {
+        props.onChange && props.onChange(schedules)
+    }, [schedules])
+
     const onPressAddSchedule = () => {
         setSchedules([...schedules, {
             id: 0,
             startDate: dayjs(schedules[schedules.length - 1].startDate).add(1, 'day').toDate(),
             endDate: dayjs(schedules[schedules.length - 1].endDate).add(1, 'day').toDate()
         }])
-
-        props.onChange && props.onChange(schedules)
     }
 
     const showDatePicker = (index: number) => {
@@ -564,50 +623,46 @@ const PostSchedulesEdit = (props: PostSchedulesEditProps) => {
         let endDateClone = dayjs(schedule.endDate)
 
         if (datePickerMode === 'date'){
-            schedule.startDate = startDateClone
+            startDateClone = startDateClone
                 .set('year', date.year())
                 .set('month', date.month())
                 .set('date', date.date())
-                .toDate()
-            schedule.endDate = endDateClone
+            endDateClone = endDateClone
                 .set('year', date.year())
                 .set('month', date.month())
                 .set('date', date.date())
-                .toDate()
         }else {
             if (selectedTime === 'start'){
-                schedule.startDate = startDateClone
+                startDateClone = startDateClone
                     .set('hour', date.hour())
                     .set('minute', date.minute())
                     .set('second', date.second())
-                    .toDate()
             }else if (selectedTime === 'end'){
-                schedule.endDate = endDateClone
+                endDateClone = endDateClone
                     .set('hour', date.hour())
                     .set('minute', date.minute())
                     .set('second', date.second())
-                    .toDate()
             }
         }
 
-
-        if (validateSchedule(schedule)){
-            setSchedules([...schedules.map((s, i) => i === scheduleIndex ? schedule : s)])
-            props.onChange && props.onChange(schedules)
+        let newSchedule = {
+            id: schedule.id,
+            startDate: startDateClone.toDate(),
+            endDate: endDateClone.toDate()
         }
+
+        changeScheduleIfInvalid(newSchedule)
+
+        setSchedules([...schedules.map((s, i) => i === scheduleIndex ? newSchedule : s)])
     }
 
-    const validateSchedule =  (schedule: Schedule) => {
+    const changeScheduleIfInvalid =  (schedule: Schedule) => {
         if (schedule.startDate > schedule.endDate){
-            Toast.show({
-                type: 'error',
-                text1: 'Horaires incorrects',
-            })
-
-            return false;
+            if (selectedTime === 'start')
+                schedule.endDate = dayjs(schedule.startDate).add(1, 'hour').toDate();
+            else if (selectedTime === 'end')
+                schedule.startDate = dayjs(schedule.endDate).subtract(1, 'hour').toDate();
         }
-
-        return true;
     }
 
     const onDeleteSchedule = (index: number) => {
@@ -702,7 +757,8 @@ const PostSchedulesEdit = (props: PostSchedulesEditProps) => {
                 iosModalContainerStyle={{margin: 20}}
                 onClose={() => setShowScheduleModal(false)}
                 mode={datePickerMode}
-                date={getCurrentDateAndTime()}/>
+                date={getCurrentDateAndTime()}
+                minimumDate={dayjs()}/>
         </View>
     )
 }

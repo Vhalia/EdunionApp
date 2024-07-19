@@ -6,5 +6,8 @@ export default interface PostCardsListProps {
     itemWidth: number,
     numberOfColumns?: number,
     onPostCardPress: (post: Post) => void,
-    overScrollMode?: "auto" | "always" | "never"
+    overScrollMode?: "auto" | "always" | "never",
+    onRefresh?: () => void,
+    isRefreshing?: boolean,
+    onEndReached?: () => void
 }

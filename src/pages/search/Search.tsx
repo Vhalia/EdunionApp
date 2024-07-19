@@ -1,347 +1,183 @@
-import {  TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, Touchable, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./style/searchStyle"
 import SearchBar from "../../components/searchBar/SearchBar";
-import { ColorConstants, noImageGradientColors } from "../../constants/ThemeConstants";
+import { ColorConstants } from "../../constants/ThemeConstants";
 import { useEffect, useState } from "react";
 import Post from "../../models/Post";
-import EPostType from "../../models/enums/EPostType";
-import PostCard from "../../components/postCard/PostCard";
-import { FlashList } from "@shopify/flash-list";
-import FoldHeader from "../../components/foldHeader/FoldHeader";
 import Header from "../../components/header/Header";
-import Animated, { clamp, useSharedValue } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import EPostStatus from "../../models/enums/EPostStatus";
 import PostCardsList from "../../components/postCardsList/PostCardsList";
+import usePostService from "../../hooks/usePostService";
+import MainText from "../../modules/text/MainText";
+import Loading from "../../modules/Loading/Loading";
+import EPostType from "../../models/enums/EPostType";
+import Tags from "../../components/tags/Tags";
+import { Tag } from "../../models/Tag";
+import useTagService from "../../hooks/useTagService";
+import MainButton from "../../modules/mainButton/MainButton";
 
 const Search = () => {
     const [searchInputText, setSearchInputText] = useState("");
-    const [isSearchBarDisplayed, DisplaySearchBar] = useState(true);
+    const [isAdvancedSearchShown, showAdvancedSearch] = useState(false);
     const [posts, setPosts] = useState<Post[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(true);
+    const [tags, setTags] = useState<Tag[]>([]);
+    const [activeTags, setActiveTags] = useState<Tag[]>([]);
+
+    const defaultSearchCount = 6
+    const onEndSearchCount = 2
+
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-    useEffect(() => {
-        let posts : Post[] = [
-            {
-                id: 1,
-                title: "Post 1",
-                description: "description 1",
-                shortDescription: "short description 1",
-                type: EPostType.BOOK,
-                price: 5,
-                user : {
-                    id: 1,
-                    firstName: "Mathieu",
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 2,
-                title: "Post 2",
-                description: "description 2",
-                shortDescription: "short description 2",
-                type: EPostType.BOOK,
-                price: 6,
-                user : {
-                    id: 2,
-                    firstName: "John",
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 3,
-                title: "Post 3",
-                description: "description 3",
-                shortDescription: "short description 3",
-                type: EPostType.BOOK,
-                price: 7,
-                user : {
-                    id: 3,
-                    firstName: "Bob",
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 4,
-                title: "Post 4",
-                description: "description 4",
-                shortDescription: "short description 4",
-                type: EPostType.BOOK,
-                price: 8,
-                user : {
-                    id: 4,
-                    firstName: "Maria",
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 5,
-                title: "Post 5",
-                description: "description 5",
-                shortDescription: "short description 5",
-                type: EPostType.COURSE,
-                price: 9,
-                user : {
-                    id: 5,
-                    firstName: "Alex",
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 6,
-                title: "Post 6",
-                description: "description 6",
-                shortDescription: "short description 6",
-                type: EPostType.COURSE,
-                price: 10,
-                user : {
-                    id: 6,
-                    firstName: "Samantha", 
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 7,
-                title: "Post 7",
-                description: "description 7",
-                shortDescription: "short description 7",
-                type: EPostType.COURSE,
-                price: 11,
-                user : {
-                    id: 7,
-                    firstName: "David", 
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 8,
-                title: "Post 8",
-                description: "description 8",
-                shortDescription: "short description 8",
-                type: EPostType.BOOK,
-                price: 12,
-                user : {
-                    id: 8,
-                    firstName: "Emma", 
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-            {
-                id: 9,
-                title: "Post 9",
-                description: "description 9",
-                shortDescription: "short description 9",
-                type: EPostType.COURSE,
-                price: 13,
-                user : {
-                    id: 9,
-                    firstName: "Laura",
-                    lastName: "test",
-                    email: "test@exemple.com",
-                    school: {
-                        id: 1,
-                        name: "IPL"
-                    }
-                },
-                status: EPostStatus.CREATED,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
-            },
-        ];
+    const postService = usePostService()
+    const tagService = useTagService()
 
-        setPosts([...posts]);
-    }, [])
+    useEffect(() => {
+        if (!isRefreshing)
+            return;
+
+        setIsLoading(true)
+        getPosts(undefined, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id)).then((posts) => {
+            setIsLoading(false)
+            setIsRefreshing(false)
+            if (posts){
+                setPosts([...posts]);
+            }
+        }).catch((err) => {
+            setIsLoading(false)
+            setIsRefreshing(false)
+        })
+
+        tagService.get().then((tags) => {
+            setTags([...tags])
+        }).catch((err) => {
+            console.log(err)
+        })
+
+    }, [isRefreshing])
+
+    const getPosts = async (
+        postType?: EPostType,
+        count?: number,
+        startIndex?: number,
+        search?: string,
+        tagIds?: number[]) => {
+        try {
+            const response = await postService.getDetailed(postType, count, startIndex, search, tagIds)
+
+            if (response.result.length === 0)
+                return;
+            
+            setCurrentIndex(response.nextIndex);
+
+            return response.result;
+        }catch(err) {
+            console.log(err)
+            throw err;
+        }
+    }
 
     const onPostCardPress = (postId: number) => {
         navigation.navigate("Post", {postId: postId});
+    }
+
+    const onRefresh = () => {
+        setCurrentIndex(0)
+        setIsRefreshing(true)
+    }
+
+    const onEndReached = async () => {
+        if (!isLoading){
+            const newPosts = await getPosts(undefined, onEndSearchCount, currentIndex, searchInputText, activeTags.map((tag) => tag.id))
+            if (newPosts) {
+                setPosts([...posts, ...newPosts])
+            }
+        }
+    }
+
+    const onPressSearch = async (value: string) => {
+        if (value === searchInputText)
+            return;
+
+        setSearchInputText(value)
+        const searchedPosts = await getPosts(undefined, defaultSearchCount, 0, value, activeTags.map((tag) => tag.id))
+        if (searchedPosts) {
+            setPosts([...searchedPosts])
+        }else {
+            setPosts([])
+        }
+    }
+
+    const onPressAdvancedSearchConfirmed = async () => {
+        showAdvancedSearch(false);
+
+        const searchedPosts = await getPosts(undefined, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id))
+        if (searchedPosts) {
+            setPosts([...searchedPosts])
+        }else {
+            setPosts([])
+        }
+    }
+
+    const discardAdvancedSearch = () => {
+        showAdvancedSearch(false);
+        setActiveTags([]);
+    }
+
+    const onChangeTags = (tags: []) => {
+        setActiveTags([...tags])
     }
 
     return(
         <View style={styles.mainContainer}>
             {/*header*/}
             <Header>
-                {isSearchBarDisplayed ?
-                    <Animated.View style={[styles.seachBarStyleContainer]}>
-                        <SearchBar
-                            onPressSearch={(value) => {setSearchInputText(value)}}
-                            dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
-                            style={[styles.seachBarStyle]} />
-                    </Animated.View>
-                : <></>}
+                <Animated.View style={[styles.seachBarStyleContainer]}>
+                    <SearchBar
+                        onPressSearch={onPressSearch}
+                        dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
+                        style={[styles.seachBarStyle]}
+                        sideButtonMode="button"
+                        onPressSideButton={() => showAdvancedSearch(true)}/>
+                    
+                </Animated.View>
             </Header>
+
+            {/* Advanced search modal */}
+            <Modal
+                visible={isAdvancedSearchShown}
+                onRequestClose={() => showAdvancedSearch(false)}
+                transparent
+                animationType="fade">
+                <View style={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity
+                        style={{...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0, 0, 0, 0.5)'}}
+                        onPress={discardAdvancedSearch}
+                        activeOpacity={1}/>
+
+                    <View style={{backgroundColor: ColorConstants.greyMainColor, borderRadius: 8, padding: 15}}>
+                        <MainText
+                            text="Recherche avancée"
+                            weight={'700'}
+                            fontSize={20}
+                            style={{marginBottom: 15}}/>
+                        <Tags
+                            multipleSelect={false}
+                            fetchTagOnLoad={false}
+                            tags={tags}
+                            selectedTags={activeTags}
+                            onChange={onChangeTags}/>
+                        <MainButton
+                            text="Rechercher"
+                            onPress={onPressAdvancedSearchConfirmed}
+                            style={{backgroundColor: ColorConstants.purpleMainColor, marginTop: 20}}/>
+                    </View>
+                </View>
+            </Modal>
 
             {/*Search*/}
             <Animated.View style={[styles.gap, styles.contentContainer]}>
@@ -353,12 +189,26 @@ const Search = () => {
                 </View> */}
 
                 {/*Posts*/}
-                <PostCardsList
-                    posts={posts}
-                    itemWidth={185}
-                    estimatedItemSize={150}
-                    numberOfColumns={2}
-                    onPostCardPress={(post) => onPostCardPress(post.id)}/>
+                {isLoading
+                    ?
+                        <Loading />
+                    :
+                        !posts || posts.length === 0 ?
+                            <MainText
+                                text="Il n'y a pas de posts correspondant à votre recherche."
+                                weight={'700'}
+                                fontSize={20}
+                                style={{marginTop: 100, flexWrap: 'wrap', width: 300}}/>
+                        : 
+                            <PostCardsList
+                                posts={posts}
+                                itemWidth={185}
+                                estimatedItemSize={150}
+                                numberOfColumns={2}
+                                onPostCardPress={(post) => onPostCardPress(post.id)}
+                                onRefresh={onRefresh}
+                                isRefreshing={isRefreshing && isLoading}
+                                onEndReached={onEndReached}/>}
             </Animated.View>
         </View>
     );

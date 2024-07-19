@@ -12,11 +12,11 @@ const PostCard = (props: PostCardProps) => {
         if (props.image){
             return (
                 <ImageBackground
-                source={props.image}
-                style={styles.imageContainer}
-                resizeMode="cover"
-                borderTopRightRadius={22}
-                borderTopLeftRadius={22}>
+                    source={{uri: props.image}}
+                    style={styles.imageContainer}
+                    resizeMode="cover"
+                    borderTopRightRadius={8}
+                    borderTopLeftRadius={8}>
 
                     <LinearGradient
                         style={[styles.grandiantStyle, styles.ownerContainer]}
@@ -54,7 +54,7 @@ const PostCard = (props: PostCardProps) => {
             <View style={[styles.infoBarContainer, props.informationBarSyle]}>
                 <View>
                     <MainText 
-                        fontSize={18}
+                        fontSize={15}
                         weight={"700"}
                         text={props.title}/>
                     {props.subtitle ?
@@ -67,7 +67,7 @@ const PostCard = (props: PostCardProps) => {
                         : ""}
                 </View>
                 <MainText
-                    fontSize={20}
+                    fontSize={16}
                     weight={"700"}
                     text={price+" €"}/>
             </View>

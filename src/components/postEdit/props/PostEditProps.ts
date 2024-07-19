@@ -9,7 +9,8 @@ export default interface PostEditProps {
     disableEditStatus? : boolean,
     onAddButtonPress? : (value: AddEditPostDto, photos: File[]) => void,
     onModifyButtonPress? : (value: AddEditPostDto, photos: File[]) => void,
-    isLoading?: boolean
+    isLoading?: boolean,
+    resetState? : boolean
     
 }
 

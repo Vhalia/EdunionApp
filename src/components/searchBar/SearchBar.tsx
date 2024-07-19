@@ -1,6 +1,8 @@
-import { TextInput, Touchable, TouchableWithoutFeedback, View } from "react-native";
-import Book from "../../../images/book.svg"
-import Course from "../../../images/course.svg"
+import { Keyboard, TextInput, Touchable, TouchableWithoutFeedback, View } from "react-native";
+import BookSVG from "../../../images/book.svg"
+import CourseSVG from "../../../images/course.svg"
+import ArrowDownSVG from "../../../images/arrowDown.svg"
+import FitlerSVG from "../../../images/filter.svg"
 import Search from "../../../images/search.svg"
 import styles from "./style/searchBarStyle";
 import IconDropdownElement from "../../modules/dropDown/iconDropDown/IconDropdownElement";
@@ -13,7 +15,11 @@ import IconDropDown from "../../modules/dropDown/iconDropDown/IconDropDown";
 const SearchBar = (props : SearchBarProps) => {
     const [searchInputText, setSearchInputText] = useState("");
 
+    const sideButtonMode = props.sideButtonMode ?? 'dropdown'
+    const buttonContainerStyle = sideButtonMode === 'dropdown' ? styles.dropDownContainer : styles.buttonContainer
+
     const onSearchButtonPress = () => {
+        Keyboard.dismiss();
         props.onPressSearch(searchInputText);
     }
 
@@ -24,18 +30,29 @@ const SearchBar = (props : SearchBarProps) => {
     return(
         <View
             style={[styles.mainContainer, props.style]}>
-            <View style={[styles.dropDownContainer, props.dropDownStyle]}>
-                <IconDropDown
-                    style={styles.dropdownButton}>
+            <View style={[buttonContainerStyle, props.dropDownStyle]}>
+                {sideButtonMode === 'dropdown' &&
+                    <IconDropDown
+                        style={styles.dropdownButton}>
 
-                    <IconDropdownElement
-                        icon={<Book color={"#ffffff"} width={"20px"}/>}
-                        text="Livres"/>
-                    <IconDropdownElement
-                        icon={<Course color={"#ffffff"} width={"20px"} />}
-                        text="Cours" />
-                        
-                </IconDropDown>
+                        <IconDropdownElement
+                            icon={<BookSVG color={"#ffffff"} width={"20px"}/>}
+                            text="Livres"/>
+                        <IconDropdownElement
+                            icon={<CourseSVG color={"#ffffff"} width={"20px"} />}
+                            text="Cours" />
+                            
+                    </IconDropDown>
+                }
+
+                {sideButtonMode === 'button' &&
+                    <ButtonWithIcon
+                        containerStyle={[styles.button]}
+                        onPress={() => props.onPressSideButton && props.onPressSideButton()}
+                        underlayColor={ColorConstants.transparent}>
+                        <FitlerSVG color={"#ffffff"} width={20} height={20} />
+                    </ButtonWithIcon>
+                }
             </View>
 
             <View style={styles.searchBarContainer}>
@@ -46,6 +63,8 @@ const SearchBar = (props : SearchBarProps) => {
                         inputMode="text"
                         style={styles.searchBarInput}
                         onChangeText={onSearchInputTextChange}
+                        onSubmitEditing={onSearchButtonPress}
+                        selectTextOnFocus
                         />
                     <ButtonWithIcon
                         style={styles.searchButton}

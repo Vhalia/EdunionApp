@@ -15,6 +15,10 @@ const PostCardsList = (props : PostCardsListProps) => {
                 showsVerticalScrollIndicator={false}
                 overScrollMode={props.overScrollMode}
                 numColumns={props.numberOfColumns ?? 1}
+                onRefresh={props.onRefresh}
+                refreshing={props.isRefreshing}
+                onEndReached={props.onEndReached}
+                onEndReachedThreshold={0.75}
                 ItemSeparatorComponent={() =>
                     <View style={{height: 20}}></View>}
                 renderItem={({item}) => {

@@ -51,12 +51,12 @@ const MainInput = (props: MainInputProps) => {
 
     return (
         <View style={[styles.mainContainer]}>
-            <View style={[styles.container, showErrorStyle(), props.containerStyle]}>
+            <View style={[styles.container, props.containerStyle]}>
                 {props.isLoading
                     ? <Loading />
                     :
                     <TextInput
-                        style={[styles.inputs, props.style, props.multiline ? {textAlignVertical: "top"} : {}]}
+                        style={[styles.inputs, props.style, props.multiline ? {textAlignVertical: "top"} : {}, showErrorStyle()]}
                         inputMode={props.inputMode}
                         onChangeText={onChangeText}
                         value={text}

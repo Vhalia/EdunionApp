@@ -4,11 +4,11 @@ import ApiError from "../../models/ApiError";
 import Toast from "react-native-toast-message";
 import MultipartFormData from "../../models/MultipartFormData";
 import { isJson } from "../../utils/utils";
-import { useNavigation } from "@react-navigation/native";
 
 const HttpClient = {
     get: async <T,>(url: string, token?: string) : Promise<T> => {
         try{
+            console.log(getFullUrl(url))
             const response = await fetch(getFullUrl(url), {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ''
@@ -70,7 +70,7 @@ const HttpClient = {
                 },
                 body: formData
             });
-            
+ 
             if (!response.ok){
                 await handleFailedRequest(response)
             }

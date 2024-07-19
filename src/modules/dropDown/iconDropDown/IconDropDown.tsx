@@ -120,7 +120,7 @@ const IconDropDown = (props : IIconDropDownProps) => {
                         {getElement(props.children, activeElementIndex).props.icon}
 
                         <View style={styles.arrow}>
-                            <ArrowDown color={"#ffffff"}/>
+                            <ArrowDown color={"#ffffff"} width={6}/>
                         </View>
 
                     </View>

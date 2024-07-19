@@ -11,17 +11,21 @@ import { useNavigation } from '@react-navigation/native';
 const AddPost = () => {
     const postService = usePostService();
     const [isLoading, setIsLoading] = useState(false);
+    const [resetState, setResetState] = useState(false);
 
     const navigation = useNavigation<any>();
 
     const onSubmit = async (newPost: AddEditPostDto, photos: File[]) => {
         console.log("SUBMIT", newPost);
         setIsLoading(true)
+        setResetState(false)
         try {
             const id = await postService.post(newPost);
-            await postService.addPhotos(id, photos)
+            if (photos && photos.length > 0) {
+                await postService.addPhotos(id, photos)
+            }
             setIsLoading(false)
-
+            setResetState(true)
             navigation.navigate("Post", {postId: id})
         }catch(err) {
             console.log(err);
@@ -41,7 +45,8 @@ const AddPost = () => {
             <PostEdit
                 disableEditStatus={true}
                 onAddButtonPress={onSubmit}
-                isLoading={isLoading}/>
+                isLoading={isLoading}
+                resetState={resetState}/>
         </View>
     )
 }

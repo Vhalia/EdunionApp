@@ -53,6 +53,7 @@ const MainDatePicker = (props: MainDatePickerProps) => {
                         display="default"
                         onChange={(_, date) => setDate(dayjs(date))}
                         style={{ backgroundColor: ColorConstants.blackMainColor }}
+                        minimumDate={props.minimumDate?.toDate()}
                     />
                 </Modal>
             ) : (
@@ -65,6 +66,7 @@ const MainDatePicker = (props: MainDatePickerProps) => {
                         display="default"
                         onChange={(_, newDate) => onChange(newDate)}
                         style={{ backgroundColor: ColorConstants.blackMainColor }}
+                        minimumDate={props.minimumDate?.toDate()}
                     />
                 }
                 </>
@@ -81,6 +83,7 @@ interface MainDatePickerProps {
     iosContainerStyle?: StyleProp<ViewStyle>,
     iosModalContainerStyle?: StyleProp<ViewStyle>,
     date?: dayjs.Dayjs,
+    minimumDate?: dayjs.Dayjs
 }
 
 export type {MainDatePickerProps}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TagsProps from "./props/TagsProps";
 import { Tag as TagType } from "../../models/Tag";
-import { View } from "react-native";
+import { StyleProp, TextStyle, View } from "react-native";
 import style from "./style/TagsStyle";
 import MainText from "../../modules/text/MainText";
 import Tag from "../tag/Tag";
@@ -14,11 +14,17 @@ const Tags = (props : TagsProps) => {
     const [tagsByCategory, setTagsByCategory] = useState(new Map<string, TagType[]>());
     const [isLoading, setIsLoading] = useState(false);
 
+    const fetchTagOnLoad = props.fetchTagOnLoad ?? true
+
     const tagService = useTagService();
 
     const multipleSelect = props.multipleSelect ?? true
 
     useEffect(() => {
+        if (!fetchTagOnLoad){
+            return
+        }
+        
         setIsLoading(true)
         
         tagService.get()
@@ -36,6 +42,10 @@ const Tags = (props : TagsProps) => {
         setTagsByCategory(orderTagsByCategory())
         setIsLoading(false)
     }, [tags])
+
+    useEffect(() => {
+        props.onChange && props.onChange(activeTags);
+    }, [activeTags])
     
     const orderTagsByCategory = () : Map<string, TagType[]> => {
         const tagsByCategory = new Map<string, TagType[]>();
@@ -61,8 +71,13 @@ const Tags = (props : TagsProps) => {
                 setActiveTags([...activeTags, tag]);
             }
         }
+    }
 
-        props.onChange && props.onChange(activeTags);
+    const setCategoryTagStyle = (index: number) : StyleProp<TextStyle> => {
+        return {
+            backgroundColor: props.categoryTagBackgroundColor,
+            marginTop: index > 0 ? style.gap.marginTop : 0
+        }
     }
 
     const displayTags = (categoy: string, tags: TagType[], index: number) : React.JSX.Element => {
@@ -76,7 +91,7 @@ const Tags = (props : TagsProps) => {
                 :
                 <>
                 <MainText
-                    style={index > 0 ? style.gap : {}}
+                    style={setCategoryTagStyle(index)}
                     weight={'500'}
                     fontSize={15}
                     text={categoy}/>

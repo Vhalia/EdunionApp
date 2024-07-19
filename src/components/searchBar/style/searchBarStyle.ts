@@ -21,6 +21,27 @@ const styles = StyleSheet.create({
         flex: 1,
         zIndex: 1
     },
+    buttonContainer: {
+        position: "relative",
+        backgroundColor: ColorConstants.blackSecondaryColor,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderTopLeftRadius: 11,
+        borderBottomLeftRadius: 11,
+        flex: 1,
+        zIndex: 1,
+    },
+    button: {
+        borderRadius: 8,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 8,
+        paddingRight: 8,
+        margin: 15,
+        backgroundColor: ColorConstants.purpleMainColor
+    },
     dropdownButton: {
         backgroundColor: ColorConstants.purpleMainColor,
         paddingTop: 5,
