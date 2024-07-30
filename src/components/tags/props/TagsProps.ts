@@ -7,5 +7,6 @@ export default interface TagsProps {
     onChange? (tags: Tag[]) : void,
     categoryTagBackgroundColor? : string,
     tagBackgroundColor? : string,
-    fetchTagOnLoad? : boolean
+    fetchTagOnLoad? : boolean,
+    isLoading? : boolean
 }

@@ -6,6 +6,7 @@ import styles from "./style/style";
 import CarouselPagination from "./carouselPagination/CarouselPagination";
 import { useSharedValue } from "react-native-reanimated";
 import CarouselItem from "./carouselItem/CarouselItem";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Carousels = (props: CarouselProps) => {
     const progressValue = useSharedValue(0);
@@ -46,7 +47,7 @@ const Carousels = (props: CarouselProps) => {
                 }}
                 panGestureHandlerProps={{
                     //prevent sliding issue when used in scrollview
-                    activeOffsetX: [-10, 10]
+                    activeOffsetX: [-10, 10],
                 }}
                 onProgressChange={(_, absoluteProgress) => {
                         const roundedProgress = Math.round(absoluteProgress*10)/10
@@ -55,6 +56,7 @@ const Carousels = (props: CarouselProps) => {
                 }
                 renderItem={(carouselProps) =>
                         <CarouselItem
+                            postId={carouselProps.item.id}
                             key={carouselProps.index}
                             owner={carouselProps.item.user.firstName}
                             ownerImage={carouselProps.item.user.picturePath}
@@ -65,20 +67,21 @@ const Carousels = (props: CarouselProps) => {
                             gradientColors={noImageGradientColors[carouselProps.index%3]}
                             onPress={() => props.onPressItem && props.onPressItem(carouselProps.item, carouselProps.index)}/>
                 }
-                />
-                <View
-                    style={styles.pagingControlsContainer}>
-                    
-                    {props.items.map((_, i) => {
+            />
+            
+            <View
+                style={styles.pagingControlsContainer}>
+                
+                {props.items.map((_, i) => {
 
-                        return <CarouselPagination
-                            key={i}
-                            index={i}
-                            progressValue={progressValue}
-                            isActive={activePaginationIndex === i}/>
-                    })}
+                    return <CarouselPagination
+                        key={i}
+                        index={i}
+                        progressValue={progressValue}
+                        isActive={activePaginationIndex === i}/>
+                })}
 
-                </View>
+            </View>
         </View>
     );
 }

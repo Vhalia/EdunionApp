@@ -13,11 +13,11 @@ const CarouselItem = (props: CarouselItemProps) => {
         if (props.image){
             return (
                 <ImageBackground
-                source={props.image}
-                style={styles.imageContainer}
-                resizeMode="cover"
-                borderTopRightRadius={22}
-                borderTopLeftRadius={22}>
+                    source={{uri: props.image}}
+                    style={styles.imageContainer}
+                    resizeMode="cover"
+                    borderTopRightRadius={22}
+                    borderTopLeftRadius={22}>
 
                     <LinearGradient
                         style={[styles.grandiantStyle, styles.ownerContainer]}

@@ -14,12 +14,15 @@ import UserContact from "../userContacts/UserContact";
 import EContactType from "../../models/enums/EContactType";
 import EPostStatus, { PostStatusToColor, PostStatusToString } from "../../models/enums/EPostStatus";
 import EllipseFilledSVG from "../../../images/ellipseFilled.svg" 
+import usePostService from "../../hooks/usePostService";
+import Loading from "../../modules/Loading/Loading";
 
 const Post = (props : PostProps) => {
     const [post, setPost] = useState<PostModel | undefined>(undefined);
     
     const route = useRoute();
     const navigation = useNavigation();
+    const postService = usePostService();
     const routeParams = route.params as PostProps;
     
     const postId = props.postId ?? routeParams.postId;
@@ -33,87 +36,29 @@ const Post = (props : PostProps) => {
     ]
 
     useEffect(() => {
-        const post: PostModel = {
-            id: postId!,
-            description: "description",
-            price: 10,
-            shortDescription: "short description",
-            title: "title",
-            type: EPostType.BOOK,
-            user : {
-                id: 1,
-                firstName: "test",
-                lastName: "test",
-                email: "test@exemple.com",
-                school: {
-                    id: 1,
-                    name: "IPL"
-                },
-                contacts: [
-                    {
-                        id: 1,
-                        type: EContactType.MESSENGER,
-                        value: "Max Le Grelle"
-                    },
-                    {
-                        id: 2,
-                        type: EContactType.INSTAGRAM,
-                        value: "max.lgrl"
-                    },
-                    {
-                        id: 3,
-                        type: EContactType.WHATSAPP,
-                        value: "0475757575"
-                    },
-                    {
-                        id: 4,
-                        type: EContactType.EMAIL,
-                        value: "maxlegrelle@gmail.com"
-                    },
-                    {
-                        id: 5,
-                        type: EContactType.PHONE,
-                        value: "0475757575"
-                    },
-                ]
-            },
-            blobPaths: [
-                require("../../../images/postImageExample.png"),
-                require("../../../images/ppExample.png"),
-                require("../../../images/defaultProfilePicture.png"),
-            ],
-            status: EPostStatus.AVAILABLE,
-                tags : [
-                    {
-                        name: "Mathématiques",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                    {
-                        name: "Physique",
-                        category: {
-                            name: "Cours"
-                        }
-                    },
-                ]
+        if (!postId){
+            return;
         }
         
-        setPost(post);
-    }, [])
+        postService.get(postId).then((response) => {
+            setPost(response);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }, [postId])
     
     return (
         <>
            {!post ? 
-            <LoadingScreen />
+            <Loading />
            :
             <ScrollView style={styles.container}>
                 <CarouselV2
                     style={{flex: 0.5}}
-                    data={post.blobPaths??
-                        [noImageGradientColors[0],
-                        noImageGradientColors[1],
-                        noImageGradientColors[2]]}
+                    data={(!post.blobPaths || post.blobPaths.length == 0)
+                        ? [noImageGradientColors[0]]
+                        : post.blobPaths
+                    }
                     paginationPosition="bottom"
                     loop
                     renderItem={(image, index) => {
@@ -121,18 +66,18 @@ const Post = (props : PostProps) => {
                             <View>
                             {(!noImageGradientColors.includes(image)) ?
                                 <Image
-                                    source={image}
+                                    source={{uri: image}}
                                     style={{width: windowWidth, height: windowHeight/2}}
                                     resizeMode="cover"
                                 />
                             :
-                            <LinearGradient
-                                colors={image}>
-                                <View
-                                    style={{width: windowWidth, height: windowHeight/2}}>
-                                        <MainText text={index.toString()} fontSize={100}/>
-                                </View>
-                            </LinearGradient>}
+                            // <LinearGradient
+                            //     colors={image}>
+                            //     <View
+                            //         style={{width: windowWidth, height: windowHeight/2}}>
+                            //     </View>
+                            // </LinearGradient>
+                            <View style={{flex: 1, height: 50}}></View>}
                             </View>
                         )
                     }}
@@ -144,7 +89,7 @@ const Post = (props : PostProps) => {
                         style={[styles.content, styles.bigGap, styles.bigGapDown]}
                         userNameFontSize={14}/>
 
-                    <View style={[styles.content, styles.status, styles.bigGap]}>
+                    <View style={[styles.content, styles.status, styles.gap]}>
                         <EllipseFilledSVG color={PostStatusToColor(post.status)} width={20} height={20} />
                         <MainText text={PostStatusToString(post.status)} fontSize={14}/>
                     </View>
@@ -155,23 +100,23 @@ const Post = (props : PostProps) => {
                                 text={post.title}
                                 fontSize={20}
                                 weight="bold"/>
-                            <MainText
+                            {post.shortDescription &&<MainText
                                 text={post.shortDescription}
                                 fontSize={14}
                                 fontColor={ColorConstants.white70PercentColor}
-                                style={styles.gap}/>
+                                style={styles.gap}/>}
+                        </View>
+                        <View style={[styles.gap, styles.horizontalSpacing]}>
+                            <MainText
+                                text={post.description}
+                                fontSize={14}
+                                fontColor={ColorConstants.white70PercentColor}/>
                         </View>
                         <View style={[styles.bigGap, styles.horizontalSpacing]}>
                             <MainText
                                 text={post.price.toString() + "€"}
                                 fontSize={20}
                                 weight="bold"/>
-                        </View>
-                        <View style={[styles.bigGap, styles.horizontalSpacing]}>
-                            <MainText
-                                text={post.description}
-                                fontSize={14}
-                                fontColor={ColorConstants.white70PercentColor}/>
                         </View>
                         <View style={[styles.bigGap, styles.horizontalSpacing, {width: 200, marginBottom: 20}]}>
                             {post.user.contacts && 
@@ -184,14 +129,6 @@ const Post = (props : PostProps) => {
             </ScrollView>
            }
         </>
-    )
-}
-
-const LoadingScreen = () => {
-    return (
-        <View>
-            <MainText text="Loading..." fontSize={25} weight="bold"/>
-        </View>
     )
 }
 

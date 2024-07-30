@@ -34,6 +34,9 @@ const usePostService = () => {
                     +(search ? "&search="+search : "")
                     +((tagIds && tagIds.length > 0) ? "&tagIds="+tagIds.join("%2B") : ""),
                 authContext?.token);
+        },
+        get: (id: number) => {
+            return HttpClient.get<Post>("/api/post/" + id, authContext?.token);
         }
     }
 }

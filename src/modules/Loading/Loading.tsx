@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { StyleSheet, View } from "react-native"
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import Animated, { Easing, useAnimatedProps, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 import { ColorConstants } from "../../constants/ThemeConstants";
@@ -69,7 +69,8 @@ const Loading = (props: LoadingProps) => {
 
 interface LoadingProps {
     radius?: number,
-    strokeWidth?: number
+    strokeWidth?: number,
+    style?: StyleProp<ViewStyle>
 }
 
 const styles = StyleSheet.create({

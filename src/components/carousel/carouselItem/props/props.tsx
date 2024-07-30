@@ -6,5 +6,6 @@ export default interface CarouselItemProps {
     ownerImage?: any
     price: number,
     gradientColors?: string[],
+    postId?: number,
     onPress?: () => void
 }

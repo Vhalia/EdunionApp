@@ -4,8 +4,8 @@ import { ColorConstants } from "../../../constants/ThemeConstants";
 const styles = StyleSheet.create({
     mainContainer: {
         display: "flex",
-        flex: 1,
-        backgroundColor: ColorConstants.blackMainColor
+        flex: 1, 
+        backgroundColor: ColorConstants.blackMainColor,
     },
     contentContainer: {
         display: "flex",
@@ -39,6 +39,13 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginTop: 10,
         marginBottom: 5
+    },
+    backButtonContainerAbsolute: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: 1,
+        padding: 30,
     }
 })
 

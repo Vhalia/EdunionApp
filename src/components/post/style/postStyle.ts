@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     bigGap : {
-        marginTop: 20
+        marginTop: 20,
     },
     bigGapDown : {
         marginBottom: 20

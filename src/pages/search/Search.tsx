@@ -17,16 +17,18 @@ import Tags from "../../components/tags/Tags";
 import { Tag } from "../../models/Tag";
 import useTagService from "../../hooks/useTagService";
 import MainButton from "../../modules/mainButton/MainButton";
-import BookSVG from '../../../images/book.svg';
-import CourseSVG from '../../../images/course.svg';
 import PostTypeSelector from "../../components/postTypeSelector/PostTypeSelector";
+import SearchProps from "./props/searchProps";
 
-const Search = () => {
-    const [searchInputText, setSearchInputText] = useState("");
-    const [isAdvancedSearchShown, showAdvancedSearch] = useState(false);
+const Search = (props: SearchProps) => {
+    const routeProps: SearchProps = props.route.params
+
+    const [searchInputText, setSearchInputText] = useState(props.search ?? routeProps?.search ?? "");
+    const [isAdvancedSearchShown, showAdvancedSearch] = useState(props.openAdvancedSearch ?? routeProps?.openAdvancedSearch ?? false);
     const [posts, setPosts] = useState<Post[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [tagsIsLoading, setTagsIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(true);
     const [tags, setTags] = useState<Tag[]>([]);
     const [activeTags, setActiveTags] = useState<Tag[]>([]);
@@ -55,14 +57,23 @@ const Search = () => {
             setIsLoading(false)
             setIsRefreshing(false)
         })
-
+        
+        setTagsIsLoading(true)
         tagService.get().then((tags) => {
             setTags([...tags])
+            setTagsIsLoading(false)
         }).catch((err) => {
             console.log(err)
+            setTagsIsLoading(false)
         })
 
     }, [isRefreshing])
+
+    useEffect(() => {
+        showAdvancedSearch(routeProps?.openAdvancedSearch ?? false)
+        setSearchInputText(routeProps?.search ?? "")
+        onPressSearch(routeProps?.search ?? "")
+    }, [routeProps])
 
     const getPosts = async (
         postType?: EPostType,
@@ -178,7 +189,8 @@ const Search = () => {
                             fetchTagOnLoad={false}
                             tags={tags}
                             selectedTags={activeTags}
-                            onChange={onChangeTags}/>
+                            onChange={onChangeTags}
+                            isLoading={tagsIsLoading}/>
 
                         <PostTypeSelector
                             inactiveTypeBackgroundColor={ColorConstants.blackMainColor}

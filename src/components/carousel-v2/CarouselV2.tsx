@@ -159,7 +159,7 @@ const CarouselV2 = (props : CarouselProps) => {
                 </View>
             }
 
-            <View style={paginationStyle()}>
+            {props.data.length > 1 && <View style={paginationStyle()}>
                 {props.data.map((_, i) => {
 
                     return <CarouselPagination
@@ -167,7 +167,7 @@ const CarouselV2 = (props : CarouselProps) => {
                         index={i}
                         isActive={(currentIndex-startingIndex) % props.data.length === i}/>
                 })}
-            </View>
+            </View>}
         </View>
     );
 }

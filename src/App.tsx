@@ -107,7 +107,8 @@ function App(): JSX.Element {
                 {(props) => <SubPage
                   navigation={props.navigation}
                   renderContent={() =><Post />}
-                  mode='fullscreen'/>}
+                  mode='fullscreen'
+                  backButtonPosition='absolute'/>}
               </Stack.Screen>
               <Stack.Screen name="PostEdit" options={{headerShown: false}}>
                 {(props) => <SubPage

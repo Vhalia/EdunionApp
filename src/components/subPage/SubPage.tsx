@@ -20,6 +20,7 @@ const SubPage = (props : SubPageProps) => {
                     style={styles.backButtonContainer}>
                     <LeftArrowSVG color={ColorConstants.whiteMainColor}/>
                 </TouchableHighlight>
+
                {props.renderContent()} 
             </View>
         </View>
@@ -27,15 +28,20 @@ const SubPage = (props : SubPageProps) => {
 }
 
 const SubPageFullscreen = (props : SubPageProps) => {
+    const backButtonPosition = props.backButtonPosition ?? 'default';
+
     return (
         <View style={styles.mainContainer}>
             <TouchableHighlight
                 onPress={() => props.navigation.goBack()}
-                underlayColor={ColorConstants.blackMainColor}
-                style={styles.backButtonContainerFullscreen}>
-                <LeftArrowSVG color={ColorConstants.whiteMainColor}/>
+                underlayColor={ColorConstants.transparent}
+                style={(backButtonPosition === 'absolute') ? styles.backButtonContainerAbsolute : styles.backButtonContainerFullscreen}>
+                <LeftArrowSVG stroke={ColorConstants.whiteMainColor} width={12} height={12}/>
             </TouchableHighlight>
-            {props.renderContent()} 
+
+            <View style={styles.mainContainer}>
+                {props.renderContent()} 
+            </View>
         </View>
     );
 }

@@ -12,7 +12,7 @@ const Tags = (props : TagsProps) => {
     const [activeTags, setActiveTags] = useState<TagType[]>(props.selectedTags ?? []);
     const [tags, setTags] = useState<TagType[]>(props.tags ?? []);
     const [tagsByCategory, setTagsByCategory] = useState(new Map<string, TagType[]>());
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(props.isLoading ?? false);
 
     const fetchTagOnLoad = props.fetchTagOnLoad ?? true
 
@@ -22,6 +22,7 @@ const Tags = (props : TagsProps) => {
 
     useEffect(() => {
         if (!fetchTagOnLoad){
+            setTags([...props.tags ?? []])
             return
         }
         
@@ -46,6 +47,10 @@ const Tags = (props : TagsProps) => {
     useEffect(() => {
         props.onChange && props.onChange(activeTags);
     }, [activeTags])
+
+    useEffect(() => {
+        setIsLoading(props.isLoading ?? false)
+    }, [props.isLoading])
     
     const orderTagsByCategory = () : Map<string, TagType[]> => {
         const tagsByCategory = new Map<string, TagType[]>();
