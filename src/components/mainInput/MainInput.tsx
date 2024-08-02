@@ -50,7 +50,7 @@ const MainInput = (props: MainInputProps) => {
     }
 
     return (
-        <View style={[styles.mainContainer]}>
+        <View style={[styles.mainContainer, {width: StyleSheet.flatten(props.containerStyle).width}]}>
             <View style={[styles.container, props.containerStyle]}>
                 {props.isLoading
                     ? <Loading />

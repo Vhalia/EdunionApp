@@ -20,6 +20,7 @@ import useStorage from "../../hooks/useStorage";
 import Loading from "../../modules/Loading/Loading";
 import SchoolProofSetting from "./settings/schoolProofSetting/SchoolProofSetting";
 import MainButton from "../../modules/mainButton/MainButton";
+import MyPostSetting from "./settings/myPostsSetting/MyPostSetting";
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
@@ -92,6 +93,16 @@ const Profile = (props : ProfileProps) => {
                     />}
 
                 </stack.Screen>
+                <stack.Screen
+                    name="MyPostSetting"
+                    options={{title: 'Mes postes', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
+
+                    {(props) => <SubPage
+                        renderContent={() => <MyPostSetting />}
+                        navigation={props.navigation}
+                    />}
+
+                </stack.Screen>
             </stack.Navigator> 
 
         </>
@@ -156,6 +167,11 @@ const Settings = () => {
                     redirectScreenName="SchoolProofSetting"
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"Preuve de scolarité"} />
+                </NavigateButton>
+                <NavigateButton
+                    redirectScreenName="MyPostSetting"
+                    style={styles.button}>
+                        <MainText weight={'500'} fontSize={13} text={"Mes postes"} />
                 </NavigateButton>
                 <View
                     style={styles.logoutContainer}>

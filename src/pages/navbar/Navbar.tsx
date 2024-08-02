@@ -15,6 +15,7 @@ import PurchasesAndMyPosts from '../purchasesAndMyPosts/PurchasesAndMyPosts';
 import Profile from '..//profile/Profile';
 import { ColorConstants } from "../../constants/ThemeConstants";
 import { useNavigation } from "@react-navigation/native";
+import Chats from "../chats/Chats";
 
 const Navbar = (props : NavbarProps) => {
     const Tab = createBottomTabNavigator()
@@ -37,7 +38,7 @@ const Navbar = (props : NavbarProps) => {
                 return <SearchSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
             case 'Add':
                 return <AddSvg {... focused ? activeStyle.icon : unactiveStyle.icon} color={ColorConstants.purpleMainColor}/>
-            case 'Management':
+            case 'Chats':
                 return <BagSvg {... focused ? activeStyle.icon : unactiveStyle.icon} width={iconSize} height={iconSize}/>
             case 'Profile':
                 return <ProfileSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
@@ -66,7 +67,7 @@ const Navbar = (props : NavbarProps) => {
                 <Tab.Screen name="Home" component={Home} options={{title: 'Accueil'}}/>
                 <Tab.Screen name="Search" component={Search} options={{title: 'Chercher'}}/>
                 <Tab.Screen name="Add" component={AddPost} options={{title: 'Ajouter'}}/>
-                <Tab.Screen name="Management" component={PurchasesAndMyPosts} options={{title: 'Gestion'}}/>
+                <Tab.Screen name="Chats" component={Chats} options={{title: 'Messages'}}/>
                 <Tab.Screen name="Profile" component={Profile} options={{title: 'Profile'}}/>
         </Tab.Navigator>
     );

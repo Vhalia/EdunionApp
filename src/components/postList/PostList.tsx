@@ -10,6 +10,7 @@ const PostList = (props : PostListProps) => {
        <FlatList
         style={[style.container, props.style]}
         data={props.posts}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) =>
             <TouchableHighlight
                 style={[style.post, props.itemStyle]}

@@ -70,8 +70,8 @@ const PostEdit = (props: PostEditProps) => {
        setPhotos([...photos, photo]); 
     }
 
-    const onCategoryButtonPress = (category: EPostType) => {
-        setPostType(category);
+    const onCategoryButtonPress = (category?: EPostType) => {
+        setPostType(category ?? EPostType.COURSE);
     }
     
     const onSelectStatus = (value: string) => {

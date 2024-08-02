@@ -36,7 +36,7 @@ const SubPageFullscreen = (props : SubPageProps) => {
                 onPress={() => props.navigation.goBack()}
                 underlayColor={ColorConstants.transparent}
                 style={(backButtonPosition === 'absolute') ? styles.backButtonContainerAbsolute : styles.backButtonContainerFullscreen}>
-                <LeftArrowSVG stroke={ColorConstants.whiteMainColor} width={12} height={12}/>
+                <LeftArrowSVG color={ColorConstants.whiteMainColor} width={12} height={12}/>
             </TouchableHighlight>
 
             <View style={styles.mainContainer}>

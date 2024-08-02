@@ -37,6 +37,9 @@ const usePostService = () => {
         },
         get: (id: number) => {
             return HttpClient.get<Post>("/api/post/" + id, authContext?.token);
+        },
+        getOwn: () => {
+            return HttpClient.get<Post[]>("/api/post/own", authContext?.token);
         }
     }
 }

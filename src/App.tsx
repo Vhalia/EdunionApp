@@ -15,6 +15,7 @@ import Toast, { ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-me
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import ConfirmEmail from './pages/confirmEmail/ConfirmEmail';
 import SplashScreen from './pages/splashScreen/SplashScreen';
+import Chat from './pages/chat/Chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -114,6 +115,12 @@ function App(): JSX.Element {
                 {(props) => <SubPage
                   navigation={props.navigation}
                   renderContent={() =><PostEdit />}
+                  mode='fullscreen'/>}
+              </Stack.Screen>
+              <Stack.Screen name="Chat" options={{headerShown: false}}>
+                {(props) => <SubPage
+                  navigation={props.navigation}
+                  renderContent={() =><Chat />}
                   mode='fullscreen'/>}
               </Stack.Screen>
           </Stack.Navigator>
