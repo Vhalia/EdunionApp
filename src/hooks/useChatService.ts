@@ -13,10 +13,21 @@ const useChatService = () => {
             `/api/chat`,
             authContext?.token);
        },
+       getById: (id: number) => {
+           return HttpClient.get<ChatResponseDto>(
+            `/api/chat/${id}`,
+            authContext?.token);
+       },
        getMessages: (userId: number) => {
            return HttpClient.get<ChatMessage[]>(
             `/api/chat/${userId}/messages`,
             authContext?.token);
+       },
+       create: (postId: number) => {
+           return HttpClient.post<number>(
+                `/api/chat/${postId}`,
+                {},
+                authContext?.token);
        }
     }
 }

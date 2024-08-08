@@ -16,6 +16,8 @@ import ResetPassword from './pages/resetPassword/ResetPassword';
 import ConfirmEmail from './pages/confirmEmail/ConfirmEmail';
 import SplashScreen from './pages/splashScreen/SplashScreen';
 import Chat from './pages/chat/Chat';
+import TimezoneContext, { TimezoneContextComponent } from './contexts/TimezoneContext/TimezoneContext';
+import EditPostPage from './pages/editPost/EditPostPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,49 +84,52 @@ function App(): JSX.Element {
   return (
     <SafeAreaView style={styles.background}>
       <AuthContext>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName={'SplashScreen'}>
-              <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
-              <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
-              <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{
-                  title: 'Inscription',
-                  headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
-                  headerTintColor: ColorConstants.whiteMainColor
-                }}/>
-              <Stack.Screen
-                name="ResetPassword"
-                component={ResetPassword}
-                options={{
-                  title: 'Reinitialisation du mot de passe',
-                  headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
-                  headerTintColor: ColorConstants.whiteMainColor
-                }}/>
-              <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{headerShown: false}}/>
-              <Stack.Screen name="Navbar" component={Navbar} options={{headerShown: false}} />
-              <Stack.Screen name="Post" options={{headerShown: false}}>
-                {(props) => <SubPage
-                  navigation={props.navigation}
-                  renderContent={() =><Post />}
-                  mode='fullscreen'
-                  backButtonPosition='absolute'/>}
-              </Stack.Screen>
-              <Stack.Screen name="PostEdit" options={{headerShown: false}}>
-                {(props) => <SubPage
-                  navigation={props.navigation}
-                  renderContent={() =><PostEdit />}
-                  mode='fullscreen'/>}
-              </Stack.Screen>
-              <Stack.Screen name="Chat" options={{headerShown: false}}>
-                {(props) => <SubPage
-                  navigation={props.navigation}
-                  renderContent={() =><Chat />}
-                  mode='fullscreen'/>}
-              </Stack.Screen>
-          </Stack.Navigator>
-        </NavigationContainer>
+        <TimezoneContextComponent>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName={'SplashScreen'}>
+                <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
+                <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+                <Stack.Screen
+                  name="Register"
+                  component={Register}
+                  options={{
+                    title: 'Inscription',
+                    headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
+                    headerTintColor: ColorConstants.whiteMainColor
+                  }}/>
+                <Stack.Screen
+                  name="ResetPassword"
+                  component={ResetPassword}
+                  options={{
+                    title: 'Reinitialisation du mot de passe',
+                    headerStyle: {backgroundColor: ColorConstants.blackSecondaryColor},
+                    headerTintColor: ColorConstants.whiteMainColor
+                  }}/>
+                <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{headerShown: false}}/>
+                <Stack.Screen name="Navbar" component={Navbar} options={{headerShown: false}} />
+                <Stack.Screen name="Post" options={{headerShown: false}}>
+                  {(props) => <SubPage
+                    navigation={props.navigation}
+                    renderContent={() =><Post />}
+                    mode='fullscreen'
+                    backButtonPosition='absolute'/>}
+                </Stack.Screen>
+                <Stack.Screen name="PostEdit" options={{headerShown: false}}>
+                  {(props) => <SubPage
+                    navigation={props.navigation}
+                    renderContent={() =><EditPostPage />}
+                    mode='fullscreen'/>}
+                </Stack.Screen>
+                <Stack.Screen name="Chat" options={{headerShown: false}}>
+                  {(props) => <SubPage
+                    navigation={props.navigation}
+                    renderContent={() =><Chat />}
+                    mode='fullscreen'
+                    backButtonPosition='absolute'/>}
+                </Stack.Screen>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </TimezoneContextComponent>
       </AuthContext>
       <Toast config={toastConfig}/>
     </SafeAreaView>

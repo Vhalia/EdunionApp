@@ -3,7 +3,7 @@ import PostProps from "./props/postProps";
 import styles from "./style/postStyle";
 import CarouselV2 from "../carousel-v2/CarouselV2";
 import LinearGradient from "react-native-linear-gradient";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {default as PostModel} from "../../models/Post";
 import EPostType from "../../models/enums/EPostType";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -16,13 +16,18 @@ import EPostStatus, { PostStatusToColor, PostStatusToString } from "../../models
 import EllipseFilledSVG from "../../../images/ellipseFilled.svg" 
 import usePostService from "../../hooks/usePostService";
 import Loading from "../../modules/Loading/Loading";
+import MainButton from "../../modules/mainButton/MainButton";
+import useChatService from "../../hooks/useChatService";
+import Context from "../../contexts/AuthContext/AuthContext";
 
 const Post = (props : PostProps) => {
     const [post, setPost] = useState<PostModel | undefined>(undefined);
     
     const route = useRoute();
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const postService = usePostService();
+    const chatService = useChatService();
+    const authContext = useContext(Context);
     const routeParams = route.params as PostProps;
     
     const postId = props.postId ?? routeParams.postId;
@@ -46,6 +51,18 @@ const Post = (props : PostProps) => {
             console.log(err)
         })
     }, [postId])
+
+    const onPressContact = () => {
+        if (!post?.id){
+            return;
+        }
+        chatService.create(post.id).then((chatId) => {
+            console.log('CREATE CHAT', chatId)
+            navigation.navigate('Chat', {chatId: chatId})
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
     
     return (
         <>
@@ -94,8 +111,8 @@ const Post = (props : PostProps) => {
                         <MainText text={PostStatusToString(post.status)} fontSize={14}/>
                     </View>
 
-                    <View style={[styles.content, styles.bigGap, styles.bigGapDown]}>
-                        <View style={[styles.bigGap, styles.horizontalSpacing]}>
+                    <View style={[styles.content, styles.bigGap, styles.bigGapDown, {paddingBottom: 10}]}>
+                        <View style={[styles.midGap, styles.horizontalSpacing]}>
                             <MainText
                                 text={post.title}
                                 fontSize={20}
@@ -118,13 +135,13 @@ const Post = (props : PostProps) => {
                                 fontSize={20}
                                 weight="bold"/>
                         </View>
-                        <View style={[styles.bigGap, styles.horizontalSpacing, {width: 200, marginBottom: 20}]}>
-                            {post.user.contacts && 
-                                <UserContact
-                                    contacts={post.user.contacts}/>
-                            }
-                        </View>
                     </View>
+                    {post.user.id !== authContext?.currentUser?.id && <View style={[styles.bigGap, styles.horizontalSpacing, {marginBottom: 20}]}>
+                        <MainButton
+                            text="Contactez"
+                            onPress={onPressContact}
+                            style={styles.button}/>
+                    </View>}
                 </View>
             </ScrollView>
            }

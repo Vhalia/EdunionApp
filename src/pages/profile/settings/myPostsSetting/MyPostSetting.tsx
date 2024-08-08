@@ -1,12 +1,13 @@
 import { View } from "react-native";
-import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Post from "../../../../models/Post";
 import style from "./style/myPostsSettingStyle";
 import { ColorConstants } from "../../../../constants/ThemeConstants";
 import PostList from "../../../../components/postList/PostList";
 import usePostService from "../../../../hooks/usePostService";
 import Loading from "../../../../modules/Loading/Loading";
+import daysjs from "dayjs";
 
 const MyPostsSetting = () => {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -15,17 +16,22 @@ const MyPostsSetting = () => {
 
     const postService = usePostService();
 
-    useEffect(() => {
+    useFocusEffect(
+        useCallback(() => {
+            getOwnPosts()
+        }, [])
+    )
+    
+    const getOwnPosts = () => {
         setIsLoading(true)
-
         postService.getOwn().then(posts => {
             setIsLoading(false)
-            setPosts(posts)
+            setPosts(posts.sort((a, b) => daysjs(b.lastModificationDate).diff(daysjs(a.lastModificationDate))))
         }).catch(err => {
             setIsLoading(false)
             console.log(err)
         })
-    }, [])
+    }
 
     const onPressPost = (post: Post) => {
         console.log(post)

@@ -11,6 +11,8 @@ const PostList = (props : PostListProps) => {
         style={[style.container, props.style]}
         data={props.posts}
         showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        overScrollMode="never"
         renderItem={({item}) =>
             <TouchableHighlight
                 style={[style.post, props.itemStyle]}

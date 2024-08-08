@@ -15,8 +15,17 @@ const usePostService = () => {
         post: (post: AddEditPostDto) => {
             return HttpClient.post<number>("/api/post", post, authContext?.token);
         },
+        put: (post: AddEditPostDto) => {
+            return HttpClient.put<number>("/api/post", post, authContext?.token);
+        },
         addPhotos: (id: number, photos: File[]) => {
             return HttpClient.postMultipartFormData(
+                "/api/post/"+id+"/blob",
+                [{key: "Files", value: photos}],
+                authContext?.token)
+        },
+        updatePhotos: (id: number, photos: File[]) => {
+            return HttpClient.putMultipartFormData(
                 "/api/post/"+id+"/blob",
                 [{key: "Files", value: photos}],
                 authContext?.token)

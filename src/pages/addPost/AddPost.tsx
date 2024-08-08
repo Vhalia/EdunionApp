@@ -16,7 +16,6 @@ const AddPost = () => {
     const navigation = useNavigation<any>();
 
     const onSubmit = async (newPost: AddEditPostDto, photos: File[]) => {
-        console.log("SUBMIT", newPost);
         setIsLoading(true)
         setResetState(false)
         try {

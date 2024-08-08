@@ -1,4 +1,5 @@
 export default interface ChatMessage {
     message: string,
-    sourceUserId: number
+    sourceUserId: number,
+    date?: Date
 }

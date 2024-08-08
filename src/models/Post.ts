@@ -17,5 +17,6 @@ export default interface Post {
     status: EPostStatus,
     tags: Tag[],
     books?: Book[],
-    schedules?: Schedule[]
+    schedules?: Schedule[],
+    lastModificationDate: Date
 }

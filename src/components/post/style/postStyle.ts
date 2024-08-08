@@ -11,10 +11,13 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.greyMainColor,
         borderRadius: 14,
         marginLeft: 10,
-        marginRight: 10
+        marginRight: 10,
     },
     gap: {
         marginTop: 5
+    },
+    midGap : {
+        marginTop: 10,
     },
     bigGap : {
         marginTop: 20,
@@ -32,6 +35,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap:10, 
         padding: 10
+    },
+    button: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: ColorConstants.purpleMainColor,
+        padding: 10,
+        flexGrow: 1
     }
 })
 

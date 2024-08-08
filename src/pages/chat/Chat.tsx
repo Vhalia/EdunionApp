@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Keyboard, StyleSheet, TouchableHighlight, View } from "react-native";
+import { Dimensions, FlatList, Image, Keyboard, StyleSheet, TouchableHighlight, View } from "react-native";
 import MainText from "../../modules/text/MainText";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import  ChatType from "../../models/Chat";
@@ -11,26 +11,51 @@ import { useRoute } from "@react-navigation/native";
 import { LogLevel, HubConnectionBuilder, HubConnection} from "@microsoft/signalr"
 import SendSVG from "../../../images/send.svg";
 import MainInput from "../../components/mainInput/MainInput";
+import dayjs from "dayjs";
+import TimezoneContext from "../../contexts/TimezoneContext/TimezoneContext";
+import useChatService from "../../hooks/useChatService";
 
 const Chat = (props: ChatProps) => {
     const route = useRoute();
     const routeParams = route.params as ChatProps;
-    const chat = props.chat ?? routeParams?.chat;
 
-    const [messages, setMessages] = useState<ChatMessageType[]>(chat?.messages ?? []);
+    const [chat, setChat] = useState<ChatType>();
     const [text, setText] = useState<string>("");
-    const [scrollIndex, setScrollIndex] = useState<number>(0);
     const listRef = useRef<FlatList<ChatMessageType>>(null);
     const [signalRConnection, setSignalRConnection] = useState<HubConnection>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [getChatIsLoading, setGetChatIsLoading] = useState(false);
+    const [signalRIsLoading, setSignalRIsLoading] = useState(false);
     
     const authContext = useContext(Context);
+    const chatService = useChatService();
+    const timezoneContext = useContext(TimezoneContext);
     
     const senderUserId = authContext?.currentUser?.id;
     const receiverUserId = chat?.user1.id == senderUserId ? chat?.user2?.id : chat?.user1?.id;
 
     useEffect(() => {
-        setIsLoading(true)
+        if (routeParams.chat){
+            routeParams.chat.messages.sort((a, b) => dayjs(b.date).diff(dayjs(a.date)))
+            setChat(routeParams.chat)
+            return;
+        }
+        
+        if (routeParams.chatId){
+            setGetChatIsLoading(true)
+            chatService.getById(routeParams.chatId).then((chat) => {
+                chat.messages.sort((a, b) => dayjs(b.date).diff(dayjs(a.date)))
+                setChat(chat)
+                setGetChatIsLoading(false)
+            }).catch((err) => {
+                console.log(err)
+                setGetChatIsLoading(false)
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        setSignalRIsLoading(true)
+
         let connection = new HubConnectionBuilder()
             .withUrl(process.env.BASE_URL+"/chatHub", {
                 accessTokenFactory: () => authContext?.token ?? "",
@@ -40,18 +65,22 @@ const Chat = (props: ChatProps) => {
             .build();
     
         connection.start().then(() => {
-            setIsLoading(false)
+            setSignalRIsLoading(false)
             setSignalRConnection(connection);
         }).catch(err => {
             console.log(err)
-            setIsLoading(false)
+            setSignalRIsLoading(false)
         })
     
-        connection.on("ReceiveMessage", (userId, postId, message) => {
-            setMessages([...messages, {
-                message: message,
-                sourceUserId: userId,
-            }])
+        connection.on("ReceiveMessage", (userId, postId, message, date) => {
+            setChat({
+                ...chat!,
+                messages: [{
+                    message: message,
+                    sourceUserId: userId,
+                    date: date
+                }, ...chat!.messages]
+            })
         });
 
         return () => {
@@ -59,43 +88,59 @@ const Chat = (props: ChatProps) => {
         }
     }, [])
 
-    useEffect(() => {
-        listRef.current?.scrollToIndex({index: scrollIndex})
-    }, [scrollIndex])
-
     const onPressSend = () => {
         if (text === ""){
             return;
         }
         signalRConnection?.send("SendMessage", receiverUserId, chat?.post.id, text)
-        setMessages([...messages, {
-            message: text,
-            sourceUserId: senderUserId!,
-        }])
+            .catch(err => console.log(err))
+        setChat({
+            ...chat!,
+            messages: [{
+                message: text,
+                sourceUserId: senderUserId!,
+                date: new Date()
+            }, ...chat!.messages]
+        })
         setText("")
-        setScrollIndex(messages.length-1)
     }
 
     return (
         <View style={style.mainContainer}>
-            {isLoading ? <Loading /> : 
+            {getChatIsLoading || signalRIsLoading ? <Loading /> : 
                 <View style={style.container}>
+                    <View style={{backgroundColor: ColorConstants.greyMainColor, borderRadius: 10, padding:3, marginLeft: 50, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                        {/* <View style={{marginLeft: 40, display: 'flex', flexDirection: 'row', alignItems: 'center'}}> */}
+                            <Image
+                                source={chat?.post.blobPaths && chat?.post.blobPaths.length > 0 ? {uri: chat.post.blobPaths[0]} : require("../../../images/defaultProfilePicture.png")}
+                                style={[style.postInChatImageStyle, {width: 50, height: 50}]}
+                                resizeMode="cover"
+                                borderRadius={55}/>
+                            <View>
+                                <MainText
+                                    fontSize={14}
+                                    text={chat?.post.title ?? ""}/>
+                                <MainText
+                                    fontSize={13}
+                                    fontColor={ColorConstants.white70PercentColor}
+                                    text={chat?.post.price?.toString() + " €" ?? "Gratuit"}/>
+                            </View>
+                        {/* </View> */}
+                    </View>
                     <FlatList
                         ref={listRef}
-                        data={messages}
+                        data={chat?.messages ?? []}
                         style={style.messagesList}
                         showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={() => (
                             <View style={style.separator}></View>
                         )}
-                        onScrollToIndexFailed={info => {
-                            console.log(info)
-                        }}
+                        inverted
                         overScrollMode="never"
                         renderItem={({index, item}) => {
                             return (
                                 <ChatMessage
-                                    previousMessage={messages[index - 1]}
+                                    previousMessage={chat?.messages[index - 1]}
                                     message={item}
                                     type={item.sourceUserId == senderUserId ? 'sender' : 'receiver'}/>
                             )
@@ -122,21 +167,44 @@ const Chat = (props: ChatProps) => {
 }
 
 const ChatMessage = (props: ChatMessageProps) => {
+
+    const timezoneContext = useContext(TimezoneContext);
+
+    const formatDate = (date: Date) => {
+        let now = dayjs();
+        let timezone = timezoneContext?.getTimezone();
+        let dateTime = dayjs.tz(date.toString(), timezone);
+
+        if (!dateTime.isValid())
+            return "";
+
+        if (now.year === dateTime.year)
+            return dateTime.format("D MMM HH:mm");
+
+        return dateTime.format("D MMM YYYY HH:mm")
+    }
+
     return (
         <View style={[style.messageContainer]}>
             <MainText
                 text={props.message.message}
-                fontSize={13}
+                fontSize={14}
                 fontColor={ColorConstants.whiteMainColor}
                 style={[
                     style.message,
                     props.type == 'sender' ? style.messageSender : style.messageReceiver]}/>
+            <MainText
+                text={props.message.date ? formatDate(props.message.date) : ""}
+                fontSize={11}
+                fontColor={ColorConstants.white70PercentColor}
+                style={props.type == 'sender' ? {alignSelf: "flex-end"} : {alignSelf: "flex-start"}}/>
         </View>
     )
 }
 
 interface ChatProps {
     chat?: ChatType,
+    chatId?: number
 }
 
 interface ChatMessageProps {
@@ -165,6 +233,7 @@ const style = StyleSheet.create({
     },
     messageContainer: {
         display: "flex",
+        gap: 3
     },
     messageSender: {
         backgroundColor: ColorConstants.purpleMainColor,
@@ -199,7 +268,12 @@ const style = StyleSheet.create({
     input: {
         backgroundColor: ColorConstants.blackSecondaryColor,
         borderRadius: 14,
-    }
+    },
+    postInChatImageStyle: {
+        margin: 10,
+        width: 50,
+        height: 50
+    },
 })
 
 export default Chat;

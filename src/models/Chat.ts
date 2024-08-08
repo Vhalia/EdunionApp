@@ -4,6 +4,7 @@ import User from "./User";
 
 export default interface ChatResponseDto {
     id: number,
+    lastModificationDate: Date,
     messages: ChatMessage[],
     post: Post,
     user1: User,
