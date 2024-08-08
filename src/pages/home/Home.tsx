@@ -18,6 +18,7 @@ import EUserState from "../../models/enums/EUserState"
 import usePostService from "../../hooks/usePostService"
 import Loading from "../../modules/Loading/Loading"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { ColorConstants } from "../../constants/ThemeConstants"
 
 const Home = () => {
     console.log("---------------------------------")
@@ -110,47 +111,63 @@ const Home = () => {
 
                 </FoldHeader>
                 
-                    <ScrollView
-                        style={styles.scrollContainer}
-                        contentContainerStyle={styles.mainContainerChildProps}
-                        onScroll={onScroll}
-                        showsVerticalScrollIndicator={false}
-                        scrollEnabled={isScrollEnabled}>
-                        
-                        <View style={styles.searchBarContainer}>
-                            <MainText
-                                weight={'700'}
-                                fontSize={25}
-                                text="Qu'est ce que tu cherches ?"
-                                style={styles.searchBarTitle}/>
-                            <SearchBar
-                                style={styles.searchBar}
-                                onPressSearch={onPressSearch}
-                                sideButtonMode="button"
-                                onPressSideButton={onPressSideButtonSearchBar}/>
-                        </View>
+                <ScrollView
+                    style={styles.scrollContainer}
+                    contentContainerStyle={styles.mainContainerChildProps}
+                    onScroll={onScroll}
+                    showsVerticalScrollIndicator={false}
+                    scrollEnabled={isScrollEnabled}>
+                    
+                    <View style={styles.searchBarContainer}>
+                        <MainText
+                            weight={'700'}
+                            fontSize={25}
+                            text="Qu'est ce que tu cherches ?"
+                            style={styles.searchBarTitle}/>
+                        <SearchBar
+                            style={styles.searchBar}
+                            onPressSearch={onPressSearch}
+                            sideButtonMode="button"
+                            onPressSideButton={onPressSideButtonSearchBar}/>
+                    </View>
 
-                        <View style={styles.newBookPostsContainer}>
-                            <MainText weight={'700'} fontSize={20} text="Livres mis récemment en vente" />
-                            {bookPostIsLoading
-                                ? <Loading />
-                                : <Carousels
-                                    items={bookPosts}
-                                    onPressItem={(item, index) => onPostCardPress(item.id)}/>
-                            }
-                        </View>
+                    <View style={styles.newBookPostsContainer}>
+                        <MainText weight={'700'} fontSize={20} text="Livres mis récemment en vente" />
+                        {bookPostIsLoading
+                            ? <Loading />
+                            : bookPosts?.length > 0 ? (
+                                    <Carousels
+                                        items={bookPosts}
+                                        onPressItem={(item, index) => onPostCardPress(item.id)}/>)
+                                : (
+                                    <MainText
+                                        text="Il n'y a rien ici..."
+                                        fontSize={20}
+                                        fontColor={ColorConstants.white70PercentColor}
+                                        style={{margin: 10}}/>
+                                )
+                        }
+                    </View>
 
-                        <View style={styles.newCoursePostsContainer}>
-                            <MainText weight={'700'} fontSize={20} text="Nouvelles propositions de cours" />
-                            {coursePostIsLoading
-                                ? <Loading />
-                                : <Carousels
-                                    items={coursePosts}
-                                    onPressItem={(item, index) => onPostCardPress(item.id)}/>
-                            }
-                        </View>
+                    <View style={styles.newCoursePostsContainer}>
+                        <MainText weight={'700'} fontSize={20} text="Nouvelles propositions de cours" />
+                        {coursePostIsLoading
+                            ? <Loading />
+                            : coursePosts?.length > 0 ? (
+                                    <Carousels
+                                        items={coursePosts}
+                                        onPressItem={(item, index) => onPostCardPress(item.id)}/>)
+                                : (
+                                    <MainText
+                                        text="Il n'y a rien ici..."
+                                        fontSize={20}
+                                        fontColor={ColorConstants.white70PercentColor}
+                                        style={{margin: 10}}/>
+                                )
+                        }
+                    </View>
 
-                    </ScrollView>
+                </ScrollView>
             </View>
         </GestureHandlerRootView>
     )

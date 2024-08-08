@@ -8,6 +8,7 @@ import PostList from "../../../../components/postList/PostList";
 import usePostService from "../../../../hooks/usePostService";
 import Loading from "../../../../modules/Loading/Loading";
 import daysjs from "dayjs";
+import MainText from "../../../../modules/text/MainText";
 
 const MyPostsSetting = () => {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -43,11 +44,19 @@ const MyPostsSetting = () => {
                 {isLoading
                     ? <Loading />
                     :
-                        <PostList
-                            posts={posts}
-                            style={{backgroundColor: ColorConstants.greyMainColor}}
-                            itemStyle={{backgroundColor: ColorConstants.blackMainColor}}
-                            onPress={onPressPost}/>}
+                        posts?.length > 0 ? (
+                            <PostList
+                                posts={posts}
+                                style={{backgroundColor: ColorConstants.greyMainColor}}
+                                itemStyle={{backgroundColor: ColorConstants.blackMainColor}}
+                                onPress={onPressPost}/>)
+                            : (
+                                <MainText
+                                    text="Vous n'avez pas de post..."
+                                    fontSize={18}
+                                    style={{alignSelf: "center", marginTop: 50}}/>
+                            )
+                }
             </View>
         </View>
     )

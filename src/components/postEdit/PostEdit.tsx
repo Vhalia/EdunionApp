@@ -13,7 +13,7 @@ import Tags from "../tags/Tags";
 import EPostType from "../../models/enums/EPostType";
 import { useRoute } from "@react-navigation/native";
 import SelectList from "../../modules/SelectList/SelectList";
-import EPostStatus, { PostStatusToString } from "../../models/enums/EPostStatus";
+import EPostStatus, { FromStringPostStatusToEnum, PostStatusToString } from "../../models/enums/EPostStatus";
 import { getEnumValue } from "../../utils/utils";
 import File from "../../models/File";
 import MainButton from "../../modules/mainButton/MainButton";
@@ -36,7 +36,7 @@ const PostEdit = (props: PostEditProps) => {
     const photoFiles = post?.blobPaths?.map(p => { return {uri: p} as File}) ?? [];
     const [photos, setPhotos] = useState<File[]>(photoFiles);
     const [price, setPrice] = useState(post?.price ?? 0);
-    const [postStatus, setPostStatus] = useState<EPostStatus>(post?.status ?? EPostStatus.CREATED);
+    const [postStatus, setPostStatus] = useState<EPostStatus>(post?.status ?? EPostStatus.AVAILABLE);
     const [activeTags, setActiveTags] = useState<TagType[]>(post?.tags ?? []);
     const [books, setBooks] = useState<Book[]>(post?.books ?? []);
     const [schedules, setSchedules] = useState<Schedule[]>(post?.schedules ?? [{
@@ -78,7 +78,7 @@ const PostEdit = (props: PostEditProps) => {
         if (!post)
             return;
         
-        setPostStatus(getEnumValue(EPostStatus, value))
+        setPostStatus(FromStringPostStatusToEnum(value))
     }
 
     const onAddButtonPress = () => {
@@ -112,7 +112,8 @@ const PostEdit = (props: PostEditProps) => {
             tags: activeTags.map(t => t.id),
             books: postType === EPostType.BOOK ? books : undefined,
             schedules: postType === EPostType.COURSE ? schedules : undefined,
-            shortDescription: ""
+            shortDescription: "",
+            status: postStatus
         },
         photos);
     }
@@ -141,7 +142,7 @@ const PostEdit = (props: PostEditProps) => {
         setTitle("");
         setDescription("");
         setPrice(0);
-        setPostStatus(EPostStatus.CREATED);
+        setPostStatus(EPostStatus.AVAILABLE);
         setActiveTags([]);
         setBooks([]);
         setSchedules([{
@@ -185,7 +186,7 @@ const PostEdit = (props: PostEditProps) => {
 
                     <SelectList
                         data={status}
-                        initialSelected={post?.status ?? postStatus}
+                        initialSelected={PostStatusToString(post?.status ?? postStatus)}
                         onSelect={onSelectStatus}
                         orientation="horizontal"
                         elementStyle={{backgroundColor: "rgba(0,0,0,0)"}}

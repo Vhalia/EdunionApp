@@ -1,4 +1,5 @@
 import Book from "../Book";
+import EPostStatus from "../enums/EPostStatus";
 import EPostType from "../enums/EPostType";
 import Schedule from "../Schedule";
 
@@ -11,5 +12,6 @@ export default interface AddEditPostDto{
     type: EPostType,
     tags: number[],
     books? : Book[],
-    schedules? : Schedule[]
+    schedules? : Schedule[],
+    status? : EPostStatus
 }

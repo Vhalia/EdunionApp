@@ -19,6 +19,19 @@ const PostStatusToString = (status : EPostStatus)=> {
     }
 }
 
+const FromStringPostStatusToEnum = (status : string)=> {
+    switch(status) {
+        case "Créé":
+            return EPostStatus.CREATED;
+        case "Disponible":
+            return EPostStatus.AVAILABLE
+        case "Indisponible":
+            return EPostStatus.UNAVAILABLE 
+        default:
+            return EPostStatus.AVAILABLE
+    }
+}
+
 const PostStatusToColor = (status : EPostStatus)=> {
     switch(status) {
         case EPostStatus.CREATED:
@@ -33,4 +46,4 @@ const PostStatusToColor = (status : EPostStatus)=> {
 }
 
 export default EPostStatus
-export {PostStatusToString, PostStatusToColor}
+export {PostStatusToString, PostStatusToColor, FromStringPostStatusToEnum}

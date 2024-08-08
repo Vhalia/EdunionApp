@@ -157,13 +157,7 @@ const ProfileSetting = () => {
                     style={styles.title}
                     weight={'700'}
                     fontSize={15}
-                    text="Ecole"/>
-                <MainInput
-                    style={[styles.inputs, styles.gap]}
-                    inputMode="text"
-                    value={school?.name}
-                    disabled
-                    isLoading={isLoading}/>
+                    text={"Ecole" + (school?.name ? `: ${school?.name}` : "")}/>
             </View>
             <MainButton
                 onPress={onSubmit}

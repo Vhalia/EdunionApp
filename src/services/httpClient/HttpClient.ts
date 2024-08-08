@@ -49,19 +49,7 @@ const HttpClient = {
     },
     postMultipartFormData : async <T,>(url: string, datas: MultipartFormData[], token?: string) : Promise<T> => {
         try {
-            const formData = new FormData();
-      
-            for(const data of datas) {
-                if (Array.isArray(data.value))
-                {
-                    for (const ele of data.value) {
-                        formData.append(data.key, ele);
-                    }
-                    continue
-                }
-
-                formData.append(data.key, data.value);
-            }
+            const formData = CreateFormData(datas);
             const response = await fetch(getFullUrl(url), {
                 method: 'POST',
                 headers: {
@@ -107,11 +95,7 @@ const HttpClient = {
     },
     putMultipartFormData : async <T,>(url: string, datas: MultipartFormData[], token?: string) : Promise<T> => {
         try {
-            const formData = new FormData();
-      
-            for(const data of datas) {
-                formData.append(data.key, data.value);
-            }
+            const formData = CreateFormData(datas)
             const response = await fetch(getFullUrl(url), {
                 method: 'PUT',
                 headers: {
@@ -210,4 +194,21 @@ const handleFailedRequest = async (response: Response) => {
     throw new ApiError(errorResponse.error, errorResponse.status)
 }
 
+const CreateFormData = (datas: MultipartFormData[]) => {
+    const formData = new FormData();
+
+    for (const data of datas) {
+        if (Array.isArray(data.value)) {
+            for (const ele of data.value) {
+                formData.append(data.key, ele);
+            }
+            continue;
+        }
+
+        formData.append(data.key, data.value);
+    }
+    return formData;
+}
+
 export default HttpClient;
+

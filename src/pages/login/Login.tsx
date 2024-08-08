@@ -24,6 +24,14 @@ const Login = () => {
     const authContext = useContext(Context);
     const navigation = useNavigation<any>();
     const authorizationService = useAuthorizationService();
+
+    useEffect(() => {
+        //prevent going back
+        navigation.addListener('beforeRemove', (e: any) => {
+            if (e.data.action.type !== 'NAVIGATE')
+                e.preventDefault();
+        })
+    }, [navigation]);
     
     const onLoginPress = () => {
         setIsLoading(true)

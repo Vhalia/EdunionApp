@@ -64,6 +64,10 @@ const Post = (props : PostProps) => {
         })
     }
     
+    const onPressModify = () => {
+        navigation.navigate("PostEdit", {post: post})
+    }
+
     return (
         <>
            {!post ? 
@@ -136,12 +140,22 @@ const Post = (props : PostProps) => {
                                 weight="bold"/>
                         </View>
                     </View>
-                    {post.user.id !== authContext?.currentUser?.id && <View style={[styles.bigGap, styles.horizontalSpacing, {marginBottom: 20}]}>
-                        <MainButton
-                            text="Contactez"
-                            onPress={onPressContact}
-                            style={styles.button}/>
-                    </View>}
+                    {post.user.id !== authContext?.currentUser?.id
+                    ?
+                        <View style={[styles.bigGap, styles.horizontalSpacing, {marginBottom: 20}]}>
+                            <MainButton
+                                text="Contactez"
+                                onPress={onPressContact}
+                                style={styles.button}/>
+                        </View>
+                        : 
+                        <View style={[styles.bigGap, styles.horizontalSpacing, {marginBottom: 20}]}>
+                            <MainButton
+                                text="Modifier"
+                                onPress={onPressModify}
+                                style={styles.button}/>
+                        </View>
+                    }
                 </View>
             </ScrollView>
            }

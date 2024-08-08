@@ -17,13 +17,13 @@ const EditPostPage = (props: EditPostPageProps) => {
 
     const navigation = useNavigation<any>();
 
-    const onSubmit = async (newPost: AddEditPostDto, photos: File[]) => {
+    const onSubmit = async (modifiedPost: AddEditPostDto, photos: File[]) => {
         setIsLoading(true)
         setResetState(false)
         try {
-            const id = await postService.put(newPost);
+            await postService.put(modifiedPost);
             if (photos && photos.length > 0) {
-                await postService.updatePhotos(id, photos)
+                await postService.updatePhotos(modifiedPost.id, photos)
             }
             setIsLoading(false)
             setResetState(true)
