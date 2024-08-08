@@ -5,5 +5,6 @@ export default interface SearchBarProps {
     dropDownStyle? : StyleProp<ViewStyle>
     style? : StyleProp<ViewStyle>
     sideButtonMode?: 'dropdown' | 'button',
-    onPressSideButton? : () => void
+    onPressSideButton? : () => void,
+    search?: string
 }

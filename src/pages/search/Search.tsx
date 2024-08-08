@@ -161,7 +161,8 @@ const Search = (props: SearchProps) => {
                         dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
                         style={[styles.seachBarStyle]}
                         sideButtonMode="button"
-                        onPressSideButton={() => showAdvancedSearch(true)}/>
+                        onPressSideButton={() => showAdvancedSearch(true)}
+                        search={searchInputText}/>
                     
                 </Animated.View>
             </Header>

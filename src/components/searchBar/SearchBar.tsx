@@ -8,15 +8,20 @@ import styles from "./style/searchBarStyle";
 import IconDropdownElement from "../../modules/dropDown/iconDropDown/IconDropdownElement";
 import ButtonWithIcon from "../../modules/buttonWithIcon/ButtonWithIcon";
 import SearchBarProps from "./props/searchBarProps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ColorConstants } from "../../constants/ThemeConstants";
 import IconDropDown from "../../modules/dropDown/iconDropDown/IconDropDown";
 
 const SearchBar = (props : SearchBarProps) => {
-    const [searchInputText, setSearchInputText] = useState("");
+    const [searchInputText, setSearchInputText] = useState(props.search ?? "");
 
     const sideButtonMode = props.sideButtonMode ?? 'dropdown'
     const buttonContainerStyle = sideButtonMode === 'dropdown' ? styles.dropDownContainer : styles.buttonContainer
+
+    useEffect(() => {
+        console.log(props.search)
+        setSearchInputText(props.search ?? "")
+    }, [props.search])
 
     const onSearchButtonPress = () => {
         Keyboard.dismiss();
@@ -65,7 +70,7 @@ const SearchBar = (props : SearchBarProps) => {
                         onChangeText={onSearchInputTextChange}
                         onSubmitEditing={onSearchButtonPress}
                         selectTextOnFocus
-                        />
+                        value={searchInputText}/>
                     <ButtonWithIcon
                         style={styles.searchButton}
                         onPress={onSearchButtonPress}>

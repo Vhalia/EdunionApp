@@ -34,7 +34,6 @@ const MyPostsSetting = () => {
     }
 
     const onPressPost = (post: Post) => {
-        console.log(post)
         navigation.navigate("PostEdit", {post: post});
     }
 
