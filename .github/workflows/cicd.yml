@@ -30,6 +30,12 @@ jobs:
       env:
         DATA: ${{secrets.GOOGLE_SERVICES_JSON}}
       run: echo $DATA | base64 -di > android/app/google-services.json
+
+    - name: TEST
+      run: cd android
+      
+    - name: TEST 2
+      run: pwd
       
     - name: build release 
       run: cd android && chmod +x gradlew && ./gradlew assembleRelease
@@ -40,4 +46,4 @@ jobs:
         appId: ${{secrets.FIREBASE_APP_ID}}
         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
         groups: testers
-        file: app/build/outputs/apk/release/app-release-unsigned.apk
+        file: android/app/build/outputs/apk/release/app-release.apk
