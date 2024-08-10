@@ -24,12 +24,10 @@ jobs:
         java-version: 21
         
     - name: Load Google Service file
-      env:
-        DATA: ${{secrets.GOOGLE_SERVICES_JSON}}
-      run: echo $DATA | base64 -di > android/app/google-services.json
+      run: echo ${{secrets.GOOGLE_SERVICES_JSON}} | base64 -di > android/app/google-services.json
 
     - name: TEST
-      run: ls -a android
+      run: ls -a android/app
 
     - name: TEST 2
       run: cat android/app/google-services.json
