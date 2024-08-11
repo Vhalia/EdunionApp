@@ -3,10 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "start:local": "SET ENVFILE=.env.local && react-native start",
+    "android:local": "SET ENVFILE=.env.local && react-native run-android",
+    "ios:local": "SET ENVFILE=.env.local && react-native run-ios",
+    "start:staging": "SET ENVFILE=.env.staging && react-native start",
+    "android:staging": "SET ENVFILE=.env.staging && react-native run-android",
+    "ios:staging": "SET ENVFILE=.env.staging && react-native run-ios",
+    "android:release": "SET ENVFILE=.env && cd android && gradlew assembleRelease",
+    "android:release:staging": "SET ENVFILE=.env.staging && cd android && gradlew assembleRelease",
     "lint": "eslint .",
-    "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
@@ -22,6 +30,7 @@
     "@shopify/flash-list": "^1.6.4",
     "react": "18.2.0",
     "react-native": "0.72.7",
+    "react-native-config": "^1.5.3",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.14.0",
     "react-native-image-picker": "^7.1.0",

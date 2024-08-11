@@ -4,11 +4,11 @@ import ApiError from "../../models/ApiError";
 import Toast from "react-native-toast-message";
 import MultipartFormData from "../../models/MultipartFormData";
 import { isJson } from "../../utils/utils";
+import Config from "react-native-config";
 
 const HttpClient = {
     get: async <T,>(url: string, token?: string) : Promise<T> => {
         try{
-            console.log(getFullUrl(url))
             const response = await fetch(getFullUrl(url), {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ''
@@ -136,16 +136,22 @@ const HttpClient = {
 }
 
 const getFullUrl = (url: string) => {
-    if (process.env.BASE_URL === undefined){
+    if (Config.BASE_URL === undefined){
         throw new Error("BASE_URL not defined")
     }
 
-    const protocol = process.env.BASE_URL.match(/^https?:\/\//i)![0];
-    const urlWithoutProtocol = process.env.BASE_URL.replace(protocol, "");
+    const protocol = Config.BASE_URL.match(/^https?:\/\//i)![0];
+    const urlWithoutProtocol = Config.BASE_URL.replace(protocol, "");
     return protocol+(urlWithoutProtocol+"/"+url).replaceAll("//", "/");
 }
 
 const handleApiError = (error: any, handleError: boolean = true) => {
+    if (Config.ENV !== "production") {
+        Toast.show({
+            type: "error",
+            text1: isJson(error.error) ? JSON.stringify(error.error) : error.error
+        })
+    }
     if (!handleError){
         throw error;
     }
@@ -175,10 +181,12 @@ const handleApiError = (error: any, handleError: boolean = true) => {
         throw error;
     }
 
-    Toast.show({
-        type: "error",
-        text1: "Une erreur est survenue"
-    })
+    if (Config.ENV === "production") {
+        Toast.show({
+            type: "error",
+            text1: "Une erreur est survenue"
+        })
+    }
 }
 
 const handleFailedRequest = async (response: Response) => {

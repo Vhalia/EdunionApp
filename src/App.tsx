@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './AppStyle';
@@ -18,6 +18,8 @@ import SplashScreen from './pages/splashScreen/SplashScreen';
 import Chat from './pages/chat/Chat';
 import TimezoneContext, { TimezoneContextComponent } from './contexts/TimezoneContext/TimezoneContext';
 import EditPostPage from './pages/editPost/EditPostPage';
+import Config from "react-native-config";
+import EnvBanner from './components/envBanner/EnvBanner';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +34,6 @@ type StackNavigationList = {
 };
 
 function App(): JSX.Element { 
-
   const toastConfig : ToastConfig = {
     error: (props) => (
       <ErrorToast
@@ -132,6 +133,7 @@ function App(): JSX.Element {
         </TimezoneContextComponent>
       </AuthContext>
       <Toast config={toastConfig}/>
+      <EnvBanner />
     </SafeAreaView>
   );
 }

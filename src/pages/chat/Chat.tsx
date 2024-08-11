@@ -14,6 +14,7 @@ import MainInput from "../../components/mainInput/MainInput";
 import dayjs from "dayjs";
 import TimezoneContext from "../../contexts/TimezoneContext/TimezoneContext";
 import useChatService from "../../hooks/useChatService";
+import Config from "react-native-config";
 
 const Chat = (props: ChatProps) => {
     const route = useRoute();
@@ -57,7 +58,7 @@ const Chat = (props: ChatProps) => {
         setSignalRIsLoading(true)
 
         let connection = new HubConnectionBuilder()
-            .withUrl(process.env.BASE_URL+"/chatHub", {
+            .withUrl(Config.BASE_URL+"/chatHub", {
                 accessTokenFactory: () => authContext?.token ?? "",
             })
             .withAutomaticReconnect()
