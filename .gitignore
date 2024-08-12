@@ -1,5 +1,8 @@
 *google-services.json
 .env.local
+edunion-key-pwd.txt
+edunion-keystore.properties
+
 # OSX
 #
 .DS_Store
