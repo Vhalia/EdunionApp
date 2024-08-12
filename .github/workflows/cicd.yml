@@ -39,12 +39,6 @@ jobs:
       env:
         DATA: ${{secrets.ANDROID_KEYSTORE_CREDENTIALS}}
       run: echo $DATA | base64 -di >> android/gradle.properties
-      
-    - name: Add rights to gradlew
-      run: chmod +X android/gradlew
-
-    - name: TEST
-      run: ls android -a
     
     - name: Build release for staging
       if: ${{ inputs.choice }} == 'staging'
