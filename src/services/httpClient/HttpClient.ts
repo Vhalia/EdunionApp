@@ -149,7 +149,7 @@ const handleApiError = (error: any, handleError: boolean = true) => {
     if (Config.ENV !== "production") {
         Toast.show({
             type: "error",
-            text1: isJson(error.error) ? JSON.stringify(error.error) : error.error
+            text1: JSON.stringify(error.error)
         })
     }
     if (!handleError){
