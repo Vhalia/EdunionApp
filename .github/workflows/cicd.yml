@@ -42,6 +42,9 @@ jobs:
       
     - name: Add rights to gradlew
       run: chmod +X android/gradlew
+
+    - name: TEST
+      run: ls android -a
     
     - name: Build release for staging
       if: ${{ inputs.choice }} == 'staging'
