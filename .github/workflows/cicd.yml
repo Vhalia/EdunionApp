@@ -44,7 +44,7 @@ jobs:
       run: chmod +X android/gradlew
 
     - name: TEST
-      run: ls -a
+      run: ls android -a
     
     - name: Build release for staging
       if: ${{ inputs.choice }} == 'staging'
