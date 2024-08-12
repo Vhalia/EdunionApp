@@ -3,10 +3,12 @@ name: Android - CD
 on:
   workflow_dispatch:
     inputs:
-      environment:
-          description: 'Target environment'
-          required: false
-          default: ''
+      choice:
+        type: choice
+        description: Select the environment
+        options:
+        - staging
+        - production
 
 jobs:
   build:
@@ -42,11 +44,11 @@ jobs:
       run: chmod +X android/gradlew
     
     - name: Build release for staging
-      if: ${{ inputs.environment }} == 'staging'
+      if: ${{ inputs.choice }} == 'staging'
       run: npm run android:release:staging
       
     - name: Build release for production
-      if: ${{ inputs.environment }} == ''
+      if: ${{ inputs.choice }} == 'production'
       run: npm run android:release
       
     - name: Upload artifact to Firebase App Distribution
