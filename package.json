@@ -19,9 +19,9 @@
     "ios:staging:win": "SET ENVFILE=.env.staging && react-native run-ios",
     "ios:staging": "ENVFILE=.env.staging && react-native run-ios",
     "android:release:win": "SET ENVFILE=.env && cd android && gradlew assembleRelease",
-    "android:release": "ENVFILE=.env && cd android && chmod +X gradlew && ./gradlew assembleRelease",
+    "android:release": "ENVFILE=.env && chmod +X android/gradlew && cd android && ./gradlew assembleRelease",
     "android:release:staging:win": "SET ENVFILE=.env.staging && cd android && gradlew assembleRelease",
-    "android:release:staging": "ENVFILE=.env.staging && cd android && chmod +X gradlew && ./gradlew assembleRelease",
+    "android:release:staging": "ENVFILE=.env.staging && chmod +X android/gradlew && cd android && ./gradlew assembleRelease",
     "lint": "eslint .",
     "test": "jest"
   },
