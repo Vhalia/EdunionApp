@@ -39,14 +39,14 @@ jobs:
       env:
         DATA: ${{secrets.ANDROID_KEYSTORE_CREDENTIALS}}
       run: echo $DATA | base64 -di >> android/gradle.properties
-    
-    - name: Build release for staging
-      if: ${{ inputs.choice }} == 'staging'
-      run: npm run android:release:staging
-      
-    - name: Build release for production
-      if: ${{ inputs.choice }} == 'production'
+
+    - if: ${{ inputs.choice }} == 'production'
+      name: Build release for production
       run: npm run android:release
+    
+    - if: ${{ inputs.choice }} == 'staging'
+      name: Build release for staging
+      run: npm run android:release:staging
       
     - name: Upload artifact to Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -55,3 +55,5 @@ jobs:
         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
         groups: Testers
         file: android/app/build/outputs/apk/release/app-release.apk
+        releaseNotes: ${{ format('{0} - {1}', inputs.choice, github.event.workflow_run.head_commit.message) }}
+        
