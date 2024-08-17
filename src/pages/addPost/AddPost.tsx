@@ -25,7 +25,7 @@ const AddPost = () => {
             }
             setIsLoading(false)
             setResetState(true)
-            navigation.navigate("Post", {postId: id})
+            navigation.navigate("Post", {postId: id, previousScreenName: "AddPost"})
         }catch(err) {
             console.log(err);
             setIsLoading(false)

@@ -6,7 +6,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { useContext, useEffect, useState } from "react";
 import {default as PostModel} from "../../models/Post";
 import EPostType from "../../models/enums/EPostType";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { StackActions, useNavigation, useRoute } from "@react-navigation/native";
 import MainText from "../../modules/text/MainText";
 import UserWithPicture from "../userWithPicture/UserWithPicture";
 import { ColorConstants } from "../../constants/ThemeConstants";
@@ -19,6 +19,8 @@ import Loading from "../../modules/Loading/Loading";
 import MainButton from "../../modules/mainButton/MainButton";
 import useChatService from "../../hooks/useChatService";
 import Context from "../../contexts/AuthContext/AuthContext";
+import EUserState from "../../models/enums/EUserState";
+import Toast from "react-native-toast-message";
 
 const Post = (props : PostProps) => {
     const [post, setPost] = useState<PostModel | undefined>(undefined);
@@ -56,6 +58,16 @@ const Post = (props : PostProps) => {
         if (!post?.id){
             return;
         }
+
+        if (authContext?.currentUser?.state !== EUserState.ACTIVE){
+            Toast.show({
+                type: 'info',
+                text1: 'Votre école n\'a pas été verifiée',
+                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir contacter un utilisateur'
+            })
+            return;
+        }
+
         chatService.create(post.id).then((chatId) => {
             console.log('CREATE CHAT', chatId)
             navigation.navigate('Chat', {chatId: chatId})
@@ -67,6 +79,15 @@ const Post = (props : PostProps) => {
     const onPressModify = () => {
         navigation.navigate("PostEdit", {post: post})
     }
+
+    useEffect(() => {
+        navigation.addListener('beforeRemove', (e: any) => {
+            if (routeParams.previousScreenName === 'AddPost') {
+                e.preventDefault();
+                navigation.navigate('Home')
+            }
+        })
+    }, [navigation]);
 
     return (
         <>
@@ -135,7 +156,7 @@ const Post = (props : PostProps) => {
                         </View>
                         <View style={[styles.bigGap, styles.horizontalSpacing]}>
                             <MainText
-                                text={post.price.toString() + "€"}
+                                text={post.price == 0 ? "Gratuit" : post.price.toString() + "€"}
                                 fontSize={20}
                                 weight="bold"/>
                         </View>
