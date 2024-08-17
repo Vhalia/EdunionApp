@@ -3,7 +3,7 @@ import usePostService from "../../hooks/usePostService"
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Post from "../../models/Post";
 import AddEditPostDto from "../../models/DTO/AddEditPostDto";
-import File, { addMissingFileInformations } from "../../models/File";
+import File from "../../models/File";
 import { useState } from "react";
 
 const EditPostPage = (props: EditPostPageProps) => {
