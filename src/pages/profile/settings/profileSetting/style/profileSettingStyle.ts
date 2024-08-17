@@ -31,6 +31,14 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 70
     },
+    dropDown: {
+        color: ColorConstants.whiteMainColor,
+        backgroundColor: ColorConstants.blackMainColor,
+        borderRadius: 14,
+        borderWidth: 4,
+        borderColor: ColorConstants.transparent,
+        width: '90%'
+    }
 })
 
 export default styles;

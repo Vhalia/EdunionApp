@@ -3,11 +3,14 @@ import { ColorConstants } from "../../constants/ThemeConstants"
 import EmailSVG from "../../../images/email.svg"
 import MainText from "../../modules/text/MainText"
 import MainInput from "../../components/mainInput/MainInput"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import MainButton from "../../modules/mainButton/MainButton"
 import Toast from "react-native-toast-message"
 import useEmailService from "../../hooks/useEmailService"
 import { useNavigation } from "@react-navigation/native"
+import useAuthorizationService from "../../hooks/useAuthorizationService"
+import useStorage from "../../hooks/useStorage"
+import Context from "../../contexts/AuthContext/AuthContext"
 
 const ConfirmEmail = (props: ConfirmEmailProps) => {
     const [code, setCode] = useState<string>("")
@@ -16,7 +19,10 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
     const [resendIsLoading, setResendIsLoading] = useState(false)
 
     const navigation = useNavigation<any>()
+    const storage = useStorage();
+    const authContext = useContext(Context)
     const emailService = useEmailService()
+    const authorizationService = useAuthorizationService();
 
     const routeProps: ConfirmEmailProps = props.route.params
 
@@ -43,20 +49,40 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
         try {
             let success = await emailService.verify(routeProps.email!, code)
 
-            setSubmitCodeIsLoading(false)
-
+            
             if (!success){
                 Toast.show({
                     type: "error",
                     text1: "Code invalide"
                 })
+                setSubmitCodeIsLoading(false)
                 return;
             }
-
+            
             Toast.show({
                 type: "success",
                 text1: "Email confirmé!"
             })
+            
+            
+            authorizationService.login(routeProps.email!, routeProps.password!)
+            .then(res => {
+                    storage.set("token", res.accessToken)
+                    authContext!.setToken(res.accessToken)
+                    setSubmitCodeIsLoading(false)
+                    navigation.navigate('Navbar')
+                })
+                .catch(err => {
+                    setSubmitCodeIsLoading(false)
+                    if (err.status == 401) {
+                        Toast.show({
+                            type: "error",
+                            text1: "L'email ou le mot de passe est incorrecte"
+                        })
+                        navigation.navigate("Login")
+                    }
+                    console.log(err)
+                })
 
             navigation.navigate("Navbar")
         }catch(err){ 
@@ -144,6 +170,7 @@ const ConfirmEmail = (props: ConfirmEmailProps) => {
 
 interface ConfirmEmailProps {
     email?: string,
+    password?: string,
     onVerified?: () => void,
     route: any
 }

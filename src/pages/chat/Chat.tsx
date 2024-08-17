@@ -7,7 +7,7 @@ import Loading from "../../modules/Loading/Loading";
 import ChatMessageType from "../../models/ChatMessage";
 import { FlashList } from "@shopify/flash-list";
 import { ColorConstants } from "../../constants/ThemeConstants";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { LogLevel, HubConnectionBuilder, HubConnection} from "@microsoft/signalr"
 import SendSVG from "../../../images/send.svg";
 import MainInput from "../../components/mainInput/MainInput";
@@ -30,6 +30,7 @@ const Chat = (props: ChatProps) => {
     const authContext = useContext(Context);
     const chatService = useChatService();
     const timezoneContext = useContext(TimezoneContext);
+    const navigation = useNavigation<any>()
     
     const senderUserId = authContext?.currentUser?.id;
     const receiverUserId = chat?.user1.id == senderUserId ? chat?.user2?.id : chat?.user1?.id;
@@ -110,8 +111,10 @@ const Chat = (props: ChatProps) => {
         <View style={style.mainContainer}>
             {getChatIsLoading || signalRIsLoading ? <Loading /> : 
                 <View style={style.container}>
-                    <View style={{backgroundColor: ColorConstants.greyMainColor, borderRadius: 10, padding:3, marginLeft: 50, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                        {/* <View style={{marginLeft: 40, display: 'flex', flexDirection: 'row', alignItems: 'center'}}> */}
+                    <TouchableHighlight
+                        style={style.postInChat}
+                        onPress={() => navigation.navigate("Post", {postId: chat?.post.id})}>
+                        <>
                             <Image
                                 source={chat?.post.blobPaths && chat?.post.blobPaths.length > 0 ? {uri: chat.post.blobPaths[0]} : require("../../../images/defaultProfilePicture.png")}
                                 style={[style.postInChatImageStyle, {width: 50, height: 50}]}
@@ -126,8 +129,8 @@ const Chat = (props: ChatProps) => {
                                     fontColor={ColorConstants.white70PercentColor}
                                     text={chat?.post.price?.toString() + " €" ?? "Gratuit"}/>
                             </View>
-                        {/* </View> */}
-                    </View>
+                        </>
+                    </TouchableHighlight>
                     <FlatList
                         ref={listRef}
                         data={chat?.messages ?? []}
@@ -275,6 +278,15 @@ const style = StyleSheet.create({
         width: 50,
         height: 50
     },
+    postInChat: {
+        backgroundColor: ColorConstants.greyMainColor,
+        borderRadius: 10,
+        padding:3,
+        marginLeft: 50,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+    }
 })
 
 export default Chat;

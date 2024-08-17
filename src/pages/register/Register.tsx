@@ -70,7 +70,8 @@ const Register = (props: RegisterProps) => {
             }
 
             navigation.navigate('ConfirmEmail', {
-                email: email
+                email: email,
+                password: password
             })
         }catch(err) {
             console.log(err)

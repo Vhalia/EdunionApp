@@ -13,6 +13,7 @@ import MainButton from "../../../../modules/mainButton/MainButton"
 import useUserService from "../../../../hooks/useUserService"
 import Toast from "react-native-toast-message"
 import File from "../../../../models/File"
+import { Picker } from "@react-native-picker/picker"
 
 const ProfileSetting = () => {
     const authContext = useContext(AuthContext)
@@ -146,11 +147,21 @@ const ProfileSetting = () => {
                     weight={'700'}
                     fontSize={15}
                     text="Année scolaire"/>
-                <MainInput
-                    style={[styles.inputs, styles.gap]}
-                    inputMode="numeric"
-                    onChange={onSchoolYearChange}
-                    value={schoolYear?.toString()}/>
+                
+                <View style={[styles.dropDown, styles.gap]}>
+                    <Picker
+                        selectedValue={schoolYear}
+                        onValueChange={(itemValue, itemIndex) => onSchoolYearChange(itemValue.toString())}
+                        style={styles.dropDown}
+                        dropdownIconColor={ColorConstants.whiteMainColor}>
+                        {[1, 2, 3, 4, 5, 6].map((year, index) => (
+                            <Picker.Item
+                                key={index}
+                                label={year.toString()}
+                                value={year}/>
+                        ))}
+                    </Picker>
+                </View>
             </View>
             <View style={[styles.bigGap, {marginBottom: 20}]}>
                 <MainText

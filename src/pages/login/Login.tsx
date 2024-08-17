@@ -64,7 +64,8 @@ const Login = () => {
                     setErrorMessageEmail("L'email ou le mot de passe est incorrecte")
                 }else if (err.error === "Email is not verified") {
                     navigation.navigate("ConfirmEmail", {
-                        email: email
+                        email: email,
+                        password: password
                     })
                     return;
                 }

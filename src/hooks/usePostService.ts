@@ -30,6 +30,9 @@ const usePostService = () => {
                 [{key: "Files", value: photos}],
                 authContext?.token)
         },
+        deletePhotos: (id: number, paths: string[]) => {
+            return HttpClient.delete("/api/post/"+id+"/blob", {paths: paths}, authContext?.token)
+        },
         getDetailed: (
             postType?: EPostType,
             count: number = 0,

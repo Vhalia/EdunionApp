@@ -96,6 +96,7 @@ const HttpClient = {
     putMultipartFormData : async <T,>(url: string, datas: MultipartFormData[], token?: string) : Promise<T> => {
         try {
             const formData = CreateFormData(datas)
+            console.log(getFullUrl(url))
             const response = await fetch(getFullUrl(url), {
                 method: 'PUT',
                 headers: {
@@ -116,13 +117,15 @@ const HttpClient = {
             throw new ApiError(error as string);
         }
     },
-    delete: async (url: string, token?: string) => {
+    delete: async (url: string, body: any, token?: string) => {
         try {
             var response = await fetch(getFullUrl(url), {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : '',
+                    'Content-Type': 'application/json'
                 },
+                body: JSON.stringify(body),
             });
             
             if (!response.ok) {
@@ -203,6 +206,8 @@ const handleFailedRequest = async (response: Response) => {
 }
 
 const CreateFormData = (datas: MultipartFormData[]) => {
+    console.log(datas)
+    console.log(datas[0].value)
     const formData = new FormData();
 
     for (const data of datas) {
