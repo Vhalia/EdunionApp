@@ -291,7 +291,7 @@ const PostEdit = (props: PostEditProps) => {
                     <View style={[styles.informations, styles.minorGap]}>
                         <Tags
                             selectedTags={activeTags}
-                            multipleSelect={false}
+                            multipleSelect={true}
                             onChange={(tags) => setActiveTags(tags)}/>
                     </View>
                 </View>
@@ -412,8 +412,8 @@ const PostBooksEdit = (props: PostBooksEditProps) => {
 const PostBookEdit = (props: PostBookEditProps) => {
 
     const [title, setTitle] = useState(props.book?.title ?? "");
-    const [isbn, setIsbn] = useState(props.book?.ISBN);
-    const [publicationYear, setPublicationYear] = useState(props.book?.publicationYear);
+    const [isbn, setIsbn] = useState(props.book?.isbn);
+    const [publicationYear, setPublicationYear] = useState(props.book?.publicationDate);
     const [author, setAuthor] = useState(props.book?.author);
     const [editor, setEditor] = useState(props.book?.editor);
 
@@ -422,8 +422,8 @@ const PostBookEdit = (props: PostBookEditProps) => {
     useEffect(() => {
         if (props.book){
             setTitle(props.book.title);
-            setIsbn(props.book.ISBN);
-            setPublicationYear(props.book.publicationYear);
+            setIsbn(props.book.isbn);
+            setPublicationYear(props.book.publicationDate);
             setAuthor(props.book.author);
             setEditor(props.book.editor);
         }
@@ -440,8 +440,8 @@ const PostBookEdit = (props: PostBookEditProps) => {
         if (props.onAddBook){
             props.onAddBook({
                 title: title,
-                ISBN: isbn,
-                publicationYear: publicationYear,
+                isbn: isbn,
+                publicationDate: publicationYear,
                 author: author,
                 editor: editor
             })
@@ -458,9 +458,10 @@ const PostBookEdit = (props: PostBookEditProps) => {
 
         if (props.onModifyBook){
             props.onModifyBook({
+                id: props.book?.id,
                 title: title,
-                ISBN: isbn,
-                publicationYear: publicationYear,
+                isbn: isbn,
+                publicationDate: publicationYear,
                 author: author,
                 editor: editor
             })

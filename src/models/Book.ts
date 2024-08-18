@@ -1,7 +1,8 @@
 export default interface Book {
+    id?: number,
     title: string
-    ISBN?: string,
-    publicationYear?: number,
+    isbn?: string,
+    publicationDate?: number,
     author?: string,
     editor?: string
 }

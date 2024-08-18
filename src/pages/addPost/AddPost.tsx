@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PostEdit from '../../components/postEdit/PostEdit';
 import { View } from 'react-native';
 import MainText from '../../modules/text/MainText';
@@ -7,6 +7,9 @@ import usePostService from '../../hooks/usePostService';
 import AddEditPostDto from '../../models/DTO/AddEditPostDto';
 import File from '../../models/File';
 import { useNavigation } from '@react-navigation/native';
+import Context from '../../contexts/AuthContext/AuthContext';
+import EUserState from '../../models/enums/EUserState';
+import Toast from 'react-native-toast-message';
 
 const AddPost = () => {
     const postService = usePostService();
@@ -14,8 +17,29 @@ const AddPost = () => {
     const [resetState, setResetState] = useState(false);
 
     const navigation = useNavigation<any>();
+    const authContext = useContext(Context)
+
+    useEffect(() => {
+        if (authContext?.currentUser?.state !== EUserState.ACTIVE){
+            Toast.show({
+                type: 'info',
+                text1: 'Votre école n\'a pas été verifiée',
+                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir contacter créer un post'
+            })
+            return;
+        }
+    }, [])
 
     const onSubmit = async (newPost: AddEditPostDto, photos: File[]) => {
+        if (authContext?.currentUser?.state !== EUserState.ACTIVE){
+            Toast.show({
+                type: 'error',
+                text1: 'Votre école n\'a pas été verifiée',
+                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir contacter créer un post'
+            })
+            return;
+        }
+
         setIsLoading(true)
         setResetState(false)
         try {

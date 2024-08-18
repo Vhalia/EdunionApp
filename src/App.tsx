@@ -46,6 +46,12 @@ function App(): JSX.Element {
           color: ColorConstants.whiteMainColor,
           fontSize: 15
         }}
+        text2Style={{
+          color: ColorConstants.whiteMainColor,
+          opacity: 0.7,
+          fontSize: 14,
+        }}
+        text2NumberOfLines={2}
         />
     ),
     info: (props) => (

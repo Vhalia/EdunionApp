@@ -186,7 +186,7 @@ const Search = (props: SearchProps) => {
                             fontSize={20}
                             style={{marginBottom: 15}}/>
                         <Tags
-                            multipleSelect={false}
+                            multipleSelect={true}
                             fetchTagOnLoad={false}
                             tags={tags}
                             selectedTags={activeTags}

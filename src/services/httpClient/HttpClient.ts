@@ -9,6 +9,7 @@ import Config from "react-native-config";
 const HttpClient = {
     get: async <T,>(url: string, token?: string) : Promise<T> => {
         try{
+            console.log(url)
             const response = await fetch(getFullUrl(url), {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ''
@@ -72,6 +73,8 @@ const HttpClient = {
     },
     put: async <T,>(url: string, body: any, token?: string) : Promise<T> => {
         try {
+            if (url.includes('post'))
+                console.log(JSON.stringify(body))
             const response = await fetch(getFullUrl(url), {
                 method: 'PUT',
                 headers: {
@@ -206,8 +209,6 @@ const handleFailedRequest = async (response: Response) => {
 }
 
 const CreateFormData = (datas: MultipartFormData[]) => {
-    console.log(datas)
-    console.log(datas[0].value)
     const formData = new FormData();
 
     for (const data of datas) {

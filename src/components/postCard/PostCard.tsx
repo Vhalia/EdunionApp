@@ -52,11 +52,12 @@ const PostCard = (props: PostCardProps) => {
             {displayPostImage()}
 
             <View style={[styles.infoBarContainer, props.informationBarSyle]}>
-                <View>
+                <View style={{position: 'relative', width: '70%'}}>
                     <MainText 
                         fontSize={15}
                         weight={"700"}
-                        text={props.title}/>
+                        style={{padding: 5}}
+                        text={props.title.length > 30 ? props.title.replace(/(.{30})..+/, "$1 ...") : props.title}/>
                     {props.subtitle ?
                         <MainText 
                             fontSize={13}
@@ -69,7 +70,8 @@ const PostCard = (props: PostCardProps) => {
                 <MainText
                     fontSize={16}
                     weight={"700"}
-                    text={price+" €"}/>
+                    text={price+" €"}
+                    style={{marginRight: 10}}/>
             </View>
         </View>
     );

@@ -44,6 +44,50 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.purpleMainColor,
         padding: 10,
         flexGrow: 1
+    },
+    titleContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    booksMainContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'flex-start'
+    },
+    booksContainer: {
+      display: 'flex',
+      gap: 15  
+    },
+    bookContainer: {
+        display: 'flex'
+    },
+    bookLine:{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 5,
+        flexWrap: 'wrap'
+    },
+    schedulesMainContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'flex-start'
+    },
+    schedulesContainer: {
+      display: 'flex',
+      gap: 20 
+    },
+    scheduleContainer: {
+        display: 'flex',
+        gap: 5
+    },
+    scheduleLine:{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+        flexWrap: 'wrap'
     }
 })
 
