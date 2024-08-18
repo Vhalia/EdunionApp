@@ -39,7 +39,7 @@ const Navbar = (props : NavbarProps) => {
             case 'Add':
                 return <AddSvg {... focused ? activeStyle.icon : unactiveStyle.icon} color={ColorConstants.purpleMainColor}/>
             case 'Chats':
-                return <BagSvg {... focused ? activeStyle.icon : unactiveStyle.icon} width={iconSize} height={iconSize}/>
+                return <ChatSvg {... focused ? activeStyle.icon : unactiveStyle.icon} width={23} height={23}/>
             case 'Profile':
                 return <ProfileSvg {... focused ? activeStyle.icon : unactiveStyle.icon}/>
         }
