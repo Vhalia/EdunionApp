@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {PermissionsAndroid, Platform, SafeAreaView, View} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './AppStyle';
@@ -20,6 +20,7 @@ import TimezoneContext, { TimezoneContextComponent } from './contexts/TimezoneCo
 import EditPostPage from './pages/editPost/EditPostPage';
 import Config from "react-native-config";
 import EnvBanner from './components/envBanner/EnvBanner';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -86,7 +87,7 @@ function App(): JSX.Element {
         }}
         />
     )
-  }
+  } 
 
   return (
     <SafeAreaView style={styles.background}>

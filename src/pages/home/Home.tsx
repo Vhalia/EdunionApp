@@ -1,4 +1,4 @@
-import { PanResponder, ScrollView, TouchableHighlight, View } from "react-native"
+import { PanResponder, PermissionsAndroid, Platform, ScrollView, TouchableHighlight, View } from "react-native"
 import styles from "./style/style"
 import MainText from "../../modules/text/MainText"
 import SearchBar from "../../components/searchBar/SearchBar"
@@ -19,6 +19,8 @@ import usePostService from "../../hooks/usePostService"
 import Loading from "../../modules/Loading/Loading"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { ColorConstants } from "../../constants/ThemeConstants"
+import messaging from '@react-native-firebase/messaging';
+import useUserDeviceService from "../../hooks/useUserDeviceService"
 
 const Home = () => {
     console.log("---------------------------------")
@@ -34,6 +36,7 @@ const Home = () => {
     const authContext = useContext(Context);
     const userService = useUserService();
     const postService = usePostService();
+    const userDeviceService = useUserDeviceService();
 
     useEffect(() => {
         if (!authContext?.token)
@@ -78,6 +81,56 @@ const Home = () => {
             setCoursePostIsLoading(false);
         })
     }, [authContext!.token])
+
+    useEffect(() => {
+        requestPnPermission()
+        .then((enabled) => {
+            if (!enabled) return;
+
+            registerUserDevice()
+        }).catch((err) => {
+            console.log(err)
+        })
+        
+    }, [])
+
+
+    messaging().onTokenRefresh(async (token: string) => {
+        registerUserDevice(token)
+    })
+    
+    const requestPnPermission = async () => {
+        let enabled = false;
+        
+        if (Platform.OS == "ios"){
+            const permissionStatus = await messaging().requestPermission();
+            enabled =
+                permissionStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+                permissionStatus === messaging.AuthorizationStatus.PROVISIONAL;
+            
+            if (enabled && !messaging().isDeviceRegisteredForRemoteMessages)
+                await messaging().registerDeviceForRemoteMessages();
+        }else if (Platform.OS == "android"){
+            const permissionStatus  = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+            enabled = permissionStatus === 'granted' || permissionStatus === 'never_ask_again';
+        }
+    
+        console.log('Push notification permission status:', enabled);
+
+        return enabled;
+    }
+
+    const registerUserDevice = async (refreshedToken?: string) => {
+        try{
+            const token = refreshedToken ?? await messaging().getToken()
+            if (!token)
+                return;
+            
+            await userDeviceService.register(token)
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     const onPressSearch = (value: string) => {
         navigation.navigate("Search", {search: value});
