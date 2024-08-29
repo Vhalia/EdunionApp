@@ -13,6 +13,15 @@ const useUserService = () => {
         get: () => {
             return HttpClient.get<User>("/api/user", authContext?.token)
         },
+        getAll: () => {
+            return HttpClient.get<User[]>("/api/user/all", authContext?.token)
+        },
+        ban : (id: number) => {
+            return HttpClient.put("/api/user/ban/"+id, {}, authContext?.token)
+        },
+        unban : (id: number) => {
+            return HttpClient.put("/api/user/unban/"+id, {}, authContext?.token)
+        },
         update: (updateProfileDto: UpdateProfileDto) => {
             return HttpClient.put("/api/user/profile", updateProfileDto, authContext?.token)
         },

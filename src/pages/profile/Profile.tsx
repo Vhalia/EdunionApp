@@ -21,9 +21,14 @@ import Loading from "../../modules/Loading/Loading";
 import SchoolProofSetting from "./settings/schoolProofSetting/SchoolProofSetting";
 import MainButton from "../../modules/mainButton/MainButton";
 import MyPostSetting from "./settings/myPostsSetting/MyPostSetting";
+import AdminSetting from "./settings/adminSetting/AdminSetting";
+import EUserRole from "../../models/enums/EUserRole";
+
 
 const Profile = (props : ProfileProps) => {
     const stack = createNativeStackNavigator();
+
+    const authContext = useContext(Context)
 
     const headerBgStyle= {
         backgroundColor: ColorConstants.blackSecondaryColor
@@ -101,8 +106,18 @@ const Profile = (props : ProfileProps) => {
                         renderContent={() => <MyPostSetting />}
                         navigation={props.navigation}
                     />}
-
                 </stack.Screen>
+
+                {authContext?.currentUser?.role == EUserRole.ADMIN &&
+                    <stack.Screen
+                        name="AdminSetting"
+                        options={{title: 'Admin', headerStyle: headerBgStyle, headerTintColor: ColorConstants.whiteMainColor, headerBackVisible: false}}>
+
+                        {(props) => <SubPage
+                            renderContent={() => <AdminSetting />}
+                            navigation={props.navigation}
+                        />}
+                    </stack.Screen>}
             </stack.Navigator> 
 
         </>
@@ -173,6 +188,12 @@ const Settings = () => {
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"Mes postes"} />
                 </NavigateButton>
+                {authContext?.currentUser?.role == EUserRole.ADMIN &&
+                    <NavigateButton
+                        redirectScreenName="AdminSetting"
+                        style={styles.button}>
+                            <MainText weight={'500'} fontSize={13} text={"Admin"} />
+                    </NavigateButton>}
                 <View
                     style={styles.logoutContainer}>
                 

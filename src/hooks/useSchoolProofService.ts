@@ -1,8 +1,10 @@
 import { useContext } from "react"
 import Context from "../contexts/AuthContext/AuthContext";
 import HttpClient from "../services/httpClient/HttpClient";
-import SchoolProof from "../models/SchoolProof";
+import Proof from "../models/Proof";
 import File from "../models/File";
+import SchoolProof from "../models/SchoolProof";
+import VerifySchoolProofDto from "../models/DTO/VerifySchoolProofDto";
 
 const useSchoolProofService = () => {
     const authContext = useContext(Context);
@@ -21,7 +23,13 @@ const useSchoolProofService = () => {
             ], authContext?.token)
         },
         getOwn: () => {
-            return HttpClient.get<SchoolProof[]>("/api/schoolProof/own", authContext?.token)
+            return HttpClient.get<Proof[]>("/api/schoolProof/own", authContext?.token)
+        },
+        getAll: () => {
+            return HttpClient.get<SchoolProof[]>("/api/schoolProof", authContext?.token)
+        },
+        verify: (verifySchoolProof: VerifySchoolProofDto) => {
+            return HttpClient.post("/api/schoolProof/verify", verifySchoolProof, authContext?.token)
         }
     }
 }

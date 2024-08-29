@@ -1,5 +1,6 @@
 import { Contact } from "./Contacts"
 import School from "./School"
+import EUserRole from "./enums/EUserRole"
 import EUserState from "./enums/EUserState"
 
 export default interface User {
@@ -9,8 +10,11 @@ export default interface User {
     description: string,
     email: string,
     picturePath?: string
-    schoolId: number,
+    school: School,
     schoolYear? : number,
     contacts?: Contact[],
-    state: EUserState
+    state: EUserState,
+    role: EUserRole,
+    isDeleted: boolean,
+    creationDate: Date
 }

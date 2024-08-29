@@ -7,12 +7,12 @@ import MainButton from "../../../../modules/mainButton/MainButton";
 import Toast from "react-native-toast-message";
 import Context from "../../../../contexts/AuthContext/AuthContext";
 import useSchoolProofService from "../../../../hooks/useSchoolProofService";
-import SchoolProof from "../../../../models/SchoolProof";
+import Proof from "../../../../models/Proof";
 import File from "../../../../models/File";
 
 const SchoolProofSetting = () => {
     const [schoolProof, setSchoolProof] = useState<File>();
-    const [schoolProofs, setSchoolProofs] = useState<SchoolProof[]>([]);
+    const [schoolProofs, setSchoolProofs] = useState<Proof[]>([]);
     const [sendProofIsLoading, setSendProofLoading] = useState(false)
     const [schoolProofIsLoading, setSchoolProofLoading] = useState(false)
     
@@ -45,7 +45,7 @@ const SchoolProofSetting = () => {
 
         try{
             await schoolProofService.postSchoolProof(
-                authContext!.currentUser!.schoolId,
+                authContext!.currentUser!.school?.id,
                 schoolProof)
 
             setSendProofLoading(false)

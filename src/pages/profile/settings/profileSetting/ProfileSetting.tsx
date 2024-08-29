@@ -34,7 +34,7 @@ const ProfileSetting = () => {
     useEffect(() => {
         setIsLoading(true)
         
-        schoolService.getById(currentUser!.schoolId).then((schoolRes) => {
+        schoolService.getById(currentUser!.school?.id).then((schoolRes) => {
             setSchool(schoolRes)
             setIsLoading(false)
 
