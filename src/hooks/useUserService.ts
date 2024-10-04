@@ -13,6 +13,9 @@ const useUserService = () => {
         get: () => {
             return HttpClient.get<User>("/api/user", authContext?.token)
         },
+        getById: (id: number) => {
+            return HttpClient.get<User>("/api/user/"+id, authContext?.token)
+        },
         getAll: () => {
             return HttpClient.get<User[]>("/api/user/all", authContext?.token)
         },

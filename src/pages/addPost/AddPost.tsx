@@ -24,7 +24,7 @@ const AddPost = () => {
             Toast.show({
                 type: 'info',
                 text1: 'Votre école n\'a pas été verifiée',
-                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir contacter créer un post'
+                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir créer un post'
             })
             return;
         }
@@ -35,7 +35,7 @@ const AddPost = () => {
             Toast.show({
                 type: 'error',
                 text1: 'Votre école n\'a pas été verifiée',
-                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir contacter créer un post'
+                text2: 'Votre école doit d\'abord être vérifiée avant de pouvoir créer un post'
             })
             return;
         }

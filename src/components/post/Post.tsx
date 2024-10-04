@@ -26,14 +26,19 @@ import CourseSVG from "../../../images/course.svg"
 import CalendarSVG from "../../../images/calendar.svg"
 import TimeSVG from "../../../images/time.svg"
 import dayjs from "dayjs"
+import Warning from "../../modules/warning/Warning";
+import useUserService from "../../hooks/useUserService";
+import User from "../../models/User";
 
 const Post = (props : PostProps) => {
     const [post, setPost] = useState<PostModel | undefined>(undefined);
+    const [owner, setOwner] = useState<User|undefined>(post?.user)
     
     const route = useRoute();
     const navigation = useNavigation<any>();
     const postService = usePostService();
     const chatService = useChatService();
+    const userService = useUserService();
     const authContext = useContext(Context);
     const routeParams = route.params as PostProps;
     
@@ -52,6 +57,17 @@ const Post = (props : PostProps) => {
             getPost()
         }, [])
     )
+
+    useEffect(() => {
+        if (!post?.user?.id)
+            return;
+
+        userService.getById(post.user.id)
+            .then(setOwner)
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     const getPost = () => {
         if (!postId){
@@ -274,7 +290,7 @@ const Post = (props : PostProps) => {
                         </View>
                         <View style={[styles.gap, styles.horizontalSpacing]}>
                             <MainText
-                                text={post.price == 0 ? "Gratuit" : post.price.toString() + "€"}
+                                text={"Gratuit"}
                                 fontSize={16}/>
                         </View>
                         <View style={[styles.bigGap, styles.horizontalSpacing]}>
@@ -289,6 +305,24 @@ const Post = (props : PostProps) => {
                         {post.type == EPostType.BOOK && displayBooks()}
                         {post.type == EPostType.COURSE && displaySchedules()}
                     </View>
+
+                    {(post.type == EPostType.BOOK && owner?.paymentInformation?.iban) &&
+                        <View style={[styles.content, styles.gap, styles.bigGapDown, {padding: 10}]}>
+                            <View>
+                                <MainText
+                                    text="IBAN"
+                                    fontSize={16}
+                                    weight="bold"/>
+                                <MainText
+                                    text={owner?.paymentInformation?.iban ?? ""}
+                                    fontSize={14}/>
+                            </View>
+                            <Warning
+                                text="Les posts sont à donation libre. Vous pouvez donner ce que vous voulez pour remercier l'utilsateur."
+                                type="warning"/>
+                        </View>
+                    }
+
                     {post.user.id !== authContext?.currentUser?.id
                     ?
                         <View style={[styles.bigGap, styles.horizontalSpacing, {marginBottom: 20}]}>

@@ -14,10 +14,12 @@ import useUserService from "../../../../hooks/useUserService"
 import Toast from "react-native-toast-message"
 import File from "../../../../models/File"
 import { Picker } from "@react-native-picker/picker"
+import usePaymentService from "../../../../hooks/usePaymentService"
 
 const ProfileSetting = () => {
     const authContext = useContext(AuthContext)
     const currentUser = authContext?.currentUser
+    console.log(currentUser)
 
     const [firstname, setFirstname] = useState(currentUser?.firstName)
     const [lastname, setLastName] = useState(currentUser?.lastName)
@@ -27,9 +29,14 @@ const ProfileSetting = () => {
     const [profilePicture, setProfilePicture] = useState<File|undefined>(
         currentUser?.picturePath ? {uri: currentUser?.picturePath} as File : undefined)
     const [isLoading, setIsLoading] = useState(false)
+    const [iban, setIban] = useState(currentUser?.paymentInformation?.iban ?? "")
+    const [ibanErrorMessage, setIbanErrorMessage] = useState<string|undefined>(undefined)
 
     const schoolService = useSchoolService()
     const userService = useUserService();
+    const paymentService = usePaymentService()
+
+    const ibanRegex = /^[A-Z]{2}(?:[ ]?[0-9]){14}$/;
 
     useEffect(() => {
         setIsLoading(true)
@@ -46,6 +53,7 @@ const ProfileSetting = () => {
 
     const onSubmit = async () => {
         setIsLoading(true)
+        setIbanErrorMessage(undefined)
 
         try {
             await userService.update({
@@ -54,12 +62,25 @@ const ProfileSetting = () => {
                 lastName: lastname ?? "",
                 schoolYear: schoolYear ?? 1,
             })
-            if (!profilePicture
-                || (profilePicture && profilePicture.uri != currentUser?.picturePath)) {
-                
-                await userService.updateProfilePicture(profilePicture!)
+
+            if (profilePicture?.uri != currentUser?.picturePath){
+                if (!profilePicture
+                    || (profilePicture && profilePicture.uri != currentUser?.picturePath)) {
+                    
+                    await userService.updateProfilePicture(profilePicture!)
+                }
             }
 
+            if (iban && currentUser?.paymentInformation?.iban != iban && ibanRegex.test(iban)) {
+                if (currentUser?.paymentInformation?.iban)
+                    await paymentService.updateIban(iban)
+                else
+                    await paymentService.postIban(iban)
+            }else{
+                setIbanErrorMessage("IBAN invalide. Veuillez utiliser ce format: BE12 1234 1234 1234")
+                setIsLoading(false)
+                return
+            }
             
             Toast.show({
                 type: "success",
@@ -67,6 +88,7 @@ const ProfileSetting = () => {
             })
 
             var updatedUser = await userService.get()
+            console.log(updatedUser)
             authContext!.setCurrentUser(updatedUser)
 
             setIsLoading(false)
@@ -90,6 +112,17 @@ const ProfileSetting = () => {
 
     const onSchoolYearChange = (value: string) => {
         setSchoolYear(Number.parseInt(value))
+    }
+
+    const onIbanChange = (value: string) => {
+        if (value.length >= 19){
+            setIban(value.substring(0, 19))
+            return
+        }
+
+        let result = value.replaceAll(" ", "")
+
+        setIban(result.replace(/(.{4})/g, "$1 "))
     }
 
     return (
@@ -162,6 +195,23 @@ const ProfileSetting = () => {
                         ))}
                     </Picker>
                 </View>
+            </View>
+            <View style={styles.bigGap}>
+                <MainText
+                    style={styles.title}
+                    weight={'700'}
+                    fontSize={15}
+                    text="IBAN"/>
+                <MainInput
+                    style={[styles.inputs, styles.gap]}
+                    inputMode="text"
+                    autoCapitalize="characters"
+                    onChange={onIbanChange}
+                    value={iban}
+                    errorMessage={ibanErrorMessage}
+                    isOnError={ibanErrorMessage !== undefined}
+                    placeholder="BE12 1234 1234 1234"
+                    placeholderColor={ColorConstants.white70PercentColor}/>
             </View>
             <View style={[styles.bigGap, {marginBottom: 20}]}>
                 <MainText

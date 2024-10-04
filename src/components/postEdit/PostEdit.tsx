@@ -1,7 +1,7 @@
 import { FlatList, Modal, ScrollView, TouchableHighlight, View } from "react-native";
 import PostEditProps, { PostBookEditProps, PostBooksEditProps, PostSchedulesEditProps } from "./props/PostEditProps";
 import styles from "./style/PostEditStyle";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Tag as TagType } from "../../models/Tag";
 import MainText from "../../modules/text/MainText";
 import PhotoUploader from "../photoUploader/PhotoUploader";
@@ -11,7 +11,7 @@ import BookSVG from "../../../images/book.svg";
 import CourseSVG from "../../../images/course.svg";
 import Tags from "../tags/Tags";
 import EPostType from "../../models/enums/EPostType";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import SelectList from "../../modules/SelectList/SelectList";
 import EPostStatus, { FromStringPostStatusToEnum, PostStatusToString } from "../../models/enums/EPostStatus";
 import { getEnumValue } from "../../utils/utils";
@@ -24,18 +24,24 @@ import Schedule from "../../models/Schedule";
 import dayjs from "dayjs";
 import MainDatePicker from "../../modules/mainDatePicker/MainDatePicker";
 import PostTypeSelector from "../postTypeSelector/PostTypeSelector";
+import Context from "../../contexts/AuthContext/AuthContext";
+import Warning from "../../modules/warning/Warning";
+import useUserService from "../../hooks/useUserService";
+import User from "../../models/User";
 
 const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
     const routeParams = route.params as PostEditProps;
     const post = props.post ?? routeParams?.post;
+
+    const authContext = useContext(Context);
+    const navigation = useNavigation<any>()
     
     const [postType, setPostType] = useState<EPostType>(post?.type ?? EPostType.COURSE);
     const [title, setTitle] = useState(post?.title ?? "");
     const [description, setDescription] = useState(post?.description ?? "");
     const photoFiles = post?.blobPaths?.map(p => { return {uri: p} as File}) ?? [];
     const [photos, setPhotos] = useState<File[]>(photoFiles);
-    const [price, setPrice] = useState(post?.price ?? 0);
     const [postStatus, setPostStatus] = useState<EPostStatus>(post?.status ?? EPostStatus.AVAILABLE);
     const [activeTags, setActiveTags] = useState<TagType[]>(post?.tags ?? []);
     const [books, setBooks] = useState<Book[]>(post?.books ?? []);
@@ -89,7 +95,7 @@ const PostEdit = (props: PostEditProps) => {
             id: 0,
             title: title,
             description: description,
-            price: price,
+            price: 0,
             type: postType,
             tags: activeTags.map(t => t.id),
             books: postType === EPostType.BOOK ? books : undefined,
@@ -107,7 +113,7 @@ const PostEdit = (props: PostEditProps) => {
             id: post!.id,
             title: title,
             description: description,
-            price: price,
+            price: 0,
             type: postType,
             tags: activeTags.map(t => t.id),
             books: postType === EPostType.BOOK ? books : undefined,
@@ -141,7 +147,6 @@ const PostEdit = (props: PostEditProps) => {
         setPostType(EPostType.COURSE);
         setTitle("");
         setDescription("");
-        setPrice(0);
         setPostStatus(EPostStatus.AVAILABLE);
         setActiveTags([]);
         setBooks([]);
@@ -161,17 +166,12 @@ const PostEdit = (props: PostEditProps) => {
         setBooks([...books.slice(0, index), book, ...books.slice(index + 1)])
     }
 
-    const onPriceChange = (value: string) => {
-        if (value.includes("€")){
-            setPrice(parseInt(value.substring(0, value.length - 2)))
-        }
-        else{
-            setPrice(parseInt(value))
-        }
-    }
-
     const onScheduleChange = (schedules: Schedule[]) => {
         setSchedules([...schedules])
+    }
+
+    const onAddIBANPress = () => {
+        navigation.navigate("Profile")
     }
 
     return (
@@ -268,17 +268,6 @@ const PostEdit = (props: PostEditProps) => {
                                 onChange={onCategoryButtonPress}/>
                         </View>
 
-                        <View style={[styles.gap]}>
-                             <MainText
-                                weight={'700'}
-                                fontSize={15}
-                                text="Prix"/>
-                            <MainInput
-                                inputMode="numeric"
-                                value={price?.toString()}
-                                style={[styles.inputs,styles.minorGap, styles.priceInput]}
-                                onChange={onPriceChange}/>
-                        </View> 
                     </View>
                 </View>
                 
@@ -324,6 +313,46 @@ const PostEdit = (props: PostEditProps) => {
                                 schedules={schedules}
                                 onChange={onScheduleChange}/>
                         </View>
+                    </View>
+                }
+
+                {postType == EPostType.BOOK &&
+                    <View style={[styles.gap, styles.informationsContainer]}>
+                        <MainText
+                            text="Mon IBAN"
+                            fontSize={16}
+                            weight="bold"
+                            style={styles.titles}/>
+                        {authContext?.currentUser?.paymentInformation?.iban ? 
+                            <>
+                            <Warning
+                                text="Les posts sont à donation libre."
+                                type="normal"
+                                style={{backgroundColor: ColorConstants.greyMainColor}}/>
+                            <View style={[styles.informations, styles.minorGap]}>
+                                <MainText
+                                    text={authContext?.currentUser?.paymentInformation?.iban ?? ""}
+                                    fontSize={14}/>
+                            </View>
+                            </>
+                            :
+                            <>
+                            <TouchableHighlight
+                                onPress={() => onAddIBANPress()}
+                                underlayColor={ColorConstants.transparent}>
+                                <Warning
+                                    text="Les posts sont à donation libre. Appuyez ici pour ajouter votre IBAN."
+                                    type="normal"
+                                    style={{backgroundColor: ColorConstants.greyMainColor}}/>
+                            </TouchableHighlight>
+
+                            <View style={[styles.informations, styles.minorGap]}>
+                                <MainText
+                                    text={"Aucun IBAN n'est enregistré"}
+                                    fontSize={14}/>
+                            </View>
+                            </>
+                        }
                     </View>
                 }
 
