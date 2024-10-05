@@ -1,5 +1,5 @@
 import NavigateButton from "../../components/navigateButton/NavigateButton";
-import { StyleProp, TouchableHighlight, View, ViewStyle } from "react-native";
+import { ScrollView, StyleProp, TouchableHighlight, View, ViewStyle } from "react-native";
 import MainText from "../../modules/text/MainText";
 import UserWithPicture from "../../components/userWithPicture/UserWithPicture";
 import styles from "./style/profileStyle";
@@ -23,6 +23,7 @@ import MainButton from "../../modules/mainButton/MainButton";
 import MyPostSetting from "./settings/myPostsSetting/MyPostSetting";
 import AdminSetting from "./settings/adminSetting/AdminSetting";
 import EUserRole from "../../models/enums/EUserRole";
+import Partners from "../../components/partners/Partners";
 
 
 const Profile = (props : ProfileProps) => {
@@ -143,7 +144,7 @@ const Settings = () => {
     }
 
     return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container} style={{backgroundColor: ColorConstants.blackMainColor}}>
                 <Header style={styles.header}>
                     <MainText weight={'700'} fontSize={20} text={"Profile"} />    
                 </Header>
@@ -209,8 +210,12 @@ const Settings = () => {
                     </TouchableHighlight>
 
                 </View>
-            </View>
-        
+
+                <View style={styles.logoutContainer}>
+                    <Partners />
+                </View>
+                
+            </ScrollView>
     );
 }
 

@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        flex: 1,
         width: "100%",
         backgroundColor: ColorConstants.blackMainColor,
     },
