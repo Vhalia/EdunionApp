@@ -67,11 +67,6 @@ const PostCard = (props: PostCardProps) => {
                             />
                         : ""}
                 </View>
-                <MainText
-                    fontSize={16}
-                    weight={"700"}
-                    text={price+" €"}
-                    style={{marginRight: 10}}/>
             </View>
         </View>
     );

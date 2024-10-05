@@ -127,7 +127,7 @@ const Chat = (props: ChatProps) => {
                                 <MainText
                                     fontSize={13}
                                     fontColor={ColorConstants.white70PercentColor}
-                                    text={chat?.post.price?.toString() + " €" ?? "Gratuit"}/>
+                                    text={"Gratuit"}/>
                             </View>
                         </>
                     </TouchableHighlight>

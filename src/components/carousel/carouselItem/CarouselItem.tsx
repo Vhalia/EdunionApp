@@ -57,7 +57,7 @@ const CarouselItem = (props: CarouselItemProps) => {
                     <MainText 
                         fontSize={20}
                         weight={"700"}
-                        text={props.title}/>
+                        text={props.title.length > 40 ? props.title.replace(/(.{40})..+/, "$1 ...") : props.title}/>
                     {props.subtitle ?
                         <MainText 
                             fontSize={15}
@@ -67,10 +67,7 @@ const CarouselItem = (props: CarouselItemProps) => {
                             />
                         : ""}
                 </View>
-                <MainText
-                    fontSize={22}
-                    weight={"700"}
-                    text={price+" €"}/>
+
             </View>
         </TouchableOpacity>
     );

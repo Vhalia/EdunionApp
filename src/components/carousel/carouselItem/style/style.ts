@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
         width: "100%",
         borderBottomLeftRadius: 22,
         borderBottomRightRadius: 22,
-        justifyContent: "space-around",
-        alignItems: "center"
+        justifyContent: "flex-start",
+        alignItems: "center",
+        paddingLeft: 20
     },
     grandiantStyle : {
         height: 300

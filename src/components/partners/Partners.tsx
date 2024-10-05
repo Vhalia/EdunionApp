@@ -14,16 +14,20 @@ const Partners = (props: PartnersProps) => {
 
             <View style={[styles.imagesContainer]}>
                 <TouchableOpacity onPress={() => Linking.openURL("https://boucherie-roland.be/")}>
-                    <Image
-                        source={require("../../../images/roland-logo.png")}
-                        style={styles.image}
-                        resizeMode="contain"/>
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={require("../../../images/roland-logo.png")}
+                            style={styles.image}
+                            resizeMode="contain"/>
+                    </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => Linking.openURL("https://www.herminepatisserie.be/")}>
-                    <Image
-                        source={require("../../../images/hermine-logo.png")}
-                        style={styles.image}
-                        resizeMode="contain"/>
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={require("../../../images/hermine-logo.png")}
+                            style={styles.image}
+                            resizeMode="contain"/>
+                    </View>
                 </TouchableOpacity>
             </View>
         </View>
@@ -51,11 +55,14 @@ const styles = StyleSheet.create({
         margin: 10,
         marginBottom: 15
     },
+    imageContainer: {
+        borderRadius: 9,
+        overflow: "hidden"
+    },
     image : {
         width: 100,
         height: 50,
-        backgroundColor: ColorConstants.whiteMainColor,
-        borderRadius: 10
+        backgroundColor: ColorConstants.whiteMainColor
     }
 })
 
