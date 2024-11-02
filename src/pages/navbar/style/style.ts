@@ -3,19 +3,21 @@ import { ColorConstants } from '../../../constants/ThemeConstants';
 
 const styles = StyleSheet.create({
     mainView: {
+        backgroundColor: ColorConstants.blackSecondaryColor
+    },
+    tabBar: {
         backgroundColor: ColorConstants.blackSecondaryColor,
-        borderTopWidth: 0,
-        height: 60,
+        borderTopWidth: 0
     },
     button: {
         display: "flex",
         flexDirection: 'column',
         justifyContent:'center',
         alignItems: 'center',
-        color: '#ffff'
+        color: ColorConstants.whiteMainColor
     },
     buttonAdd: {
-        backgroundColor:"purple",
+        backgroundColor:ColorConstants.purpleMainColor,
     }
 });
 

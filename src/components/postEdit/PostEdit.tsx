@@ -753,8 +753,8 @@ const PostSchedulesEdit = (props: PostSchedulesEditProps) => {
             <MainDatePicker
                 visible={showScheduleModal}
                 onChange={onDateChange}
-                iosContainerStyle={styles.addBookModalContent}
-                iosModalContainerStyle={{margin: 20}}
+                containerStyle={styles.addBookModalContent}
+                iosModalContainerStyle={styles.modalContainerStyleIos}
                 onClose={() => setShowScheduleModal(false)}
                 mode={datePickerMode}
                 date={getCurrentDateAndTime()}

@@ -12,12 +12,11 @@ const styles = StyleSheet.create({
     },
     header : {
         display: 'flex',
-        flex : 0.2,
+        flex : 0.15,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: ColorConstants.blackSecondaryColor,
-        height: 100,
+        backgroundColor: ColorConstants.blackSecondaryColor
     },
 });
 

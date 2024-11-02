@@ -2,6 +2,8 @@ import { View } from "react-native"
 import FoldHeaderProps from "./props/foldHeaderProps"
 import styles from "./style/foldHeaderStyle"
 import Animated, { Easing, clamp, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ColorConstants } from "../../constants/ThemeConstants";
 
 const FoldHeader = (props: FoldHeaderProps) => {
     let baseHeight = props.baseHeight ?? 200;
@@ -30,9 +32,16 @@ const FoldHeader = (props: FoldHeaderProps) => {
     });
 
     return (
-        <Animated.View style={[styles.mainContainer, animatedStyle, props.style]}>
-            {props.children}
-        </Animated.View>
+        <SafeAreaView style={{backgroundColor: ColorConstants.blackSecondaryColor}}>
+            <Animated.View style={[
+                styles.mainContainer,
+                animatedStyle,
+                props.style]}>
+
+                {props.children}
+
+            </Animated.View>
+        </SafeAreaView>
     );
 };
 

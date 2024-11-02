@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Modal, Platform, StyleProp, TouchableOpacity, View, ViewStyle } from "react-native"
+import { Modal, Platform, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native"
 import MainText from "../text/MainText";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from "dayjs";
 import { ColorConstants } from "../../constants/ThemeConstants";
+import MainButton from "../mainButton/MainButton";
 
 const MainDatePicker = (props: MainDatePickerProps) => {
     const [date, setDate] = useState<dayjs.Dayjs>(props.date ?? dayjs());
@@ -23,38 +24,63 @@ const MainDatePicker = (props: MainDatePickerProps) => {
         }
     }
 
+    const onChangeTimeIos = (newTime?: Date) => {
+        if (props.mode != "time")
+            return
+
+        if (newTime !== undefined
+            && !date.isSame(dayjs(newTime))){
+            setDate(dayjs(newTime))
+            props.onChange(dayjs(newTime))
+        }
+    }
+
     return(
-        <View style={props.iosContainerStyle}> 
+        <View style={props.containerStyle}> 
             {Platform.OS === 'ios' ? (
                 <Modal
                     visible={props.visible}
                     onRequestClose={props.onClose}
-                    style={props.iosModalContainerStyle}>
+                    transparent>
 
-                    <View style={{}}>
-                        <TouchableOpacity onPress={props.onClose}>
-                            <MainText
-                                text="Annuler"
-                                fontSize={13}
-                                style={{ paddingHorizontal: 15 }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={props.onClose}>
-                            <MainText
-                                text="Confirmer"
-                                fontSize={13}
-                                style={{ paddingHorizontal: 15 }} />
-                        </TouchableOpacity>
+                    <View style={[style.modalMainContainerIos]}>
+                        <TouchableOpacity
+                            style={{...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0, 0, 0, 0.5)'}}
+                            onPress={props.onClose}
+                            activeOpacity={1}/>
+                        
+                        <View style={[style.modalContainerIos]}>
+                            <DateTimePicker
+                                value={date.toDate()}
+                                mode={props.mode ?? 'date'}
+                                is24Hour={true}
+                                display={props.mode == 'date' ? "inline" : "spinner"}
+                                onChange={(_, date) => props.mode == "date" ? onChange(date) : onChangeTimeIos(date)}
+                                style={{ backgroundColor: ColorConstants.blackMainColor}}
+                                minimumDate={props.minimumDate?.toDate()}
+                                themeVariant="dark"
+                                accentColor={ColorConstants.purpleMainColor}
+                            />
+
+                            {props.mode == 'time' ?
+                                <View style={style.buttonModalContainerIos}>
+                                    <MainButton
+                                        onPress={() => !props.onClose ? {} : props.onClose()}
+                                        text="Annuler"
+                                        style={{backgroundColor: ColorConstants.purpleDark}}
+                                        fontSize={13}/>
+                                    <MainButton
+                                        onPress={() => !props.onClose ? {} : props.onClose()}
+                                        text="Confirmer"
+                                        style={{backgroundColor: ColorConstants.purpleMainColor}}
+                                        fontSize={13}/>
+                                </View>
+                            :
+                                <></>
+                            }
+                        </View>
+                        
                     </View>
-
-                    <DateTimePicker
-                        value={date.toDate()}
-                        mode={props.mode ?? 'date'}
-                        is24Hour={true}
-                        display="default"
-                        onChange={(_, date) => setDate(dayjs(date))}
-                        style={{ backgroundColor: ColorConstants.blackMainColor }}
-                        minimumDate={props.minimumDate?.toDate()}
-                    />
                 </Modal>
             ) : (
                 <>
@@ -65,7 +91,7 @@ const MainDatePicker = (props: MainDatePickerProps) => {
                         is24Hour={true}
                         display="default"
                         onChange={(_, newDate) => onChange(newDate)}
-                        style={{ backgroundColor: ColorConstants.blackMainColor }}
+                        style={{ backgroundColor: ColorConstants.blackMainColor}}
                         minimumDate={props.minimumDate?.toDate()}
                     />
                 }
@@ -75,12 +101,33 @@ const MainDatePicker = (props: MainDatePickerProps) => {
     )
 }
 
+const style = StyleSheet.create({
+    modalMainContainerIos: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    modalContainerIos: {
+        borderRadius: 14,
+        backgroundColor: ColorConstants.blackMainColor,
+        padding: 10
+    },
+    buttonModalContainerIos: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        gap: 10,
+        marginTop: 20
+    }
+})
+
 interface MainDatePickerProps {
     visible: boolean,
     onChange: (date: dayjs.Dayjs) => void,
     onClose?: () => void,
     mode?: 'date' | 'time',
-    iosContainerStyle?: StyleProp<ViewStyle>,
+    containerStyle?: StyleProp<ViewStyle>,
     iosModalContainerStyle?: StyleProp<ViewStyle>,
     date?: dayjs.Dayjs,
     minimumDate?: dayjs.Dayjs

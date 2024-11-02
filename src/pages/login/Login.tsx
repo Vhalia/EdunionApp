@@ -14,6 +14,7 @@ import useAuthorizationService from "../../hooks/useAuthorizationService";
 import Loading from "../../modules/Loading/Loading";
 import Toast from "react-native-toast-message";
 import Config from "react-native-config";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Login = () => {
     const [email, setEmail] = useState<string>("")
@@ -44,9 +45,11 @@ const Login = () => {
         if (email === "" || password === "") {
             setErrorMessageEmail("Veuillez renseigner tous les champs")
             setErrorMessagePassword("Veuillez renseigner tous les champs")
+            setIsLoading(false)
             return;
         }else if (!Constants.emailRegex.test(email)){
             setErrorMessageEmail("Email incorrecte")
+            setIsLoading(false)
             return;
         }
 
@@ -62,6 +65,7 @@ const Login = () => {
                 if (err.status == 401) {
                     setErrorMessagePassword("L'email ou le mot de passe est incorrecte")
                     setErrorMessageEmail("L'email ou le mot de passe est incorrecte")
+                    setIsLoading(false)
                 }else if (err.error === "Email is not verified") {
                     navigation.navigate("ConfirmEmail", {
                         email: email,
@@ -91,7 +95,7 @@ const Login = () => {
 
 
     return (
-        <View style={styles.mainContainer}>
+        <SafeAreaView style={styles.mainContainer}>
             <View style={styles.container}>
                 <EdunionLogoSVG width={200} height={200}/>
                 <MainInput
@@ -115,7 +119,7 @@ const Login = () => {
                 <TouchableHighlight
                     onPress={onPressResetPassword}
                     underlayColor={ColorConstants.blackMainColor}
-                    style={styles.resetPasswordButton}>
+                    style={[styles.resetPasswordButton]}>
                     <MainText
                         text="Réinitialiser le mot de passe"
                         fontSize={13}
@@ -136,7 +140,7 @@ const Login = () => {
                 </View>
                 
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

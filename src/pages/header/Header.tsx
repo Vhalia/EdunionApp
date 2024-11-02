@@ -6,7 +6,7 @@ import FoldHeader from "../../components/foldHeader/FoldHeader";
 
 const Header = (props : HeaderProps) => {
     return (
-        <View style={styles.background}>
+        <View style={[styles.background]}>
 
             <Logo style={styles.logo} width={117} height={23} />
 

@@ -10,6 +10,7 @@ import { ColorConstants } from "../../constants/ThemeConstants";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import Context from "../../contexts/AuthContext/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Chats = () => {
     const [chats, setChats] = useState<ChatType[]>([]);
@@ -53,20 +54,22 @@ const Chats = () => {
     
     return (
         <View style={styles.container}>
-            <Header style={styles.header}>
-                <MainText weight={'700'} fontSize={20} text={"Messages"} />    
-            </Header>
+            <SafeAreaView style={{backgroundColor: ColorConstants.blackSecondaryColor}}>
+                <Header style={styles.header}>
+                    <MainText weight={'700'} fontSize={20} text={"Messages"} />    
+                </Header>
+            </SafeAreaView>
             {isLoading
                 ? <Loading />
                 :
-                    <FlatList
-                        style={style.listContainer}
-                        data={chats}
-                        renderItem={({index, item}) => (
-                            <TouchableHighlight
-                                key={index}
-                                onPress={() => onPressChat(item)}
-                                underlayColor={ColorConstants.transparent}>
+                <FlatList
+                    style={style.listContainer}
+                    data={chats}
+                    renderItem={({index, item}) => (
+                        <TouchableHighlight
+                        key={index}
+                        onPress={() => onPressChat(item)}
+                        underlayColor={ColorConstants.transparent}>
                                 <View style={style.chatContainer}>
                                     <Image
                                         source={item.post.blobPaths && item.post.blobPaths.length > 0 ? {uri: item.post.blobPaths[0]} : require("../../../images/defaultProfilePicture.png")}
@@ -97,7 +100,7 @@ const Chats = () => {
                                 </View>
                             </TouchableHighlight>
                         )}/>
-            }
+                    }
         </View>
     )
 }

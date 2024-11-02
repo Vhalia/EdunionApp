@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import {PermissionsAndroid, Platform, SafeAreaView, View} from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './AppStyle';
 import Navbar from './pages/navbar/Navbar';
 import Login from './pages/login/Login';
 import { AuthContext } from './contexts/AuthContext/AuthContext';
 import Post from './components/post/Post';
-import PostEdit from './components/postEdit/PostEdit';
 import SubPage from './components/subPage/SubPage';
 import Register from './pages/register/Register';
 import { ColorConstants } from './constants/ThemeConstants';
-import Toast, { ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-message';
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import ConfirmEmail from './pages/confirmEmail/ConfirmEmail';
 import SplashScreen from './pages/splashScreen/SplashScreen';
 import Chat from './pages/chat/Chat';
-import TimezoneContext, { TimezoneContextComponent } from './contexts/TimezoneContext/TimezoneContext';
+import { TimezoneContextComponent } from './contexts/TimezoneContext/TimezoneContext';
 import EditPostPage from './pages/editPost/EditPostPage';
-import Config from "react-native-config";
 import EnvBanner from './components/envBanner/EnvBanner';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Popup from './modules/Popup/Popup';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,63 +31,9 @@ type StackNavigationList = {
   Navbar: undefined;
 };
 
-function App(): JSX.Element { 
-  const toastConfig : ToastConfig = {
-    error: (props) => (
-      <ErrorToast
-        {...props}
-        style={{
-          backgroundColor: ColorConstants.red,
-          borderLeftColor: ColorConstants.red70PercentColor
-        }}
-        text1Style={{
-          color: ColorConstants.whiteMainColor,
-          fontSize: 15
-        }}
-        text2Style={{
-          color: ColorConstants.whiteMainColor,
-          opacity: 0.7,
-          fontSize: 14,
-        }}
-        text2NumberOfLines={2}
-        />
-    ),
-    info: (props) => (
-      <InfoToast
-        {...props}
-        style={{
-          backgroundColor: ColorConstants.blue,
-          borderLeftColor: ColorConstants.blue70PercentColor
-        }}
-        text1Style={{
-          color: ColorConstants.whiteMainColor,
-          fontSize: 15,
-        }}
-        text2Style={{
-          color: ColorConstants.whiteMainColor,
-          opacity: 0.7,
-          fontSize: 14,
-        }}
-        text2NumberOfLines={2}
-        />
-    ),
-    success : (props) => (
-      <InfoToast
-        {...props}
-        style={{
-          backgroundColor: ColorConstants.green,
-          borderLeftColor: ColorConstants.green70PercentColor
-        }}
-        text1Style={{
-          color: ColorConstants.whiteMainColor,
-          fontSize: 15
-        }}
-        />
-    )
-  } 
-
+function App(): JSX.Element {
   return (
-    <SafeAreaView style={styles.background}>
+    <SafeAreaProvider style={[styles.background]}>
       <AuthContext>
         <TimezoneContextComponent>
           <NavigationContainer>
@@ -139,10 +82,10 @@ function App(): JSX.Element {
           </NavigationContainer>
         </TimezoneContextComponent>
       </AuthContext>
-      <Toast config={toastConfig}/>
+      <Popup />
       <EnvBanner />
-    </SafeAreaView>
-  );
+    </SafeAreaProvider>
+  )
 }
 
 export default App;

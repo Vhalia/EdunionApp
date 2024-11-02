@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import Context from '../../contexts/AuthContext/AuthContext';
 import EUserState from '../../models/enums/EUserState';
 import Toast from 'react-native-toast-message';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AddPost = () => {
     const postService = usePostService();
@@ -57,20 +58,22 @@ const AddPost = () => {
     }
 
     return (
-        <View style={styles.mainContainer}>
-            <View
-                style={styles.header}>
-                <MainText
-                    weight={'700'}
-                    fontSize={20}
-                    text="Ajoute un article ou un cours"/>
+        <SafeAreaView style={{flex: 1}}>
+            <View style={styles.mainContainer}>
+                <View
+                    style={styles.header}>
+                    <MainText
+                        weight={'700'}
+                        fontSize={20}
+                        text="Ajoute un article ou un cours"/>
+                </View>
+                <PostEdit
+                    disableEditStatus={true}
+                    onAddButtonPress={onSubmit}
+                    isLoading={isLoading}
+                    resetState={resetState}/>
             </View>
-            <PostEdit
-                disableEditStatus={true}
-                onAddButtonPress={onSubmit}
-                isLoading={isLoading}
-                resetState={resetState}/>
-        </View>
+        </SafeAreaView>
     )
 }
 export default AddPost;

@@ -19,6 +19,7 @@ import useTagService from "../../hooks/useTagService";
 import MainButton from "../../modules/mainButton/MainButton";
 import PostTypeSelector from "../../components/postTypeSelector/PostTypeSelector";
 import SearchProps from "./props/searchProps";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Search = (props: SearchProps) => {
     const routeProps: SearchProps = props.route.params
@@ -153,19 +154,21 @@ const Search = (props: SearchProps) => {
 
     return(
         <View style={styles.mainContainer}>
-            {/*header*/}
-            <Header>
-                <Animated.View style={[styles.seachBarStyleContainer]}>
-                    <SearchBar
-                        onPressSearch={onPressSearch}
-                        dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
-                        style={[styles.seachBarStyle]}
-                        sideButtonMode="button"
-                        onPressSideButton={() => showAdvancedSearch(true)}
-                        search={searchInputText}/>
-                    
-                </Animated.View>
-            </Header>
+            <SafeAreaView style={{backgroundColor: ColorConstants.blackSecondaryColor}}>
+                {/*header*/}
+                <Header style={{height:100}}>
+                    <Animated.View style={[styles.seachBarStyleContainer]}>
+                        <SearchBar
+                            onPressSearch={onPressSearch}
+                            dropDownStyle={{backgroundColor: ColorConstants.blackMainColor}}
+                            style={[styles.seachBarStyle]}
+                            sideButtonMode="button"
+                            onPressSideButton={() => showAdvancedSearch(true)}
+                            search={searchInputText}/>
+                        
+                    </Animated.View>
+                </Header>
+            </SafeAreaView>
 
             {/* Advanced search modal */}
             <Modal
@@ -211,13 +214,6 @@ const Search = (props: SearchProps) => {
 
             {/*Search*/}
             <Animated.View style={[styles.gap, styles.contentContainer]}>
-                {/* <View style={[styles.gap]}>
-                    <MainText
-                        weight={'700'}
-                        fontSize={20}
-                        text={searchInputText ? "Résultat pour: " +searchInputText : ""} />
-                </View> */}
-
                 {/*Posts*/}
                 {isLoading
                     ?

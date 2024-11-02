@@ -1,4 +1,4 @@
-import { ScrollView, TextInput, View } from "react-native"
+import { Platform, ScrollView, TextInput, View } from "react-native"
 import { ColorConstants } from "../../../../constants/ThemeConstants"
 import React, { useContext, useEffect, useState } from "react"
 import MainText from "../../../../modules/text/MainText"
@@ -181,12 +181,13 @@ const ProfileSetting = () => {
                     fontSize={15}
                     text="Année scolaire"/>
                 
-                <View style={[styles.dropDown, styles.gap]}>
+                <View style={[Platform.OS == "ios" ? {width: 80} :styles.dropDown, styles.gap]}>
                     <Picker
                         selectedValue={schoolYear}
                         onValueChange={(itemValue, itemIndex) => onSchoolYearChange(itemValue.toString())}
-                        style={styles.dropDown}
-                        dropdownIconColor={ColorConstants.whiteMainColor}>
+                        style={Platform.OS == "ios" ? {} : styles.dropDown}
+                        dropdownIconColor={ColorConstants.whiteMainColor}
+                        itemStyle={{color: ColorConstants.whiteMainColor}}>
                         {[1, 2, 3, 4, 5, 6].map((year, index) => (
                             <Picker.Item
                                 key={index}

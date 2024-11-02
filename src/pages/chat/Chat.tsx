@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, Keyboard, StyleSheet, TouchableHighlight, View } from "react-native";
+import { Dimensions, FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TouchableHighlight, View } from "react-native";
 import MainText from "../../modules/text/MainText";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import  ChatType from "../../models/Chat";
@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import TimezoneContext from "../../contexts/TimezoneContext/TimezoneContext";
 import useChatService from "../../hooks/useChatService";
 import Config from "react-native-config";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Chat = (props: ChatProps) => {
     const route = useRoute();
@@ -131,6 +132,7 @@ const Chat = (props: ChatProps) => {
                             </View>
                         </>
                     </TouchableHighlight>
+
                     <FlatList
                         ref={listRef}
                         data={chat?.messages ?? []}
@@ -144,26 +146,29 @@ const Chat = (props: ChatProps) => {
                         renderItem={({index, item}) => {
                             return (
                                 <ChatMessage
-                                    previousMessage={chat?.messages[index - 1]}
-                                    message={item}
-                                    type={item.sourceUserId == senderUserId ? 'sender' : 'receiver'}/>
+                                previousMessage={chat?.messages[index - 1]}
+                                message={item}
+                                type={item.sourceUserId == senderUserId ? 'sender' : 'receiver'}/>
                             )
                         }}/>
-                    <View style={[style.inputContainer]}>
-                        <MainInput
-                            value={text}
-                            autoCapitalize="sentences"
-                            onLosingFocus={() => Keyboard.dismiss()}
-                            onChange={(text) => setText(text)}
-                            placeholder="Message"
-                            placeholderColor={ColorConstants.white70PercentColor}
-                            containerStyle={style.input}/>
-                        <TouchableHighlight
-                            onPress={onPressSend}
-                            style={style.sendButton}>
-                                <SendSVG fill={ColorConstants.whiteMainColor} width={20} height={20} />
-                        </TouchableHighlight>
-                    </View>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={style.inputContainer}
+                        keyboardVerticalOffset={100}>
+                            <MainInput
+                                value={text}
+                                autoCapitalize="sentences"
+                                onLosingFocus={() => Keyboard.dismiss()}
+                                onChange={(text) => setText(text)}
+                                placeholder="Message"
+                                placeholderColor={ColorConstants.white70PercentColor}
+                                containerStyle={style.input}/>
+                            <TouchableHighlight
+                                onPress={onPressSend}
+                                style={style.sendButton}>
+                                    <SendSVG fill={ColorConstants.whiteMainColor} width={20} height={20} />
+                            </TouchableHighlight>
+                        </KeyboardAvoidingView>
                 </View>
             }
         </View>
@@ -241,15 +246,16 @@ const style = StyleSheet.create({
     },
     messageSender: {
         backgroundColor: ColorConstants.purpleMainColor,
-        alignSelf: "flex-end",
+        alignSelf: "flex-end"
     },
     messageReceiver: {
         backgroundColor: ColorConstants.greyLightColor,
-        alignSelf: "flex-start",
+        alignSelf: "flex-start"
     },
     message: {
         padding: 10,
-        borderRadius: 18,
+        borderRadius: 17,
+        overflow: "hidden"
     },
     inputContainer:{
         display: 'flex',
@@ -272,6 +278,7 @@ const style = StyleSheet.create({
     input: {
         backgroundColor: ColorConstants.blackSecondaryColor,
         borderRadius: 14,
+        height: 40
     },
     postInChatImageStyle: {
         margin: 10,

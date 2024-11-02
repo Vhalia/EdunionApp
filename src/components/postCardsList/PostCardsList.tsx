@@ -14,6 +14,7 @@ const PostCardsList = (props : PostCardsListProps) => {
                 estimatedItemSize={props.estimatedItemSize}
                 showsVerticalScrollIndicator={false}
                 overScrollMode={props.overScrollMode}
+                indicatorStyle="white"
                 numColumns={props.numberOfColumns ?? 1}
                 onRefresh={props.onRefresh}
                 refreshing={props.isRefreshing}

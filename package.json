@@ -22,6 +22,7 @@
     "android:release": "ENVFILE=.env && chmod 777 android/gradlew && cd android && ./gradlew assembleRelease",
     "android:release:staging:win": "SET ENVFILE=.env.staging && cd android && gradlew assembleRelease",
     "android:release:staging": "ENVFILE=.env.staging && chmod 777 android/gradlew && cd android && ./gradlew assembleRelease",
+    "ios:clean": "xattr -w com.apple.xcode.CreatedByBuildSystem true ./ios/build && cd ios && rm -rf ./build && xcodebuild clean && rm -rf ~/Library/Caches/CocoaPods && rm -rf Pods && rm -rf ~/Library/Developer/Xcode/DerivedData/* && pod cache clean --all && pod deintegrate && pod setup && pod install && pod update && cd ..",
     "lint": "eslint .",
     "test": "jest"
   },
@@ -37,6 +38,7 @@
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/native-stack": "^6.9.18",
     "@shopify/flash-list": "^1.6.4",
+    "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-native": "0.72.7",
     "react-native-config": "^1.5.3",

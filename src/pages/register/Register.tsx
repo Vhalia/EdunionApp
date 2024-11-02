@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import RegisterProps from "./props/RegisterProps";
 import styles from "./style/RegisterStyle";
 import MultiStepForm, { Step } from "../../components/multiStepForm/MultiStepForm";
@@ -17,6 +17,7 @@ import useStorage from "../../hooks/useStorage";
 import useAuthorizationService from "../../hooks/useAuthorizationService";
 import useSchoolService from "../../hooks/useSchoolService";
 import ConfirmEmail from "../confirmEmail/ConfirmEmail";
+import { AnimateStyle } from "react-native-reanimated";
 
 const Register = (props: RegisterProps) => {
     const [firstname, setFirstname] = useState<string>("");
@@ -25,7 +26,7 @@ const Register = (props: RegisterProps) => {
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [schools, setSchools] = useState<School[]>([]);
-    const [selectedSchool, setSelectedSchool] = useState<School|undefined>(undefined);
+    const [selectedSchoolId, setSelectedSchoolId] = useState<number|undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
 
     const [firstnameErrorMessage, setFirstnameErrorMessage] = useState<string|undefined>(undefined);
@@ -42,7 +43,7 @@ const Register = (props: RegisterProps) => {
         schoolService.get()
             .then(res => {
                 setSchools(res)
-                setSelectedSchool(res[0])
+                setSelectedSchoolId(res[0].id)
             })
             .catch(err => console.log(err))
     }, [])
@@ -55,7 +56,7 @@ const Register = (props: RegisterProps) => {
                 password: password,
                 firstName: firstname,
                 lastName: lastname,
-                schoolId: selectedSchool!.id,
+                schoolId: selectedSchoolId!,
                 registerToNewsletter: false
             })
 
@@ -98,18 +99,19 @@ const Register = (props: RegisterProps) => {
                     isOnError={lastnameErrorMessage != undefined}
                     errorMessage={lastnameErrorMessage}
                     autoCapitalize="words"/>
-
-                <View style={styles.dropDown}>
+                <MainText text="Sélectionnez votre école:" fontSize={20} style={styles.chooseSchoolTitle}/>
+                <View style={Platform.OS == "ios" ? {} : styles.dropDown}>
                     <Picker
-                        selectedValue={selectedSchool}
-                        onValueChange={(itemValue, itemIndex) => setSelectedSchool(itemValue)}
-                        style={styles.dropDown}
-                        dropdownIconColor={ColorConstants.whiteMainColor}>
+                        selectedValue={selectedSchoolId}
+                        onValueChange={(itemValue, itemIndex) => setSelectedSchoolId(itemValue)}
+                        style={Platform.OS == "ios" ? {} : styles.dropDown}
+                        dropdownIconColor={ColorConstants.whiteMainColor}
+                        itemStyle={{color: ColorConstants.whiteMainColor}}>
                         {schools.map((school, index) => (
                             <Picker.Item
                                 key={index}
                                 label={school.name}
-                                value={school}/>
+                                value={school.id}/>
                         ))}
                     </Picker>
                 </View>
@@ -219,7 +221,7 @@ const Register = (props: RegisterProps) => {
     ]
     return (
         <View style={styles.mainContainer}>
-            <MultiStepForm 
+            <MultiStepForm
                 steps={steps}
                 onPressSubmit={onPressRegister}
                 isLoading={isLoading}/>

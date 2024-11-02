@@ -108,11 +108,6 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.purpleMainColor,
         width: 50
     },
-    addBookModalContent: {
-        display: 'flex',
-        flex: 0.90,
-        backgroundColor: ColorConstants.blackMainColor,
-    },
     addBookModelCloseButton: {
         width: "100%",
         display: 'flex',
@@ -154,7 +149,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10
-    }
+    },
+    modalContainerStyleIos: {
+    },
+    addBookModalContent: {
+        display: 'flex',
+        flex: 0.9,
+        backgroundColor: ColorConstants.blackMainColor
+    },
 })
 
 export default styles;

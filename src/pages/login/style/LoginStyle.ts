@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
     resetPasswordButton: {
         display: "flex",
-        width: 350,
+        width: 350
     }
 });
 

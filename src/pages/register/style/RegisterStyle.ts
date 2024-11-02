@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.blackSecondaryColor,
         borderRadius: 14,
         borderWidth: 4
+    },
+    chooseSchoolTitle: {
+        marginTop: 30,
+        marginLeft: 10
     }
 })
 

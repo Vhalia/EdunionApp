@@ -16,10 +16,14 @@ import Profile from '..//profile/Profile';
 import { ColorConstants } from "../../constants/ThemeConstants";
 import { useNavigation } from "@react-navigation/native";
 import Chats from "../chats/Chats";
+import { Platform } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Navbar = (props : NavbarProps) => {
     const Tab = createBottomTabNavigator()
     const navigation = useNavigation<any>()
+    const insets = useSafeAreaInsets();
+
 
     const activeStyle = {
         icon : {color:ColorConstants.purpleMainColor, opacity:1}
@@ -52,6 +56,8 @@ const Navbar = (props : NavbarProps) => {
                 e.preventDefault();
         })
     }, [navigation]);
+
+    let height = Platform.OS == "ios" ? 90 : 60
     
     return (
         <Tab.Navigator
@@ -59,7 +65,7 @@ const Navbar = (props : NavbarProps) => {
             sceneContainerStyle={styles.mainView}
             screenOptions={({route}) => ({
                 headerShown: false,
-                tabBarStyle: styles.mainView,
+                tabBarStyle: {...styles.tabBar, height: height},
                 tabBarIcon: ({focused}) => displayIcon(route.name, focused),
                 tabBarActiveTintColor: ColorConstants.whiteMainColor,
             })}>

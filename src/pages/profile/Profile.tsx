@@ -24,6 +24,7 @@ import MyPostSetting from "./settings/myPostsSetting/MyPostSetting";
 import AdminSetting from "./settings/adminSetting/AdminSetting";
 import EUserRole from "../../models/enums/EUserRole";
 import Partners from "../../components/partners/Partners";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const Profile = (props : ProfileProps) => {
@@ -144,7 +145,8 @@ const Settings = () => {
     }
 
     return (
-            <ScrollView contentContainerStyle={styles.container} style={{backgroundColor: ColorConstants.blackMainColor}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: ColorConstants.blackMainColor}}>
+            <ScrollView contentContainerStyle={styles.container}>
                 <Header style={styles.header}>
                     <MainText weight={'700'} fontSize={20} text={"Profile"} />    
                 </Header>
@@ -211,11 +213,12 @@ const Settings = () => {
 
                 </View>
 
-                <View style={styles.logoutContainer}>
+                <View style={styles.partnersContainer}>
                     <Partners />
                 </View>
                 
             </ScrollView>
+        </SafeAreaView>
     );
 }
 
