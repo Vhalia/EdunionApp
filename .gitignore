@@ -2,6 +2,7 @@
 .env.local
 edunion-key-pwd.txt
 edunion-keystore.properties
+secrets
 
 # OSX
 #
