@@ -51,3 +51,9 @@ jobs:
           team-id: ${{ secrets.IOS_TEAM_ID }}
           workspace-path: ios/EdunionApp.xcworkspace
           output-path: "EdunionApp.ipa"
+
+      - name: Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: "EdunionApp.ipa"
+          path: "EdunionApp.ipa"
