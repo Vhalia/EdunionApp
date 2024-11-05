@@ -37,6 +37,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
+      - name: Load Google Service file
+        env:
+          DATA: ${{secrets.IOS_GOOGLESERVICEINFO_PLIST}}
+        run: echo $DATA | base64 -di > ios/GoogleService-Info.plist
+
       - name: Install pod dependencies
         run: cd ios && pod install && cd ..
 
