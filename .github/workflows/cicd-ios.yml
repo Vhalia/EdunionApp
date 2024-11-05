@@ -44,10 +44,10 @@ jobs:
         uses: yukiarrr/ios-build-action@v1.5.0
         with:
           project-path: ios/EdunionApp.xcodeproj
-          p12-base64: ${{ secrets.P12_BASE64 }}
-          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+          p12-base64: ${{ secrets.IOS_P12 }}
+          mobileprovision-base64: ${{ secrets.IOS_MOBILEPROVISION_ADHOC }}
           code-signing-identity: "Apple Distribution"
-          certificate-password: ${{ secrets.CERTIFICATE_PASSWORD }}
+          certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           team-id: ${{ secrets.IOS_TEAM_ID }}
           workspace-path: ios/EdunionApp.xcworkspace
           output-path: "EdunionApp.ipa"
