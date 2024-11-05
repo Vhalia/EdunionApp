@@ -22,7 +22,7 @@ jobs:
 
       - name: Load Google Service file
         env:
-          DATA: ${{ secrets.IOS_GOOGLESERVICEINFO_PLIST }}
+          DATA: ${{ secrets.IOS_GOOGLE_SERVICE }}
         run: echo $DATA | base64 -di > ios/GoogleService-Info.plist
 
       - name: Install node modules
