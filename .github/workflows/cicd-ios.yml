@@ -17,10 +17,13 @@ jobs:
       steps:
       - uses: actions/checkout@v3
 
+      - name: TEST
+        run: echo ${{ secrets.IOS_GOOGLESERVICEINFO_PLIST }}
+
       - name: Load Google Service file
         env:
           DATA: ${{ secrets.IOS_GOOGLESERVICEINFO_PLIST }}
-        run: echo $DATA | base64 -di > ios/GoogleService-Info.plist
+        run: base64 -di -i $DATA > ios/GoogleService-Info.plist
 
       - name: Install node modules
         run: npm i
