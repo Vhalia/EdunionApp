@@ -4,6 +4,7 @@
 edunion-key-pwd.txt
 edunion-keystore.properties
 secrets
+ios/secrets
 
 # OSX
 #
