@@ -17,9 +17,6 @@ jobs:
       steps:
       - uses: actions/checkout@v3
 
-      - name: TEST
-        run: echo ${{ vars.IOS_GOOGLE_SERVICE_TEST }}
-
       - name: Load Google Service file
         env:
           DATA: ${{ vars.IOS_GOOGLE_SERVICE_TEST }}
