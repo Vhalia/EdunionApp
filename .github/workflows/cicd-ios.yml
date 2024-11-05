@@ -17,8 +17,14 @@ jobs:
       steps:
       - uses: actions/checkout@v3
 
+      - name: Use Node.js 14
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "yarn"
+
       - name: Install node modules
-        run: npm i
+        run: yarn ci
 
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
