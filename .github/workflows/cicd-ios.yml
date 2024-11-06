@@ -22,11 +22,11 @@ jobs:
           DATA: ${{ vars.IOS_GOOGLE_SERVICE }}
         run: echo $DATA | base64 -D > ios/GoogleService-Info.plist
 
-      - name: TEST
-        run: cat ios/GoogleService-Info.plist
-
-      - name: TEST 2
-        run: ls ios
+      - name: Install xcodeproj
+        run: gem install xcodeproj
+        
+      - name: Add Google Service File into Xcode project
+        run: cd ios && ruby addGoogleServiceFile.rb && cd ..
 
       - name: Install node modules
         run: npm i
