@@ -1,17 +1,22 @@
 require 'xcodeproj'
 
-project_path = 'EdunionApp.xcodeproj'
 
-project = Xcodeproj::Project.open(project_path)
+project = Xcodeproj::Project.open('EdunionApp.xcodeproj')
 
 target_name = 'EdunionApp'
 plist_file_path = 'GoogleService-Info.plist'
+
+group = project.main_group["EdunionApp"]
+
+file = group.new_file(plist_file_path)
 
 target = project.targets.find { |t| t.name == target_name }
 unless target
   puts "Target #{target_name} not found."
   exit 1
 end
+
+target.add_file_references([file])
 
 # Check if the file already exists in the project
 file_ref = project.main_group.files.find { |file| file.path == plist_file_path }
