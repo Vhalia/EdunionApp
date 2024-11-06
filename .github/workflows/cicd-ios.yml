@@ -25,6 +25,9 @@ jobs:
       - name: TEST
         run: cat ios/GoogleService-Info.plist
 
+      - name: TEST 2
+        run: ls ios
+
       - name: Install node modules
         run: npm i
 
