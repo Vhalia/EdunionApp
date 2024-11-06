@@ -1,6 +1,6 @@
-require ‘xcodeproj’
+require 'xcodeproj'
 
-project_path = ‘ProjectDir/EdunionApp.xcodeproj’
+project_path = 'ProjectDir/EdunionApp.xcodeproj'
 
 project = Xcodeproj::Project.open(project_path)
 
