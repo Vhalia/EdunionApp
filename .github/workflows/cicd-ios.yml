@@ -22,6 +22,9 @@ jobs:
           DATA: ${{ vars.IOS_GOOGLE_SERVICE }}
         run: echo $DATA | base64 -D > ios/GoogleService-Info.plist
 
+      - name: TEST
+        run: cat ios/GoogleService-Info.plist
+
       - name: Install node modules
         run: npm i
 
