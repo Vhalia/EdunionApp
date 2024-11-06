@@ -58,6 +58,7 @@ jobs:
           p12-base64: ${{ secrets.IOS_P12 }}
           mobileprovision-base64: ${{ secrets.IOS_MOBILEPROVISION_ADHOC }}
           code-signing-identity: "Apple Distribution"
+          export-method: "ad-hoc"
           certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           team-id: ${{ secrets.IOS_TEAM_ID }}
           workspace-path: ios/EdunionApp.xcworkspace
