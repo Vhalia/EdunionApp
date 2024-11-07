@@ -1,5 +1,4 @@
 *google-services.json
-*GoogleService-Info.plist
 .env.local
 edunion-key-pwd.txt
 edunion-keystore.properties
