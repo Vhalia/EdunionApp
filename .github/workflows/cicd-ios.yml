@@ -17,17 +17,6 @@ jobs:
       steps:
       - uses: actions/checkout@v3
 
-      - name: Load Google Service file
-        env:
-          DATA: ${{ vars.IOS_GOOGLE_SERVICE }}
-        run: echo $DATA | base64 -D > ios/GoogleService-Info.plist
-
-      - name: Install xcodeproj
-        run: gem install xcodeproj
-        
-      - name: Add Google Service File into Xcode project
-        run: cd ios && ruby addGoogleServiceFile.rb && cd ..
-
       - name: Install node modules
         run: npm i
 
