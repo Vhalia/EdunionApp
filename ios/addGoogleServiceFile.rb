@@ -20,7 +20,7 @@ unless file_ref
   file_ref = group.new_file(plist_file_path)
   target.add_file_references([file])
 else
-  target.remove_file_reference(file_ref)
+  target.remove_reference(file_ref)
   file_ref = group.new_file(plist_file_path)
   target.add_file_references([file])
 end
@@ -28,7 +28,7 @@ end
 # Remove file from "Compile Sources" if it’s there
 compile_phase = target.source_build_phase
 if compile_phase.files_references.include?(file_ref)
-  compile_phase.remove_reference(file_ref)
+  compile_phase.remove_file_reference(file_ref)
   puts "GoogleService-Info.plist removed from Compile Sources."
 end
 
