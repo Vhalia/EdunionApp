@@ -41,7 +41,7 @@ jobs:
         run: cd ios && pod install && cd ..
 
       - name: Build iOS (Release)
-        uses: yukiarrr/ios-build-action@v1.5.0
+        uses: yukiarrr/ios-build-action@v1.12.0
         with:
           project-path: ios/EdunionApp.xcodeproj
           p12-base64: ${{ secrets.IOS_P12 }}
