@@ -53,8 +53,11 @@ jobs:
           workspace-path: ios/EdunionApp.xcworkspace
           output-path: "EdunionApp.ipa"
 
-      - name: Upload build
-        uses: actions/upload-artifact@v3
+      - name: Upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          name: "EdunionApp.ipa"
-          path: "EdunionApp.ipa"
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: Testers
+          file: EdunionApp.ipa
+          releaseNotes: ${{ format('{0} - {1}', inputs.choice, github.event.workflow_run.head_commit.message) }}
