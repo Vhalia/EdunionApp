@@ -58,3 +58,22 @@ jobs:
         with:
           name: "EdunionApp.ipa"
           path: "EdunionApp.ipa"
+
+  deploy-ios:
+      needs: build-ios
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3
+          with:
+            name: EdunionApp.ipa
+  
+        - name: Upload artifact to Firebase App Distribution
+          uses: wzieba/Firebase-Distribution-Github-Action@v1
+          with:
+            appId: ${{secrets.FIREBASE_APP_ID}}
+            serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+            groups: Testers
+            file: EdunionApp.ipa
+            releaseNotes: ${{ format('{0} - {1}', inputs.choice, github.event.workflow_run.head_commit.message) }}
