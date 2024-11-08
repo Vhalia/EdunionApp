@@ -24,7 +24,8 @@
     "android:release:staging": "ENVFILE=.env.staging && chmod 777 android/gradlew && cd android && ./gradlew assembleRelease",
     "ios:clean": "xattr -w com.apple.xcode.CreatedByBuildSystem true ./ios/build && cd ios && rm -rf ./build && xcodebuild clean && rm -rf ~/Library/Caches/CocoaPods && rm -rf Pods && rm -rf ~/Library/Developer/Xcode/DerivedData/* && pod cache clean --all && pod deintegrate && pod setup && pod install && pod update && cd ..",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@microsoft/signalr": "^8.0.7",
