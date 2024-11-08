@@ -72,7 +72,7 @@ jobs:
         - name: Upload artifact to Firebase App Distribution
           uses: wzieba/Firebase-Distribution-Github-Action@v1
           with:
-            appId: ${{secrets.FIREBASE_APP_ID}}
+            appId: ${{secrets.FIREBASE_APP_ID_IOS}}
             serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
             groups: Testers
             file: EdunionApp.ipa
