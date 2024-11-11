@@ -31,7 +31,7 @@ type StackNavigationList = {
   Navbar: undefined;
 };
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   return (
     <SafeAreaProvider style={[styles.background]}>
       <AuthContext>
