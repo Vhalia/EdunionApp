@@ -1,17 +1,16 @@
-import { useContext } from "react"
-import Context from "../contexts/AuthContext/AuthContext";
-import HttpClient from "../services/httpClient/HttpClient";
 import Proof from "../models/Proof";
 import File from "../models/File";
 import SchoolProof from "../models/SchoolProof";
 import VerifySchoolProofDto from "../models/DTO/VerifySchoolProofDto";
+import useHttpClient from "./useHttpClient";
 
 const useSchoolProofService = () => {
-    const authContext = useContext(Context);
     
+    const httpClient = useHttpClient()
+
     return {
         postSchoolProof: (schoolId: number, proof: File|undefined) => {
-            return HttpClient.postMultipartFormData("/api/schoolProof/send", [
+            return httpClient.postMultipartFormData("/api/schoolProof/send", [
                 {
                     key: "SchoolId",
                     value: schoolId
@@ -20,16 +19,16 @@ const useSchoolProofService = () => {
                     key: "Files",
                     value: proof ? [proof] : undefined
                 }
-            ], authContext?.token)
+            ], true)
         },
         getOwn: () => {
-            return HttpClient.get<Proof[]>("/api/schoolProof/own", authContext?.token)
+            return httpClient.get<Proof[]>("/api/schoolProof/own", true)
         },
         getAll: () => {
-            return HttpClient.get<SchoolProof[]>("/api/schoolProof", authContext?.token)
+            return httpClient.get<SchoolProof[]>("/api/schoolProof", true)
         },
         verify: (verifySchoolProof: VerifySchoolProofDto) => {
-            return HttpClient.post("/api/schoolProof/verify", verifySchoolProof, authContext?.token)
+            return httpClient.post("/api/schoolProof/verify", verifySchoolProof, true)
         }
     }
 }

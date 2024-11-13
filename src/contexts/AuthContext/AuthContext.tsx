@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import User from "../../models/User";
 import ContextProps from "../props/contextProps";
+import useStorage from "../../hooks/useStorage";
 
 const Context = React.createContext<AuthExposed|undefined>(undefined)
 
@@ -8,9 +9,12 @@ const AuthContext = (props : ContextProps) => {
     const [currentUser, setCurrentUser] = useState<User>();
     const [token, setToken] = useState<string>("");
     
+    const storage = useStorage();
+    
     const logout = () => {
         setCurrentUser(undefined);
         setToken("")
+        storage.delete("token")
     }
 
     const exposedValue : AuthExposed = {

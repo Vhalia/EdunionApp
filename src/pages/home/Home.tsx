@@ -5,11 +5,11 @@ import SearchBar from "../../components/searchBar/SearchBar"
 import Carousels from "../../components/carousel/Carousel"
 import Post from "../../models/Post"
 import EPostType from "../../models/enums/EPostType"
-import { useContext, useEffect, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import FoldHeader from "../../components/foldHeader/FoldHeader"
 import Animated, { useSharedValue } from "react-native-reanimated"
 import Logo from '../../../images/logo.svg'
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import EPostStatus from "../../models/enums/EPostStatus"
 import Context from "../../contexts/AuthContext/AuthContext";
 import useUserService from "../../hooks/useUserService"
@@ -49,11 +49,11 @@ const Home = () => {
                 if (res.state === EUserState.INACTIVE){
                     Toast.show({
                         type: "info",
-                        text1: "Appuyez ici pour valider votre école",
-                        text2: "Certaines fonctionnalitées sont désactivées tant que ce n'est pas fait.",
-                        swipeable: true,
+                        text1: "Veuillez valider votre école.",
+                        text2: "Allez dans votre profile pour envoyer une preuve.",
                         visibilityTime: 30000,
-                        onPress: () => navigation.navigate("Profile")
+                        onPress: () => navigation.navigate("Profile"),
+                        swipeable: true
                     })
                 }
              })

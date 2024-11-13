@@ -1,17 +1,15 @@
-import { useContext } from "react";
-import HttpClient from "../services/httpClient/HttpClient";
-import Context from "../contexts/AuthContext/AuthContext";
 import School from "../models/School";
+import useHttpClient from "./useHttpClient";
 
 const useSchoolService = () => {
-    const authContext = useContext(Context);
+    const httpClient = useHttpClient()
 
     return {
         get: () => {
-            return HttpClient.get<School[]>("/api/school", authContext?.token)
+            return httpClient.get<School[]>("/api/school", true)
         },
         getById: (id: number) => {
-            return HttpClient.get<School>("/api/school/" + id, authContext?.token)
+            return httpClient.get<School>("/api/school/" + id, true)
         }
     }
 }

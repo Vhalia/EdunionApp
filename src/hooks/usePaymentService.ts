@@ -1,16 +1,14 @@
-import { useContext } from "react";
-import Context from "../contexts/AuthContext/AuthContext";
-import HttpClient from "../services/httpClient/HttpClient";
+import useHttpClient from "./useHttpClient";
 
 const usePaymentService = () => {
-    const authContext = useContext(Context);
+    const httpClient = useHttpClient() 
     
     return {
         updateIban : (iban: string) => {
-            return HttpClient.put("/api/payment/iban", {Iban: iban}, authContext?.token)
+            return httpClient.put("/api/payment/iban", {Iban: iban}, true)
         },
         postIban : (iban: string) => {
-            return HttpClient.post("/api/payment/iban", {Iban: iban}, authContext?.token)
+            return httpClient.post("/api/payment/iban", {Iban: iban}, true)
         }
     }
 }

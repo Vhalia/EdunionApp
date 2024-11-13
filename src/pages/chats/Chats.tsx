@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, TouchableHighlight, View } from "react-native";
+import { FlatList, Image, Platform, StyleSheet, TouchableHighlight, View } from "react-native";
 import styles from "./style/chatStyle";
 import Header from "../../components/header/Header";
 import MainText from "../../modules/text/MainText";
@@ -54,7 +54,7 @@ const Chats = () => {
     
     return (
         <View style={styles.container}>
-            <SafeAreaView style={{backgroundColor: ColorConstants.blackSecondaryColor}}>
+            <SafeAreaView style={[{backgroundColor: ColorConstants.blackSecondaryColor}, Platform.OS == "android" ? {padding: 30} : {}]}>
                 <Header style={styles.header}>
                     <MainText weight={'700'} fontSize={20} text={"Messages"} />    
                 </Header>

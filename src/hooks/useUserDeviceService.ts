@@ -1,17 +1,14 @@
-import { useContext } from "react";
-import Context from "../contexts/AuthContext/AuthContext";
-import HttpClient from "../services/httpClient/HttpClient";
+import useHttpClient from "./useHttpClient";
 
 const useUserDeviceService = () => {
-
-    const authContext = useContext(Context);
+    const httpClient = useHttpClient()
 
     return {
         register: (token: string) => {
-            return HttpClient.post("/api/userDevice/register", {
+            return httpClient.post("/api/userDevice/register", {
                 deviceToken: token
             },
-            authContext?.token)
+            true)
         },
     }
 }
