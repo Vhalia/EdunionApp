@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import styles from './AppStyle';
@@ -18,6 +18,8 @@ import EditPostPage from './pages/editPost/EditPostPage';
 import EnvBanner from './components/envBanner/EnvBanner';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Popup from './modules/Popup/Popup';
+import Toast, { BaseToast, ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-message';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +33,7 @@ type StackNavigationList = {
   Navbar: undefined;
 };
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   return (
     <SafeAreaProvider style={[styles.background]}>
       <AuthContext>
@@ -87,6 +89,7 @@ function App(): JSX.Element {
     </SafeAreaProvider>
   )
 }
+
 
 export default App;
 

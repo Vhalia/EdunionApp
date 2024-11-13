@@ -129,7 +129,6 @@ const Profile = (props : ProfileProps) => {
 const Settings = () => {
     const authContext = useContext(Context);
     const navigation = useNavigation<any>();
-    const storage = useStorage();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -141,7 +140,6 @@ const Settings = () => {
     const onPressLogout = () => {
         navigation.navigate("Login");
         authContext?.logout();
-        storage.delete("token")
     }
 
     return (
@@ -176,11 +174,12 @@ const Settings = () => {
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"A propos"} />
                 </NavigateButton>
-                <NavigateButton
+                {/* TODO */}
+                {/* <NavigateButton
                     redirectScreenName="LegalNoticeSetting"
                     style={styles.button}>
                         <MainText weight={'500'} fontSize={13} text={"Mention légales"} />
-                </NavigateButton>
+                </NavigateButton> */}
                 <NavigateButton
                     redirectScreenName="SchoolProofSetting"
                     style={styles.button}>

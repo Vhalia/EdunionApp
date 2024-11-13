@@ -1,18 +1,20 @@
-import HttpClient from "../services/httpClient/HttpClient";
+import useHttpClient from "./useHttpClient"
 
 const useEmailService = () => {
+    const httpClient = useHttpClient()
+
     return {
         verify: (email: string, code: string) => {
-            return HttpClient.post<boolean>("/api/email/verify", {
+            return httpClient.post<boolean>("/api/email/verify", {
                 email: email,
                 guid: code
             })
         },
         sendVerify: (email: string) => {
-            return HttpClient.get<boolean>("/api/email/sendVerify?" + (new URLSearchParams({ email: email })).toString())
+            return httpClient.get<boolean>("/api/email/sendVerify?" + (new URLSearchParams({ email: email })).toString())
         },
         sendResetPassword : (email: string) => {
-            return HttpClient.post<boolean>("/api/email/sendResetPassword", {
+            return httpClient.post<boolean>("/api/email/sendResetPassword", {
                 email: email
             })
         }

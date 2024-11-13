@@ -1,37 +1,34 @@
-import { useContext } from "react";
-import HttpClient from "../services/httpClient/HttpClient";
-import Context from "../contexts/AuthContext/AuthContext";
 import AddEditPostDto from "../models/DTO/AddEditPostDto";
 import File from "../models/File";
 import EPostType from "../models/enums/EPostType";
 import { PagedResponseDto } from "../models/DTO/PagedResponseDto";
 import Post from "../models/Post";
+import useHttpClient from "./useHttpClient";
 
 const usePostService = () => {
-
-    const authContext = useContext(Context);
+    const httpClient = useHttpClient()
 
     return {
         post: (post: AddEditPostDto) => {
-            return HttpClient.post<number>("/api/post", post, authContext?.token);
+            return httpClient.post<number>("/api/post", post, true);
         },
         put: (post: AddEditPostDto) => {
-            return HttpClient.put<number>("/api/post", post, authContext?.token);
+            return httpClient.put<number>("/api/post", post, true);
         },
         addPhotos: (id: number, photos: File[]) => {
-            return HttpClient.postMultipartFormData(
+            return httpClient.postMultipartFormData(
                 "/api/post/"+id+"/blob",
                 [{key: "Files", value: photos}],
-                authContext?.token)
+                true)
         },
         updatePhotos: (id: number, photos: File[]) => {
-            return HttpClient.putMultipartFormData(
+            return httpClient.putMultipartFormData(
                 "/api/post/"+id+"/blob",
                 [{key: "Files", value: photos}],
-                authContext?.token)
+                true)
         },
         deletePhotos: (id: number, paths: string[]) => {
-            return HttpClient.delete("/api/post/"+id+"/blob", {paths: paths}, authContext?.token)
+            return httpClient.delete("/api/post/"+id+"/blob", {paths: paths}, true)
         },
         getDetailed: (
             postType?: EPostType,
@@ -40,18 +37,18 @@ const usePostService = () => {
             search?: string,
             tagIds?: number[]) => {
 
-            return HttpClient.get<PagedResponseDto<Post>>(
+            return httpClient.get<PagedResponseDto<Post>>(
                 "/api/post/detailed?count="+count+"&startIndex="+startIndex
                     +(postType ? "&posttype="+postType : "")
                     +(search ? "&search="+search : "")
                     +((tagIds && tagIds.length > 0) ? "&tagIds="+tagIds.join("%2B") : ""),
-                authContext?.token);
+                true);
         },
         get: (id: number) => {
-            return HttpClient.get<Post>("/api/post/" + id, authContext?.token);
+            return httpClient.get("/api/post/" + id, true);
         },
         getOwn: () => {
-            return HttpClient.get<Post[]>("/api/post/own", authContext?.token);
+            return httpClient.get<Post[]>("/api/post/own", true);
         }
     }
 }

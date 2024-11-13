@@ -71,25 +71,27 @@ const ProfileSetting = () => {
                 }
             }
 
-            if (iban && currentUser?.paymentInformation?.iban != iban && ibanRegex.test(iban)) {
-                if (currentUser?.paymentInformation?.iban)
-                    await paymentService.updateIban(iban)
-                else
-                    await paymentService.postIban(iban)
-            }else{
-                setIbanErrorMessage("IBAN invalide. Veuillez utiliser ce format: BE12 1234 1234 1234")
-                setIsLoading(false)
-                return
+            if (iban && currentUser?.paymentInformation?.iban != iban) {
+                if (ibanRegex.test(iban))
+                {
+                    if (currentUser?.paymentInformation?.iban)
+                        await paymentService.updateIban(iban)
+                    else
+                        await paymentService.postIban(iban)
+                }else{
+                    setIbanErrorMessage("IBAN invalide. Veuillez utiliser ce format: BE12123412341234")
+                    setIsLoading(false)
+                    return
+                }
             }
             
             Toast.show({
                 type: "success",
-                text1: "Profile mis à jour"
+                text1: "Profile mis à jour",
             })
 
             var updatedUser = await userService.get()
-            console.log(updatedUser)
-            authContext!.setCurrentUser(updatedUser)
+            authContext!.setCurrentUser(updatedUser!)
 
             setIsLoading(false)
         }catch (err) {
@@ -122,7 +124,7 @@ const ProfileSetting = () => {
 
         let result = value.replaceAll(" ", "")
 
-        setIban(result.replace(/(.{4})/g, "$1 "))
+        setIban(result)
     }
 
     return (
@@ -211,7 +213,7 @@ const ProfileSetting = () => {
                     value={iban}
                     errorMessage={ibanErrorMessage}
                     isOnError={ibanErrorMessage !== undefined}
-                    placeholder="BE12 1234 1234 1234"
+                    placeholder="BE12123412341234"
                     placeholderColor={ColorConstants.white70PercentColor}/>
             </View>
             <View style={[styles.bigGap, {marginBottom: 20}]}>

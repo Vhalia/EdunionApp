@@ -1,5 +1,5 @@
 export default interface SubPageProps {
-    renderContent: () => JSX.Element,
+    renderContent: () => React.JSX.Element,
     navigation: any,
     mode? : 'normal' | 'fullscreen',
     backButtonPosition?: 'default' | 'absolute'

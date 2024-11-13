@@ -1,12 +1,12 @@
-import { Modal, StyleSheet, Touchable, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Platform, StyleSheet, Touchable, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./style/searchStyle"
 import SearchBar from "../../components/searchBar/SearchBar";
 import { ColorConstants } from "../../constants/ThemeConstants";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Post from "../../models/Post";
 import Header from "../../components/header/Header";
 import Animated from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import PostCardsList from "../../components/postCardsList/PostCardsList";
 import usePostService from "../../hooks/usePostService";
@@ -43,17 +43,12 @@ const Search = (props: SearchProps) => {
     const postService = usePostService()
     const tagService = useTagService()
 
-    useEffect(() => {
-        if (!isRefreshing)
-            return;
-
+    const refreshContent = () => {
         setIsLoading(true)
         getPosts(postType, defaultSearchCount, 0, searchInputText, activeTags.map((tag) => tag.id)).then((posts) => {
             setIsLoading(false)
             setIsRefreshing(false)
-            if (posts){
-                setPosts([...posts]);
-            }
+            setPosts(posts ?? []);
         }).catch((err) => {
             setIsLoading(false)
             setIsRefreshing(false)
@@ -67,7 +62,18 @@ const Search = (props: SearchProps) => {
             console.log(err)
             setTagsIsLoading(false)
         })
+    }
 
+    useFocusEffect(
+        useCallback(() => {
+            refreshContent();
+        }, []) 
+    )
+
+    useEffect(() => {
+        if (!isRefreshing)
+            return;
+        refreshContent();
     }, [isRefreshing])
 
     useEffect(() => {
@@ -154,7 +160,7 @@ const Search = (props: SearchProps) => {
 
     return(
         <View style={styles.mainContainer}>
-            <SafeAreaView style={{backgroundColor: ColorConstants.blackSecondaryColor}}>
+            <SafeAreaView style={[{backgroundColor: ColorConstants.blackSecondaryColor}, Platform.OS == "android" ? {padding: 20} : {}]}>
                 {/*header*/}
                 <Header style={{height:100}}>
                     <Animated.View style={[styles.seachBarStyleContainer]}>
