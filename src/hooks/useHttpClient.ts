@@ -15,10 +15,10 @@ const useHttpClient = () => {
     const get = async <T,>(
         url: string,
         authorizationNeeded?: boolean,
-        onError?: (error: ApiError, next: () => void) => void) : Promise<T> =>
+        onError?: (error: ApiError, fallback: () => void) => void) : Promise<T> =>
     {
         try {
-            return HttpClient.get(url, authorizationNeeded ? authContext?.token : undefined)
+            return await HttpClient.get(url, authorizationNeeded ? authContext?.token : undefined)
         }catch(error){
             handleError(error, navigation, authContext, onError)
             throw error
@@ -29,10 +29,10 @@ const useHttpClient = () => {
         url: string,
         body: any,
         authorizationNeeded?: boolean,
-        onError?: (error: ApiError, next: () => void) => void) : Promise<T> =>
+        onError?: (error: ApiError, fallback: () => void) => void) : Promise<T> =>
     {
         try {
-            return HttpClient.post(url, body, authorizationNeeded ? authContext?.token : undefined)
+            return await HttpClient.post(url, body, authorizationNeeded ? authContext?.token : undefined)
         }catch(error){
             handleError(error, navigation, authContext, onError)
             throw error
@@ -43,10 +43,10 @@ const useHttpClient = () => {
         url: string,
         body: any,
         authorizationNeeded?: boolean,
-        onError?: (error: ApiError, next: () => void) => void) : Promise<T> =>
+        onError?: (error: ApiError, fallback: () => void) => void) : Promise<T> =>
     {
         try {
-            return HttpClient.put(url, body, authorizationNeeded ? authContext?.token : undefined)
+            return await HttpClient.put(url, body, authorizationNeeded ? authContext?.token : undefined)
         }catch(error){
             handleError(error, navigation, authContext, onError)
             throw error
@@ -57,10 +57,10 @@ const useHttpClient = () => {
         url: string,
         body: any,
         authorizationNeeded?: boolean,
-        onError?: (error: ApiError, next: () => void) => void) =>
+        onError?: (error: ApiError, fallback: () => void) => void) =>
     {
         try {
-            return HttpClient.delete(url, body, authorizationNeeded ? authContext?.token : undefined)
+            return await HttpClient.delete(url, body, authorizationNeeded ? authContext?.token : undefined)
         }catch(error){
             handleError(error, navigation, authContext, onError)
             throw error
@@ -71,10 +71,10 @@ const useHttpClient = () => {
         url: string,
         datas: MultipartFormData[],
         authorizationNeeded?: boolean,
-        onError?: (error: ApiError, next: () => void) => void) : Promise<T> =>
+        onError?: (error: ApiError, fallback: () => void) => void) : Promise<T> =>
     {
         try {
-            return HttpClient.postMultipartFormData(url, datas, authorizationNeeded ? authContext?.token : undefined)
+            return await HttpClient.postMultipartFormData(url, datas, authorizationNeeded ? authContext?.token : undefined)
         }catch(error){
             handleError(error, navigation, authContext, onError)
             throw error
@@ -84,12 +84,12 @@ const useHttpClient = () => {
     const putMultipartFormData = async <T,>(
         url: string,
         datas: MultipartFormData[],
-        authorizationNeeded?: boolean, onError?: (error: ApiError, next: () => void) => void) : Promise<T> =>
+        authorizationNeeded?: boolean, fallback?: (error: ApiError, next: () => void) => void) : Promise<T> =>
     {
         try {
-            return HttpClient.putMultipartFormData(url, datas, authorizationNeeded ? authContext?.token : undefined)
+            return await HttpClient.putMultipartFormData(url, datas, authorizationNeeded ? authContext?.token : undefined)
         }catch(error){
-            handleError(error, navigation, authContext, onError)
+            handleError(error, navigation, authContext, fallback)
             throw error
         }
     }
@@ -104,7 +104,7 @@ const useHttpClient = () => {
     }
 }
 
-const handleError = (error: any, navigation: any, authContext?: any, onError?: (error: any, next: () => void) => void) => {
+const handleError = (error: any, navigation: any, authContext?: any, onError?: (error: any, fallback: () => void) => void) => {
     const apiError = error as ApiError
 
     handleApiError(apiError, navigation, authContext)
@@ -126,7 +126,6 @@ const handleApiError = (error: any, navigation: any, authContext?: any) => {
 
         return
     }
-    console.log("eeee")
 
     if (error instanceof ApiError){
         if (error.status == 401){

@@ -14,6 +14,7 @@ import useSchoolProofService from "../../../../hooks/useSchoolProofService";
 import SchoolProof from "../../../../models/SchoolProof";
 import dayjs from "dayjs";
 import Loading from "../../../../modules/Loading/Loading";
+import Context from "../../../../contexts/AuthContext/AuthContext";
 
 const AdminSetting = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -26,6 +27,7 @@ const AdminSetting = () => {
 
     const userService = useUserService();
     const schoolProofService = useSchoolProofService();
+    const authContext = useContext(Context)
 
     useFocusEffect(
         useCallback(() => {
@@ -35,6 +37,7 @@ const AdminSetting = () => {
             setIsLoading(true)
             userService.getAll()
                 .then(users => {
+                    users = users.filter(user => user.id != authContext?.currentUser?.id)
                     setBannedUsers([...users.filter(user => user.state === EUserState.BANNED)])
                     setActiveUsers([...users.filter(user => user.state === EUserState.ACTIVE)])
                     setPendingUsers([...users.filter(user => user.state === EUserState.PENDING)])
@@ -182,6 +185,7 @@ const UserList = (props: UserListProps) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState<User>();
     const [currentSchoolProof, setCurrentSchoolProof] = useState<SchoolProof>();
+    const [isImageLoading, setImageIsLoading] = useState(false)
 
     const onShowBanUserConfirm = (user: User) => {
         Alert.alert(
@@ -371,11 +375,19 @@ const UserList = (props: UserListProps) => {
                                 text="Preuve de scolarité"
                                 fontSize={20}
                                 weight="bold"/>
-                            <Image
-                                source={{uri: currentSchoolProof.proof.path}}
-                                style={[style.schoolProofImage, style.midGap]}
-                                resizeMode="cover"/>
-                            <View style={[{display: 'flex', flexDirection: 'row', gap: 10}, style.midGap]}>
+                            {isImageLoading ?
+                                <View style={{padding: 50}}>
+                                    <Loading />
+                                </View>
+                            :
+                                <Image
+                                    source={{uri: currentSchoolProof.proof.path}}
+                                    style={[style.schoolProofImage, style.midGap]}
+                                    resizeMode="cover"
+                                    onLoadStart={() => setImageIsLoading(true)}
+                                    onLoadEnd={() => setImageIsLoading(false)}/>
+                            }
+                                <View style={[{display: 'flex', flexDirection: 'row', gap: 10}, style.midGap]}>
                                 <MainButton
                                     text="Valider"
                                     onPress={() => onShowValidateSchoolProofConfirm(currentSchoolProof!)}
