@@ -30,8 +30,6 @@ const ResetPassword = (props: ResetPasswordProps) => {
     const authContext = useContext(Context);
 
     useEffect(() => {
-        console.log("oui");
-        
        if (authContext?.currentUser?.email) {
            setEmail(authContext?.currentUser.email)
        }

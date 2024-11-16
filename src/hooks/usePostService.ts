@@ -11,7 +11,7 @@ const usePostService = () => {
     const httpClient = useHttpClient()
 
     const handlePostUpdateError = (error: ApiError, fallback: () => void) => {
-        if (error.name.includes("future date")){
+        if (error.error.includes("future date")){
             Toast.show({
                 type: "error",
                 text1: "Les horaires doivent être dans le futur."

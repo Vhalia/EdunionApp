@@ -105,7 +105,13 @@ const useHttpClient = () => {
 }
 
 const handleError = (error: any, navigation: any, authContext?: any, onError?: (error: any, fallback: () => void) => void) => {
-    const apiError = error as ApiError
+    let apiError;
+    if (typeof error.error == "object"){
+        apiError = new ApiError(JSON.stringify(error.error), error.status)
+    }else{
+        apiError = error as ApiError
+    }
+
 
     handleApiError(apiError, navigation, authContext)
 

@@ -90,7 +90,6 @@ const Search = (props: SearchProps) => {
         tagIds?: number[]) => {
         try {
             const response = await postService.getDetailed(postType, count, startIndex, search, tagIds)
-
             if (response.result.length === 0)
                 return;
             

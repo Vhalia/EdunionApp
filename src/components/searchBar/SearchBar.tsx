@@ -19,7 +19,6 @@ const SearchBar = (props : SearchBarProps) => {
     const buttonContainerStyle = sideButtonMode === 'dropdown' ? styles.dropDownContainer : styles.buttonContainer
 
     useEffect(() => {
-        console.log(props.search)
         setSearchInputText(props.search ?? "")
     }, [props.search])
 
