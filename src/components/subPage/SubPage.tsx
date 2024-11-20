@@ -13,7 +13,7 @@ const SubPage = (props : SubPageProps) => {
     }
 
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: ColorConstants.blackMainColor}}>
+        <View style={{flex: 1, backgroundColor: ColorConstants.blackMainColor}}>
             <View style={styles.mainContainer}>
                 <View style={styles.contentContainer}>
                     <TouchableHighlight
@@ -26,7 +26,7 @@ const SubPage = (props : SubPageProps) => {
                 {props.renderContent()} 
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

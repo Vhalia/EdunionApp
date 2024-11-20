@@ -18,10 +18,10 @@
     "android:staging": "ENVFILE=.env.staging && react-native run-android",
     "ios:staging:win": "SET ENVFILE=.env.staging && react-native run-ios",
     "ios:staging": "ENVFILE=.env.staging && react-native run-ios",
-    "android:release:win": "SET ENVFILE=.env && cd android && gradlew assembleRelease",
-    "android:release": "ENVFILE=.env && chmod 777 android/gradlew && cd android && ./gradlew assembleRelease",
-    "android:release:staging:win": "SET ENVFILE=.env.staging && cd android && gradlew assembleRelease",
-    "android:release:staging": "ENVFILE=.env.staging && chmod 777 android/gradlew && cd android && ./gradlew assembleRelease",
+    "android:release:win": "SET ENVFILE=.env && cd android && ./gradlew bundleRelease --no-daemon",
+    "android:release": "ENVFILE=.env && chmod 777 android/gradlew && cd android && ./gradlew bundleRelease --no-daemon",
+    "android:release:staging:win": "SET ENVFILE=.env.staging && cd android && ./gradlew bundleRelease --no-daemon",
+    "android:release:staging": "ENVFILE=.env.staging && chmod 777 android/gradlew && cd android && ./gradlew bundleRelease --no-daemon",
     "ios:clean": "xattr -w com.apple.xcode.CreatedByBuildSystem true ./ios/build && cd ios && rm -rf ./build && xcodebuild clean && rm -rf ~/Library/Caches/CocoaPods && rm -rf Pods && rm -rf ~/Library/Developer/Xcode/DerivedData/* && pod cache clean --all && pod deintegrate && pod setup && pod install && pod update && cd ..",
     "lint": "eslint .",
     "test": "jest",
@@ -54,7 +54,7 @@
     "react-native-screens": "^3.34.0",
     "react-native-svg": "^15.8.0",
     "react-native-svg-transformer": "^1.1.0",
-    "react-native-toast-message": "^2.2.1",
+    "react-native-toast-message": "2.2.0",
     "react-native-url-polyfill": "^2.0.0"
   },
   "devDependencies": {

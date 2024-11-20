@@ -19,7 +19,6 @@ import usePaymentService from "../../../../hooks/usePaymentService"
 const ProfileSetting = () => {
     const authContext = useContext(AuthContext)
     const currentUser = authContext?.currentUser
-    console.log(currentUser)
 
     const [firstname, setFirstname] = useState(currentUser?.firstName)
     const [lastname, setLastName] = useState(currentUser?.lastName)

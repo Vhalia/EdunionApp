@@ -4,16 +4,29 @@ import EPostType from "../models/enums/EPostType";
 import { PagedResponseDto } from "../models/DTO/PagedResponseDto";
 import Post from "../models/Post";
 import useHttpClient from "./useHttpClient";
+import Toast from "react-native-toast-message";
+import ApiError from "../models/ApiError";
 
 const usePostService = () => {
     const httpClient = useHttpClient()
 
+    const handlePostUpdateError = (error: ApiError, fallback: () => void) => {
+        if (error.error.includes("future date")){
+            Toast.show({
+                type: "error",
+                text1: "Les horaires doivent être dans le futur."
+            })
+        }else{
+            fallback()
+        }
+    }
+
     return {
         post: (post: AddEditPostDto) => {
-            return httpClient.post<number>("/api/post", post, true);
+            return httpClient.post<number>("/api/post", post, true, handlePostUpdateError);
         },
         put: (post: AddEditPostDto) => {
-            return httpClient.put<number>("/api/post", post, true);
+            return httpClient.put<number>("/api/post", post, true, handlePostUpdateError);
         },
         addPhotos: (id: number, photos: File[]) => {
             return httpClient.postMultipartFormData(

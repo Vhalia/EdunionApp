@@ -18,7 +18,6 @@ const EditPostPage = (props: EditPostPageProps) => {
     const navigation = useNavigation<any>();
 
     const onSubmit = async (modifiedPost: AddEditPostDto, photos: File[]) => {
-        console.log(modifiedPost)
         setIsLoading(true)
         setResetState(false)
         try {

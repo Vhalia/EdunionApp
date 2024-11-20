@@ -6,7 +6,6 @@ import Config from "react-native-config";
 
 const HttpClient = {
     get: async <T,>(url: string, token?: string) : Promise<T> => {
-        console.log(getFullUrl(url))
         const response = await fetch(getFullUrl(url), {
             headers: {
                 'Authorization': token ? `Bearer ${token}` : ''
@@ -17,11 +16,11 @@ const HttpClient = {
             await throwFormatedError(response) 
         }
 
+        
         const jsonResponse = await response.json() as ApiResponse;
         return jsonResponse.data as T;
     },
     post: async <T,>(url: string, body: any, token?: string) : Promise<T> => {
-        console.log(getFullUrl(url))
         const response = await fetch(getFullUrl(url), {
             method: 'POST',
             headers: {
@@ -74,7 +73,6 @@ const HttpClient = {
     },
     putMultipartFormData : async <T,>(url: string, datas: MultipartFormData[], token?: string) : Promise<T> => {
         const formData = CreateFormData(datas)
-        console.log(getFullUrl(url))
         const response = await fetch(getFullUrl(url), {
             method: 'PUT',
             headers: {
