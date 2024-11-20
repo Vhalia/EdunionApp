@@ -55,6 +55,7 @@ jobs:
         path: android/app/build/outputs/bundle/release/app-release.aab
 
   deploy-testers:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
