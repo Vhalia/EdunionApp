@@ -17,6 +17,9 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: app-release-${{ inputs.choice }}
+
+    - name: LS
+      run: ls -la
         
     - name: Upload to Play Store
       uses: r0adkll/upload-google-play@v1
