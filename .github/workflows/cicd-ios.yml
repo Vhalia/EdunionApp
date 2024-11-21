@@ -11,7 +11,7 @@ on:
         - production
 
 jobs:
-  build-ios:
+  build:
       runs-on: macos-15
 
       steps:
@@ -54,18 +54,18 @@ jobs:
           output-path: "EdunionApp.ipa"
 
       - name: Upload build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "EdunionApp.ipa"
           path: "EdunionApp.ipa"
 
-  deploy-ios:
-      needs: build-ios
+  deploy-testers:
+      needs: build
       runs-on: ubuntu-latest
 
       steps:
         - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3
+        - uses: actions/download-artifact@v4
           with:
             name: EdunionApp.ipa
   
