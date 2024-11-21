@@ -21,6 +21,7 @@ jobs:
         name: app-release-${{ inputs.choice }}
         github-token: ${{ secrets.TOKEN_GITHUB }}
         repository: Vhalia/EdunionApp
+        run-id: ${{ github.event.workflow_run.id }}
 
     - name: LS
       run: ls -a
