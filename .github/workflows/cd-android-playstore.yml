@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Download Artifact from Another Repository
+    - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
         name: app-release-${{ inputs.choice }}
