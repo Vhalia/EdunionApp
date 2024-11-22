@@ -24,6 +24,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 17
+        cache: 'gradle'
         
     - name: Load Google Service file
       env:
@@ -40,13 +41,39 @@ jobs:
         DATA: ${{secrets.ANDROID_KEYSTORE_CREDENTIALS}}
       run: echo $DATA | base64 -di >> android/gradle.properties
 
-    - if: ${{ inputs.choice }} == 'production'
-      name: Build release for production
-      run: npm run android:release
+    - name: Cache Gradle Wrapper
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+    - name: Cache Gradle Dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/build.gradle') }}
+
+    - name: Make Gradlew Executable
+      run: cd android && chmod 777 ./gradlew
+
+    - name: Select staging environment file
+      if: ${{ inputs.choice }} == 'staging'
+      run: ENVFILE=.env.staging
+
+    - name: Select production environment file
+      if: ${{ inputs.choice }} == 'production'
+      run: ENVFILE=.env
+
+    - name: Build Android Release
+      run: cd android && ./gradlew bundleRelease --no-daemon
+
+    #- name: Build release for production
+    #  if: ${{ inputs.choice }} == 'production'
+    #  run: npm run android:release
     
-    - if: ${{ inputs.choice }} == 'staging'
-      name: Build release for staging
-      run: npm run android:release:staging
+    #- name: Build release for staging
+    #  if: ${{ inputs.choice }} == 'staging'
+    #  run: npm run android:release:staging
 
     - name: Upload Release Bundle
       uses: actions/upload-artifact@v4
@@ -54,15 +81,51 @@ jobs:
         name: app-release-${{ inputs.choice }}
         path: android/app/build/outputs/bundle/release/app-release.aab
         retention-days: 7
+        
+  deploy-testers:
+    needs: build
+    runs-on: ubuntu-latest
 
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: app-release-${{ inputs.choice }}
+        
     - name: Upload artifact to Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1
       with:
         appId: ${{secrets.FIREBASE_APP_ID}}
         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
         groups: Testers
-        file: android/app/build/outputs/bundle/release/app-release.aab
+        file: app-release.aab
         releaseNotes: ${{ format('{0} - {1}', inputs.choice, github.event.workflow_run.head_commit.message) }}
+
+  deploy-playstore:
+    environment: production
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: app-release-${{ inputs.choice }}
+        
+    - name: Upload to Play Store
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJson: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        packageName: org.edunionapp
+        releaseFiles: app-release.aab
+        track: internal  # Can be internal, alpha, beta, or production
+        status: completed
+        # Optional: Release notes for each language
+        # whatsNewDirectory: distribution/whatsnew
+        # mappingFile: android/app/build/outputs/mapping/release/mapping.txt
+    
+    
+    
         
     
         
