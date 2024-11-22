@@ -1,0 +1,51 @@
+default_platform(:ios)
+
+platform :ios do
+  lane :build do
+    setup_ci if ENV['CI']
+    
+    match(
+      type: "adhoc",
+      readonly: true,
+      git_basic_authorization: Base64.strict_encode64(ENV["MATCH_GIT_BASIC_AUTH"])
+    )
+    
+    # Build the app
+    build_ios_app(
+      scheme: "EdunionApp",
+      export_method: "adhoc",
+      configuration: "Release",
+      clean: true,
+      output_directory: "./build",
+      output_name: "EdunionApp.ipa"
+    )
+  end
+
+  lane :release do
+    setup_ci if ENV['CI']
+    
+    match(
+      type: "appstore",
+      readonly: true,
+      git_basic_authorization: Base64.strict_encode64(ENV["MATCH_GIT_BASIC_AUTH"])
+    )
+    
+    build_ios_app(
+      scheme: "EdunionApp",
+      export_method: "app-store",
+      configuration: "Release",
+      clean: true,
+      output_directory: "./build",
+      output_name: "EdunionApp.ipa"
+    )
+    
+    upload_to_app_store(
+      api_key_path: "~/private_keys/AuthKey.p8",
+      submit_for_review: true,
+      force: true,
+      skip_metadata: false,
+      skip_screenshots: true,
+      precheck_include_in_app_purchases: false
+    )
+  end
+end
