@@ -73,7 +73,7 @@ const MainInput = (props: MainInputProps) => {
                         autoCapitalize={props.autoCapitalize ?? "sentences"}
                         keyboardType={props.keyboardType}
                         editable={!props.disabled}
-                        selectTextOnFocus={!props.disabled}
+                        selectTextOnFocus={!props.multiline && !props.disabled}
                         maxLength={props.maxLength}/>
                 }
 

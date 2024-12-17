@@ -20,6 +20,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Popup from './modules/Popup/Popup';
 import Toast, { BaseToast, ErrorToast, InfoToast, ToastConfig } from 'react-native-toast-message';
 import { Platform, Text, TouchableOpacity, View } from 'react-native';
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,8 @@ type StackNavigationList = {
 };
 
 function App(): React.JSX.Element {
+  dayjs.locale("fr")
+
   return (
     <SafeAreaProvider style={[styles.background]}>
       <AuthContext>
