@@ -65,7 +65,8 @@ jobs:
       run: ENVFILE=.env
 
     - name: Build Android Release
-      run: cd android && ./gradlew bundleRelease --no-daemon
+      #run: cd android && ./gradlew bundleRelease --no-daemon
+      run: cd android && ./gradlew assembleRelease
 
     #- name: Build release for production
     #  if: ${{ inputs.choice }} == 'production'
@@ -79,7 +80,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: app-release-${{ inputs.choice }}
-        path: android/app/build/outputs/bundle/release/app-release.aab
+        #path: android/app/build/outputs/bundle/release/app-release.aab
+        path: android/app/build/outputs/apk/release/app-release.apk
         retention-days: 7
         
   deploy-testers:
@@ -98,7 +100,8 @@ jobs:
         appId: ${{secrets.FIREBASE_APP_ID}}
         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
         groups: Testers
-        file: app-release.aab
+        #file: app-release.aab
+        file: app-release.apk
         releaseNotes: ${{ format('{0} - {1}', inputs.choice, github.event.workflow_run.head_commit.message) }}
 
   deploy-playstore:
