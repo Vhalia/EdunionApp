@@ -7,7 +7,6 @@ import UserWithPicture from "../userWithPicture/UserWithPicture";
 
 const PostCard = (props: PostCardProps) => {
     const price = props.price ? props.price : 0;
-
     const displayPostImage = () => {
         if (props.image){
             return (
