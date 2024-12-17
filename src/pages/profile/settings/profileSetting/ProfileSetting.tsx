@@ -1,4 +1,4 @@
-import { Platform, ScrollView, TextInput, View } from "react-native"
+import { Platform, SafeAreaView, ScrollView, TextInput, View } from "react-native"
 import { ColorConstants } from "../../../../constants/ThemeConstants"
 import React, { useContext, useEffect, useState } from "react"
 import MainText from "../../../../modules/text/MainText"
@@ -137,91 +137,93 @@ const ProfileSetting = () => {
                 photoStyle={styles.photo}
                 OnAddPhoto={(value) => setProfilePicture(value)}
                 OnDeletePhoto={(_) => setProfilePicture(undefined)}/>
-            <View style={styles.bigGap}>
-                <MainText
-                    style={styles.title}
-                    weight={'700'}
-                    fontSize={15}
-                    text="Prénom"/>
-                <MainInput
-                    style={[styles.inputs, styles.gap]}
-                    inputMode="text"
-                    onChange={onFirstnameChange}
-                    value={firstname}/>
-            </View>
-            <View style={styles.bigGap}>
-                <MainText
-                    style={styles.title}
-                    weight={'700'}
-                    fontSize={15}
-                    text="Nom de famille"/>
-                <MainInput
-                    style={[styles.inputs, styles.gap]}
-                    inputMode="text"
-                    onChange={onLastnameChange}
-                    value={lastname}/>
-            </View>
-            <View style={styles.bigGap}>
-                <MainText
-                    style={styles.title}
-                    weight={'700'}
-                    fontSize={15}
-                    text="Bio"/>
-                <MainInput
-                    style={[styles.inputs, styles.gap]}
-                    inputMode="text"
-                    onChange={onDescriptionChange}
-                    value={description}
-                    multiline
-                    numberOfLines={3}/>
-            </View>
-            <View style={styles.bigGap}>
-                <MainText
-                    style={styles.title}
-                    weight={'700'}
-                    fontSize={15}
-                    text="Année scolaire"/>
-                
-                <View style={[Platform.OS == "ios" ? {width: 80} :styles.dropDown, styles.gap]}>
-                    <Picker
-                        selectedValue={schoolYear}
-                        onValueChange={(itemValue, itemIndex) => onSchoolYearChange(itemValue.toString())}
-                        style={Platform.OS == "ios" ? {} : styles.dropDown}
-                        dropdownIconColor={ColorConstants.whiteMainColor}
-                        itemStyle={{color: ColorConstants.whiteMainColor}}>
-                        {[1, 2, 3, 4, 5, 6].map((year, index) => (
-                            <Picker.Item
-                                key={index}
-                                label={year.toString()}
-                                value={year}/>
-                        ))}
-                    </Picker>
+            <SafeAreaView>
+                <View style={styles.bigGap}>
+                    <MainText
+                        style={styles.title}
+                        weight={'700'}
+                        fontSize={15}
+                        text="Prénom"/>
+                    <MainInput
+                        style={[styles.inputs, styles.gap]}
+                        inputMode="text"
+                        onChange={onFirstnameChange}
+                        value={firstname}/>
                 </View>
-            </View>
-            <View style={styles.bigGap}>
-                <MainText
-                    style={styles.title}
-                    weight={'700'}
-                    fontSize={15}
-                    text="IBAN"/>
-                <MainInput
-                    style={[styles.inputs, styles.gap]}
-                    inputMode="text"
-                    autoCapitalize="characters"
-                    onChange={onIbanChange}
-                    value={iban}
-                    errorMessage={ibanErrorMessage}
-                    isOnError={ibanErrorMessage !== undefined}
-                    placeholder="BE12123412341234"
-                    placeholderColor={ColorConstants.white70PercentColor}/>
-            </View>
-            <View style={[styles.bigGap, {marginBottom: 20}]}>
-                <MainText
-                    style={styles.title}
-                    weight={'700'}
-                    fontSize={15}
-                    text={"Ecole" + (school?.name ? `: ${school?.name}` : "")}/>
-            </View>
+                <View style={styles.bigGap}>
+                    <MainText
+                        style={styles.title}
+                        weight={'700'}
+                        fontSize={15}
+                        text="Nom de famille"/>
+                    <MainInput
+                        style={[styles.inputs, styles.gap]}
+                        inputMode="text"
+                        onChange={onLastnameChange}
+                        value={lastname}/>
+                </View>
+                <View style={styles.bigGap}>
+                    <MainText
+                        style={styles.title}
+                        weight={'700'}
+                        fontSize={15}
+                        text="Bio"/>
+                    <MainInput
+                        style={[styles.inputs, styles.gap]}
+                        inputMode="text"
+                        onChange={onDescriptionChange}
+                        value={description}
+                        multiline
+                        numberOfLines={3}/>
+                </View>
+                <View style={styles.bigGap}>
+                    <MainText
+                        style={styles.title}
+                        weight={'700'}
+                        fontSize={15}
+                        text="Année scolaire"/>
+                    
+                    <View style={[Platform.OS == "ios" ? {width: 80} :styles.dropDown, styles.gap]}>
+                        <Picker
+                            selectedValue={schoolYear}
+                            onValueChange={(itemValue, itemIndex) => onSchoolYearChange(itemValue.toString())}
+                            style={Platform.OS == "ios" ? {} : styles.dropDown}
+                            dropdownIconColor={ColorConstants.whiteMainColor}
+                            itemStyle={{color: ColorConstants.whiteMainColor}}>
+                            {[1, 2, 3, 4, 5, 6].map((year, index) => (
+                                <Picker.Item
+                                    key={index}
+                                    label={year.toString()}
+                                    value={year}/>
+                            ))}
+                        </Picker>
+                    </View>
+                </View>
+                <View style={styles.bigGap}>
+                    <MainText
+                        style={styles.title}
+                        weight={'700'}
+                        fontSize={15}
+                        text="IBAN"/>
+                    <MainInput
+                        style={[styles.inputs, styles.gap]}
+                        inputMode="text"
+                        autoCapitalize="characters"
+                        onChange={onIbanChange}
+                        value={iban}
+                        errorMessage={ibanErrorMessage}
+                        isOnError={ibanErrorMessage !== undefined}
+                        placeholder="BE12123412341234"
+                        placeholderColor={ColorConstants.white70PercentColor}/>
+                </View>
+                <View style={[styles.bigGap, {marginBottom: 20}]}>
+                    <MainText
+                        style={styles.title}
+                        weight={'700'}
+                        fontSize={15}
+                        text={"Ecole" + (school?.name ? `: ${school?.name}` : "")}/>
+                </View>
+            </SafeAreaView>
             <MainButton
                 onPress={onSubmit}
                 text="Enregistrer"
