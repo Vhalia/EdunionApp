@@ -28,6 +28,7 @@ import Context from "../../contexts/AuthContext/AuthContext";
 import Warning from "../../modules/warning/Warning";
 import useUserService from "../../hooks/useUserService";
 import User from "../../models/User";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const PostEdit = (props: PostEditProps) => {
     const route = useRoute();
@@ -420,19 +421,20 @@ const PostBooksEdit = (props: PostBooksEditProps) => {
             onRequestClose={() => setShowAddBookModal(false)}
             style={{display: 'flex', flex: 1}}>
 
-            <ButtonWithIcon
-                onPress={() => setShowAddBookModal(false)}
-                containerStyle={styles.addBookModelCloseButton}
-                style={{display: 'flex', flex: 1, margin: 10}}
-                underlayColor={ColorConstants.blackMainColor}>
-                    <CloseSVG color={ColorConstants.whiteMainColor} width={40} height={40} />
-            </ButtonWithIcon>
+            <SafeAreaView style={{flex: 1}}>
+                <ButtonWithIcon
+                    onPress={() => setShowAddBookModal(false)}
+                    containerStyle={styles.addBookModelCloseButton}
+                    style={{display: 'flex', flex: 1, margin: 10}}
+                    underlayColor={ColorConstants.blackMainColor}>
+                        <CloseSVG color={ColorConstants.whiteMainColor} width={40} height={40} />
+                </ButtonWithIcon>
 
-            <PostBookEdit
-                book={props.books && pressedBookIndex != -1 ? props.books[pressedBookIndex] : undefined}
-                onAddBook={onPressAddNewBook}
-                onModifyBook={onPressModifyBook}/>
-
+                <PostBookEdit
+                    book={props.books && pressedBookIndex != -1 ? props.books[pressedBookIndex] : undefined}
+                    onAddBook={onPressAddNewBook}
+                    onModifyBook={onPressModifyBook}/>
+            </SafeAreaView>
         </Modal>
         </>
     )

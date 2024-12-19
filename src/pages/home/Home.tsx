@@ -145,7 +145,7 @@ const Home = () => {
     }
 
     const onScroll = (event: any) => {
-        swipeProgress.value = event.nativeEvent.contentOffset.y
+        swipeProgress.set(event.nativeEvent.contentOffset.y)
     }
 
     return (

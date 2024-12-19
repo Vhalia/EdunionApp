@@ -32,7 +32,7 @@ const MultiStepForm = (props: MultiStepFormProps) => {
     }
 
     useEffect(() => {
-        progress.value = step / (props.steps.length - 1)
+        progress.set(step / (props.steps.length - 1))
     }, [step])
 
     return (

@@ -9,25 +9,25 @@ const Loading = (props: LoadingProps) => {
     const rotation = useSharedValue(0);
 
     useEffect(() => {
-        progress.value = withTiming(0.6, { duration: 1000 })
+        progress.set(withTiming(0.6, { duration: 1000 }))
 
-        progress.value = withRepeat(
+        progress.set(withRepeat(
             withSequence(
                 withTiming(0.7, {duration: 800}),
                 withTiming(0.1, {duration: 2000})
             ),
             -1,
             true
-        )
+        ))
 
-        rotation.value = withRepeat(
+        rotation.set(withRepeat(
             withTiming(
                 360,
                 {duration: 900, easing: Easing.linear}
             ),
             -1,
             false
-        )
+        ))
     }, [])
 
     const radius = props.radius ?? 20
@@ -38,13 +38,13 @@ const Loading = (props: LoadingProps) => {
 
     const animatedCircleProps = useAnimatedProps(() => {
         return {
-            strokeDashoffset: circumference * (1 - progress.value)
+            strokeDashoffset: circumference * (1 - progress.get())
         }
     }, [])
 
     const animatedContainer = useAnimatedStyle(() => {
         return {
-            transform: [{rotate: `${rotation.value}deg`}]
+            transform: [{rotate: `${rotation.get()}deg`}]
         }
     }, [])
 

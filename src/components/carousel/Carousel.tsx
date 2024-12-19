@@ -13,7 +13,7 @@ const Carousels = (props: CarouselProps) => {
     const [activePaginationIndex, setActivePaginationIndex] = useState(0);
 
     const determineActivePagination = () => {
-        let index = Math.round(progressValue.value)
+        let index = Math.round(progressValue.get())
         if (index > props.items.length - 1)
             index = 0;
 
@@ -51,7 +51,7 @@ const Carousels = (props: CarouselProps) => {
                 }}
                 onProgressChange={(_, absoluteProgress) => {
                         const roundedProgress = Math.round(absoluteProgress*10)/10
-                        progressValue.value = roundedProgress
+                        progressValue.set(roundedProgress)
                     }
                 }
                 renderItem={(carouselProps) =>
