@@ -215,7 +215,7 @@ const Settings = () => {
                 <View style={styles.partnersContainer}>
                     <Partners />
                 </View>
-                
+       
             </ScrollView>
         </SafeAreaView>
     );

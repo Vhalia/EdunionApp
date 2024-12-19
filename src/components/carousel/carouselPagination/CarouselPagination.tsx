@@ -20,10 +20,10 @@ const CarouselPagination = (props: CarouselPaginationProps) => {
 
         return {
             width: withTiming(
-                width.value + (props.isActive ? 10 : 0),
+                width.get() + (props.isActive ? 10 : 0),
                 widthAnimConfig),
             opacity: withSpring(
-                opacity.value + (props.isActive ? 1 : 0),
+                opacity.get() + (props.isActive ? 1 : 0),
                 opacityAnimConfig),
         }
     })

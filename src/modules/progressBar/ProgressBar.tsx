@@ -12,7 +12,7 @@ const ProgressBar = (props: ProgressBarProps) => {
         const measuredWidth = measurement?.width ?? 1
 
         const widthValue = interpolate(
-            props.progress.value,
+            props.progress.get(),
             [0, 1],
             [0, measuredWidth], Extrapolation.CLAMP)
 

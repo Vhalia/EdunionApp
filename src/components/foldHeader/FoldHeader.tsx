@@ -12,7 +12,7 @@ const FoldHeader = (props: FoldHeaderProps) => {
 
     const animatedStyle = useAnimatedStyle(() => {
         let heightValue = clamp(
-            baseHeight - (props.swipeProgress.value*1.01),
+            baseHeight - (props.swipeProgress.get()*1.01),
             minHeight,
             maxHeight)
 

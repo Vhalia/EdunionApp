@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         backgroundColor: ColorConstants.blackMainColor,
-        flex: 1
     },
     button: {
         marginBottom: 10,
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
     partnersContainer: {
         display: "flex",
         flex: 1,
+        marginBottom: 80
     },
     logoutButton :{
         flexDirection: 'row',
