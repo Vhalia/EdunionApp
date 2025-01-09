@@ -14,7 +14,9 @@ const styles = StyleSheet.create({
         display: "flex",
         flex: 3,
         width: "100%",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8
     },
     gradientIfNoImage: {
         height: 300,
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         alignItems: "center"
     },
-    grandiantStyle : {
+    gradiantStyle : {
         height: 300
     },
     ownerContainer : {
@@ -42,7 +44,16 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         width: "100%",
         justifyContent: "flex-end",
-        padding: 10
+        padding: 10,
+        position: "absolute",
+        bottom: -1
+    },
+    carouselImageContainer: {
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: 230,
+        borderRadius: 14
     }
 })
 

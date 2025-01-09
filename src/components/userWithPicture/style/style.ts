@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     imageStyle: {
-        margin: 10
+        margin: 10,
+        borderRadius: 55
     },
     textsContainer: {
         display: "flex",

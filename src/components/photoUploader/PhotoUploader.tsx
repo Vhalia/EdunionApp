@@ -7,6 +7,7 @@ import PhotoUploaderProps from "./props/photoUploaderProps";
 import PlusSVG from "../../../images/plus.svg"
 import File from "../../models/File";
 import Loading from "../../modules/Loading/Loading";
+import FastImage, { Source } from "react-native-fast-image";
 
 
 const PhotoUploader = (props : PhotoUploaderProps) => {
@@ -147,10 +148,6 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                     if (index >= maxPhotoCount)
                         return (<View key={index}></View>)
 
-                    const source : ImageSourcePropType =
-                        (selectedPhoto && selectedPhoto.uri.includes("://"))
-                            ? { uri: selectedPhoto.uri }
-                            : selectedPhoto?.uri as unknown as number
 
                     return (
                         <TouchableHighlight
@@ -160,9 +157,11 @@ const PhotoUploader = (props : PhotoUploaderProps) => {
                             key={index}>
                             <>
                                 {selectedPhoto ?
-                                    <Image
-                                        source={source}
-                                        resizeMode="cover"
+                                    <FastImage
+                                        source={(selectedPhoto && selectedPhoto.uri.includes("://"))
+                                            ? { uri: selectedPhoto.uri }
+                                            : selectedPhoto?.uri as unknown as number}
+                                        resizeMode={FastImage.resizeMode.cover}
                                         style={[styles.photo, props.photoStyle]}/>
                                 :
                                 <View style={[styles.photo, props.photoStyle]}>

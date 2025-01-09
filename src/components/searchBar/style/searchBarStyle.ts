@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         marginTop: 5,
-        gap: 0
+        gap: 0,
     },
     dropDownContainer: {
         position: "relative",
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent : "space-between",
         backgroundColor: ColorConstants.blackSecondaryColor,
-        width: 250,
+        width: 230,
         height: 40,
         borderRadius: 4,
     },

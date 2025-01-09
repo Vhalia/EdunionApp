@@ -4,21 +4,21 @@ import styles from "./style/postCardStyle";
 import MainText from "../../modules/text/MainText";
 import LinearGradient from "react-native-linear-gradient";
 import UserWithPicture from "../userWithPicture/UserWithPicture";
+import FastImage from "react-native-fast-image";
 
 const PostCard = (props: PostCardProps) => {
     const price = props.price ? props.price : 0;
     const displayPostImage = () => {
         if (props.image){
             return (
-                <ImageBackground
-                    source={{uri: props.image}}
-                    style={styles.imageContainer}
-                    resizeMode="cover"
-                    borderTopRightRadius={8}
-                    borderTopLeftRadius={8}>
-
+                <View style={[styles.carouselImageContainer]}>
+                    <FastImage
+                        source={{uri: props.image}}
+                        style={styles.imageContainer}
+                        resizeMode={FastImage.resizeMode.cover}/>
+                        
                     <LinearGradient
-                        style={[styles.grandiantStyle, styles.ownerContainer]}
+                        style={[styles.gradiantStyle, styles.ownerContainer]}
                         colors={['#00000000', '#00000000', '#00000000', '#00000000', '#000000']}>
 
                         <UserWithPicture 
@@ -28,8 +28,8 @@ const PostCard = (props: PostCardProps) => {
                             userNameFontSize={15}/>
                             
                     </LinearGradient>
-
-                </ImageBackground>)
+                </View>
+            )
         }else{
             return (
                 <LinearGradient

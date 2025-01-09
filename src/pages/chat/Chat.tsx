@@ -16,6 +16,7 @@ import TimezoneContext from "../../contexts/TimezoneContext/TimezoneContext";
 import useChatService from "../../hooks/useChatService";
 import Config from "react-native-config";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FastImage from "react-native-fast-image";
 
 const Chat = (props: ChatProps) => {
     const route = useRoute();
@@ -116,11 +117,10 @@ const Chat = (props: ChatProps) => {
                         style={style.postInChat}
                         onPress={() => navigation.navigate("Post", {postId: chat?.post.id})}>
                         <>
-                            <Image
+                            <FastImage
                                 source={chat?.post.blobPaths && chat?.post.blobPaths.length > 0 ? {uri: chat.post.blobPaths[0]} : require("../../../images/defaultProfilePicture.png")}
-                                style={[style.postInChatImageStyle, {width: 50, height: 50}]}
-                                resizeMode="cover"
-                                borderRadius={55}/>
+                                style={[style.postInChatImageStyle, {width: 50, height: 50, borderRadius: 55}]}
+                                resizeMode={FastImage.resizeMode.cover}/>
                             <View>
                                 <MainText
                                     fontSize={14}
