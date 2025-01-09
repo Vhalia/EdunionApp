@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native"
 import MainText from "../../../../modules/text/MainText";
 import { ColorConstants } from "../../../../constants/ThemeConstants";
@@ -10,6 +10,8 @@ import useSchoolProofService from "../../../../hooks/useSchoolProofService";
 import Proof from "../../../../models/Proof";
 import File from "../../../../models/File";
 import EUserState from "../../../../models/enums/EUserState";
+import { useFocusEffect } from "@react-navigation/native";
+import useUserService from "../../../../hooks/useUserService";
 
 const SchoolProofSetting = () => {
     const [schoolProof, setSchoolProof] = useState<File>();
@@ -19,18 +21,25 @@ const SchoolProofSetting = () => {
     
     const authContext = useContext(Context);
     const schoolProofService = useSchoolProofService();
+    const userService = useUserService();
 
-    useEffect(() => {
-        setSchoolProofLoading(true)
+    useFocusEffect(
+        useCallback(() => {
+            setSchoolProofLoading(true)
+        
+            schoolProofService.getOwn().then((sp) => {
+                setSchoolProofs([...sp])
+                setSchoolProofLoading(false)
+            }).catch(err => {
+                setSchoolProofLoading(false)
+                console.log(err)
+            })
 
-        schoolProofService.getOwn().then((sp) => {
-            setSchoolProofs([...sp])
-            setSchoolProofLoading(false)
-        }).catch(err => {
-            setSchoolProofLoading(false)
-            console.log(err)
-        })
-    }, [])
+            userService.get().then((user) => {
+                authContext?.setCurrentUser(user)
+            })
+        }, [])
+    )
 
     const onSend = async () => {
         if (schoolProof === undefined) {
@@ -78,7 +87,8 @@ const SchoolProofSetting = () => {
                     maxPhoto={1}
                     OnAddPhoto={setSchoolProof}
                     photos={schoolProofs.map((proof) => {return {uri: proof.path} as File})}
-                    isLoading={schoolProofIsLoading}/>
+                    isLoading={schoolProofIsLoading}
+                    style={styles.photoUploaderContainer}/>
             </View>
         )
     }
@@ -99,7 +109,8 @@ const SchoolProofSetting = () => {
                     maxPhoto={1}
                     OnAddPhoto={setSchoolProof}
                     photos={schoolProofs.map((proof) => {return {uri: proof.path} as File})}
-                    isLoading={schoolProofIsLoading}/>
+                    isLoading={schoolProofIsLoading}
+                    style={styles.photoUploaderContainer}/>
                 <MainButton
                     text="Modifier"
                     onPress={onSend}
@@ -125,7 +136,8 @@ const SchoolProofSetting = () => {
                     maxPhoto={1}
                     OnAddPhoto={setSchoolProof}
                     photos={schoolProofs.map((proof) => {return {uri: proof.path} as File})}
-                    isLoading={schoolProofIsLoading}/>
+                    isLoading={schoolProofIsLoading}
+                    style={styles.photoUploaderContainer}/>
                 <MainButton
                     text="Envoyer"
                     onPress={onSend}
@@ -155,6 +167,7 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         gap: 10,
+        marginRight: 7,
     },
     button: {
         display: 'flex',
@@ -163,9 +176,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: ColorConstants.purpleMainColor,
         padding: 10,
-        width: 350,
+        width: "100%",
         marginTop: 50
     },
+    photoUploaderContainer: {
+        width: 300
+    }
 })
 
 export default SchoolProofSetting;

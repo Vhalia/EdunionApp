@@ -5,6 +5,7 @@ import MainText from "../../../modules/text/MainText";
 import LinearGradient from "react-native-linear-gradient";
 import UserWithPicture from "../../userWithPicture/UserWithPicture";
 import { getRandomInt } from "../../../utils/utils";
+import FastImage from "react-native-fast-image";
 
 const CarouselItem = (props: CarouselItemProps) => {
     const price = props.price ? props.price : 0;
@@ -12,24 +13,23 @@ const CarouselItem = (props: CarouselItemProps) => {
     const displayCarouselImage = () => {
         if (props.image){
             return (
-                <ImageBackground
-                    source={{uri: props.image}}
-                    style={styles.imageContainer}
-                    resizeMode="cover"
-                    borderTopRightRadius={22}
-                    borderTopLeftRadius={22}>
-
+                <View style={[styles.carouselImageContainer]}>
+                    <FastImage
+                        source={{uri: props.image}}
+                        style={styles.imageContainer}
+                        resizeMode={FastImage.resizeMode.cover}/>
+                        
                     <LinearGradient
-                        style={[styles.grandiantStyle, styles.ownerContainer]}
+                        style={[styles.gradiantStyle, styles.ownerContainer]}
                         colors={['#00000000', '#00000000', '#00000000', '#00000000', '#000000']}>
-
+    
                         <UserWithPicture 
                             userName={props.owner}
                             picture={props.ownerImage}/>
                             
                     </LinearGradient>
-
-                </ImageBackground>)
+                </View>
+            )
         }else{
             return (
                 <LinearGradient

@@ -1,5 +1,6 @@
-import { ImageStyle, StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import File from "../../../models/File";
+import { ImageStyle } from "react-native-fast-image";
 
 export default interface PhotoUploaderProps{
     style?: StyleProp<ViewStyle>,

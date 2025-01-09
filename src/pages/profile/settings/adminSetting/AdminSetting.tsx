@@ -15,6 +15,7 @@ import SchoolProof from "../../../../models/SchoolProof";
 import dayjs from "dayjs";
 import Loading from "../../../../modules/Loading/Loading";
 import Context from "../../../../contexts/AuthContext/AuthContext";
+import FastImage from "react-native-fast-image";
 
 const AdminSetting = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -380,10 +381,10 @@ const UserList = (props: UserListProps) => {
                                     <Loading />
                                 </View>
                             :
-                                <Image
+                                <FastImage
                                     source={{uri: currentSchoolProof.proof.path}}
                                     style={[style.schoolProofImage, style.midGap]}
-                                    resizeMode="cover"
+                                    resizeMode={FastImage.resizeMode.cover}
                                     onLoadStart={() => setImageIsLoading(true)}
                                     onLoadEnd={() => setImageIsLoading(false)}/>
                             }

@@ -1,6 +1,7 @@
 import { Image, Linking, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native"
 import { ColorConstants } from "../../constants/ThemeConstants"
 import MainText from "../../modules/text/MainText"
+import FastImage from "react-native-fast-image"
 
 const Partners = (props: PartnersProps) => {
     return (
@@ -15,18 +16,18 @@ const Partners = (props: PartnersProps) => {
             <View style={[styles.imagesContainer]}>
                 <TouchableOpacity onPress={() => Linking.openURL("https://boucherie-roland.be/")}>
                     <View style={styles.imageContainer}>
-                        <Image
+                        <FastImage
                             source={require("../../../images/roland-logo.png")}
                             style={styles.image}
-                            resizeMode="contain"/>
+                            resizeMode={FastImage.resizeMode.contain}/>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => Linking.openURL("https://www.herminepatisserie.be/")}>
                     <View style={styles.imageContainer}>
-                        <Image
+                        <FastImage
                             source={require("../../../images/hermine-logo.png")}
                             style={styles.image}
-                            resizeMode="contain"/>
+                            resizeMode={FastImage.resizeMode.contain}/>
                     </View>
                 </TouchableOpacity>
             </View>

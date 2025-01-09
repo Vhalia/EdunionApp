@@ -2,15 +2,15 @@ import { Image, View } from "react-native";
 import MainText from "../../modules/text/MainText";
 import UserWithPictureProps from "./props/props";
 import styles from "./style/style";
+import FastImage from "react-native-fast-image";
 
 const UserWithPicture = (props: UserWithPictureProps) => {
     return(
         <View style={[props.style, styles.container]}>
-            <Image
+            <FastImage
                 source={props.picture ? {uri: props.picture} : require("../../../images/defaultProfilePicture.png")}
                 style={[styles.imageStyle, {width: props.pictureSize ?? 50, height: props.pictureSize ?? 50}]}
-                resizeMode="cover"
-                borderRadius={55}/>
+                resizeMode="cover"/>
             <View
                 style={[styles.textsContainer,(!props.extraText ? styles.textsContainerWhenAlone : styles.textsContainerWhenMultiple)]}>
                 <MainText 

@@ -29,6 +29,7 @@ import dayjs from "dayjs"
 import Warning from "../../modules/warning/Warning";
 import useUserService from "../../hooks/useUserService";
 import User from "../../models/User";
+import FastImage from "react-native-fast-image";
 
 const Post = (props : PostProps) => {
     const [post, setPost] = useState<PostModel | undefined>(undefined);
@@ -239,10 +240,10 @@ const Post = (props : PostProps) => {
                         return (
                             <View>
                             {(image.startsWith("http")) ?
-                                <Image
+                                <FastImage
                                     source={{uri: image}}
                                     style={{width: windowWidth, height: windowHeight/2}}
-                                    resizeMode="cover"
+                                    resizeMode={FastImage.resizeMode.cover}
                                 />
                             :
                             <View style={{flex: 1, height: 50}}></View>}

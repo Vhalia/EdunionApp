@@ -11,6 +11,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import Context from "../../contexts/AuthContext/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FastImage from "react-native-fast-image";
 
 const Chats = () => {
     const [chats, setChats] = useState<ChatType[]>([]);
@@ -71,11 +72,10 @@ const Chats = () => {
                         onPress={() => onPressChat(item)}
                         underlayColor={ColorConstants.transparent}>
                                 <View style={style.chatContainer}>
-                                    <Image
+                                    <FastImage
                                         source={item.post.blobPaths && item.post.blobPaths.length > 0 ? {uri: item.post.blobPaths[0]} : require("../../../images/defaultProfilePicture.png")}
-                                        style={[style.imageStyle, {width: 50, height: 50}]}
-                                        resizeMode="cover"
-                                        borderRadius={55}/>
+                                        style={[style.imageStyle, {width: 50, height: 50, borderRadius: 55}]}
+                                        resizeMode={FastImage.resizeMode.cover}/>
                                     <View style={style.textsContainer}>
                                         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                             <MainText
