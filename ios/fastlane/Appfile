@@ -1,0 +1,8 @@
+app_identifier("com.edunionapp")
+apple_api_key(
+  key_id: "3X8Y28D5AG",
+  issuer_id: "2cd7639c-60d0-46fd-bf5c-1f480a25d2db",
+  key_content: ENV["APP_STORE_CONNECT_API_KEY"],
+)
+
+team_id("NDWYDXTJLH")

@@ -1,0 +1,22 @@
+default_platform(:ios)
+
+platform :ios do
+  lane :build do
+    build_app(
+      workspace: 'EdunionApp.xcworkspace',
+      scheme: 'EdunionApp',
+      clean: true,
+      export_method: 'app-store'
+    )
+  end
+
+  lane :release do
+    build_app(
+      workspace: 'EdunionApp.xcworkspace',
+      scheme: 'EdunionApp',
+      clean: true,
+      export_method: 'app-store'
+    )
+    upload_to_testflight
+  end
+end
