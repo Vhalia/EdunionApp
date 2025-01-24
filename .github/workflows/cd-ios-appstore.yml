@@ -40,12 +40,12 @@ jobs:
     - name: Import Provisioning Profile
       env:
         DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
-      run: echo $DATA | base64 -di >> ios/certs/EdunionAppStoreConnect.mobileprovision
+      run: echo $DATA | base64 -di >> ios/EdunionAppStoreConnect.mobileprovision
     
     - name: Import Certficate P12
       env:
         DATA: ${{ secrets.IOS_P12 }}
-      run: echo $DATA | base64 -di >> ios/certs/DistributionCertificate.p12
+      run: echo $DATA | base64 -di >> ios/DistributionCertificate.p12
 
     - name: Install Code Signing Assets
       run: |
@@ -55,14 +55,14 @@ jobs:
         security unlock-keychain -p Max.1234 build.keychain
     
         # Import certificate
-        security import ios/certs/DistributionCertificate.p12 \
+        security import ios/DistributionCertificate.p12 \
           -k build.keychain \
           -P ${{ secrets.IOS_CERTIFICATE_PASSWORD }} \
           -T /usr/bin/codesign
     
         # Install provisioning profile
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-        cp ios/certs/EdunionAppStoreConnect.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+        cp ios/EdunionAppStoreConnect.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
     
     - name: Deploy to TestFlight
       run: |
