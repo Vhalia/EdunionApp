@@ -57,4 +57,6 @@ platform :ios do
       api_key_path: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
       skip_metadata: true
     )
+  end
+  
 end
