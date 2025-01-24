@@ -40,12 +40,12 @@ jobs:
     - name: Import Provisioning Profile
       env:
         DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
-      run: echo $DATA | base64 -di >> ios/EdunionAppStoreConnect.mobileprovision
+      run: echo $DATA | base64 -di > ios/EdunionAppStoreConnect.mobileprovision
     
     - name: Import Certficate P12
       env:
         DATA: ${{ secrets.IOS_P12 }}
-      run: echo $DATA | base64 -di >> ios/DistributionCertificate.p12
+      run: echo $DATA | base64 -di > ios/DistributionCertificate.p12
 
     - name: Install Code Signing Assets
       run: |
