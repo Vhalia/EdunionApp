@@ -35,7 +35,7 @@ jobs:
         bundler-cache: true
 
     - name: Install fastlane
-      run: sudo gem install fastlane -NV
+      run: brew install fastlane
 
     - name: Build iOS app
       run: |
