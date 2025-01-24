@@ -6,17 +6,55 @@ platform :ios do
       workspace: 'EdunionApp.xcworkspace',
       scheme: 'EdunionApp',
       clean: true,
-      export_method: 'app-store'
+      export_method: 'app-store',
+      export_options: {
+        provisioningProfiles: {
+          "com.edunionapp" => "Edunion App Store Connect"
+        },
+        signingCertificate: "Apple Distribution",
+        uploadBitcode: true,
+        uploadSymbols: true
+      }
     )
   end
 
-  lane :release do
+  lane :releasetestflight do
     build_app(
       workspace: 'EdunionApp.xcworkspace',
       scheme: 'EdunionApp',
       clean: true,
-      export_method: 'app-store'
+      export_method: 'app-store',
+      export_options: {
+        provisioningProfiles: {
+          "com.edunionapp" => "Edunion App Store Connect"
+        },
+        signingCertificate: "Apple Distribution",
+        uploadBitcode: true,
+        uploadSymbols: true
+      }
     )
+
     upload_to_testflight
   end
+
+  lane :releaseappstore do
+    build_app(
+      workspace: 'EdunionApp.xcworkspace',
+      scheme: 'EdunionApp',
+      clean: true,
+      export_method: 'app-store',
+      export_options: {
+        provisioningProfiles: {
+          "com.edunionapp" => "Edunion App Store Connect"
+        },
+        signingCertificate: "Apple Distribution",
+        uploadBitcode: true,
+        uploadSymbols: true
+      }
+    )
+
+    upload_to_app_store(
+      api_key_path: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
+      skip_metadata: true
+    )
 end
