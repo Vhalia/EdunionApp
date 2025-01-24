@@ -38,10 +38,14 @@ jobs:
       run: brew install fastlane
 
     - name: Import Provisioning Profile
-      run: echo ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }} | base64 --decode > ios/certs/EdunionAppStoreConnect.mobileprovision
-
+      env:
+        DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
+      run: echo $DATA | base64 -di >> ios/certs/EdunionAppStoreConnect.mobileprovision
+    
     - name: Import Certficate P12
-      run: echo ${{ secrets.IOS_P12 }} | base64 --decode > ios/certs/DistributionCertificate.p12
+      env:
+        DATA: ${{ secrets.IOS_P12 }}
+      run: echo $DATA | base64 -di >> ios/certs/DistributionCertificate.p12
 
     - name: Install Code Signing Assets
       run: |
