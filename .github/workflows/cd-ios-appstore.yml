@@ -42,27 +42,10 @@ jobs:
         DATA: ${{ secrets.IOS_P12 }}
       run: echo $DATA | base64 --decode > ios/DistributionCertificate.p12
 
-    - name: Import Provisioning Profile
-      env:
-        DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
-      run: echo $DATA | base64 --decode > ios/EdunionAppStoreConnect.mobileprovision
-
-   # - name: Install Code Signing Assets
-   #   run: |
-        # Create keychain
-   #     security create-keychain -p Max.1234 build.keychain
-   #     security default-keychain -s build.keychain
-   #     security unlock-keychain -p Max.1234 build.keychain
-    
-        # Import certificate
-   #     security import ios/DistributionCertificate.p12 \
-   #       -k build.keychain \
-   #       -P ${{ secrets.IOS_CERTIFICATE_PASSWORD }} \
-   #       -T /usr/bin/codesign
-    
-        # Install provisioning profile
-   #     mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-   #     cp ios/EdunionAppStoreConnect.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+    #- name: Import Provisioning Profile
+    #  env:
+    #    DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
+    #  run: echo $DATA | base64 --decode > ios/EdunionAppStoreConnect.mobileprovision
 
     - name: Configure XCode
       run: |
@@ -72,6 +55,15 @@ jobs:
         APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
         TEAM_ID: NDWYDXTJLH
         PROFILE_NAME: Edunion App Store Connect
+
+    - name: Import Profile and Certificate
+      run: |
+        cd ios
+        fastlane setupcodesigning
+      env:
+        KEYCHAIN_PWD: Max.1234
+        CERT_PWD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+        MOBILEPROVISION_PROFILE: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
     
     - name: Deploy to TestFlight
       run: |
@@ -80,5 +72,3 @@ jobs:
       env:
         APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
         PROFILE_NAME: Edunion App Store Connect
-        KEYCHAIN_NAME: EdunionKeychain
-        KEYCHAIN_PASSWORD: Max.1234
