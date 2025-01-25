@@ -1,6 +1,18 @@
 default_platform(:ios)
 
 platform :ios do
+
+  lane :configuresigning do
+    update_code_signing_settings(
+      path: "EdunionApp.xcodeproj",
+      use_automatic_signing: false,
+      team_id: ENV["TEAM_ID"],
+      code_sign_identity: "Apple Distribution",
+      profile_name: ENV["PROFILE_NAME"],
+      bundle_identifier: "com.edunionapp"
+    )
+  end
+
   lane :build do
     build_app(
       workspace: 'EdunionApp.xcworkspace',
@@ -9,7 +21,7 @@ platform :ios do
       export_method: 'app-store',
       export_options: {
         provisioningProfiles: {
-          "com.edunionapp" => "EdunionAppStoreConnect"
+          "com.edunionapp" => ENV["PROFILE_NAME"]
         },
         signingCertificate: "Apple Distribution",
         uploadBitcode: true,
@@ -26,7 +38,7 @@ platform :ios do
       export_method: 'app-store',
       export_options: {
         provisioningProfiles: {
-          "com.edunionapp" => "EdunionAppStoreConnect"
+          "com.edunionapp" => ENV["PROFILE_NAME"]
         },
         signingCertificate: "Apple Distribution",
         uploadBitcode: true,
@@ -45,7 +57,7 @@ platform :ios do
       export_method: 'app-store',
       export_options: {
         provisioningProfiles: {
-          "com.edunionapp" => "EdunionAppStoreConnect"
+          "com.edunionapp" => ENV["PROFILE_NAME"]
         },
         signingCertificate: "Apple Distribution",
         uploadBitcode: true,
