@@ -86,7 +86,7 @@ platform :ios do
     )
 
     upload_to_testflight(
-      api_key_path: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
+      api_key: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
     )
   end
 
@@ -107,7 +107,7 @@ platform :ios do
     )
 
     upload_to_app_store(
-      api_key_path: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
+      api_key: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
       skip_metadata: true
     )
   end
