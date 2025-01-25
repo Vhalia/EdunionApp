@@ -31,6 +31,21 @@ platform :ios do
   end
 
   lane :releasetestflight do
+    create_keychain(
+      name: ENV["KEYCHAIN_NAME"],
+      password: ENV["KEYCHAIN_PASSWORD"],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+
+    sync_code_signing(
+        readonly: true,
+        keychain_name: ENV["KEYCHAIN_NAME"],
+        keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    )
+
     build_app(
       workspace: 'EdunionApp.xcworkspace',
       scheme: 'EdunionApp',
