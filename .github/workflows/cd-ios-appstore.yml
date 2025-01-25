@@ -63,6 +63,15 @@ jobs:
         # Install provisioning profile
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         cp ios/EdunionAppStoreConnect.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+    - name: Configure XCode
+      run: |
+        cd ios
+        fastlane configuresigning
+      env:
+        APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
+        TEAM_ID: NDWYDXTJLH
+        PROFILE_NAME: EdunionAppStoreConnect
     
     - name: Deploy to TestFlight
       run: |
@@ -70,3 +79,4 @@ jobs:
         fastlane releasetestflight
       env:
         APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
+        PROFILE_NAME: EdunionAppStoreConnect
