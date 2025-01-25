@@ -22,7 +22,6 @@ platform :ios do
 
     if File.exist?(dist_cert_path)
       UI.success("Certificate created at #{dist_cert_path}")
-    end
     else
       UI.user_error!("Failed to create certificate at #{dist_cert_path}")
     end
