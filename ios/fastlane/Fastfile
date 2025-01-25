@@ -21,15 +21,15 @@ platform :ios do
       unlock: true,
       timeout: 3600
     )
-  
+
     import_certificate(
-      certificate_path: "../DistributionCertificate.p12",
+      certificate_content: Base64.decode64(ENV["CERTIFICATE_B64"]),
       certificate_password: ENV["CERT_PWD"],
       keychain_name: "build.keychain",
       keychain_password: ENV["KEYCHAIN_PWD"]
     )
   
-    profile_content = Base64.decode64(ENV["MOBILEPROVISION_PROFILE"])
+    profile_content = Base64.decode64(ENV["MOBILEPROVISION_PROFILE_B64"])
     profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/EdunionAppStoreConnect.mobileprovision")
     
     FileUtils.mkdir_p(File.dirname(profile_path))
