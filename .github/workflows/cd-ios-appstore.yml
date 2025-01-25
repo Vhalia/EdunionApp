@@ -47,22 +47,22 @@ jobs:
         DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
       run: echo $DATA | base64 --decode > ios/EdunionAppStoreConnect.mobileprovision
 
-    - name: Install Code Signing Assets
-      run: |
+   # - name: Install Code Signing Assets
+   #   run: |
         # Create keychain
-        security create-keychain -p Max.1234 build.keychain
-        security default-keychain -s build.keychain
-        security unlock-keychain -p Max.1234 build.keychain
+   #     security create-keychain -p Max.1234 build.keychain
+   #     security default-keychain -s build.keychain
+   #     security unlock-keychain -p Max.1234 build.keychain
     
         # Import certificate
-        security import ios/DistributionCertificate.p12 \
-          -k build.keychain \
-          -P ${{ secrets.IOS_CERTIFICATE_PASSWORD }} \
-          -T /usr/bin/codesign
+   #     security import ios/DistributionCertificate.p12 \
+   #       -k build.keychain \
+   #       -P ${{ secrets.IOS_CERTIFICATE_PASSWORD }} \
+   #       -T /usr/bin/codesign
     
         # Install provisioning profile
-        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-        cp ios/EdunionAppStoreConnect.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+   #     mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+   #     cp ios/EdunionAppStoreConnect.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
     - name: Configure XCode
       run: |
