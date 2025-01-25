@@ -13,6 +13,35 @@ platform :ios do
     )
   end
 
+  lane :setupcodesigning do
+    create_keychain(
+      name: "build.keychain",
+      password: ENV["KEYCHAIN_PWD"],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600
+    )
+  
+    import_certificate(
+      certificate_path: "ios/DistributionCertificate.p12",
+      certificate_password: ENV["CERT_PWD"],
+      keychain_name: "build.keychain",
+      keychain_password: ENV["KEYCHAIN_PWD"]
+    )
+  
+    profile_content = Base64.decode64(ENV["MOBILEPROVISION_PROFILE"])
+    profile_path = File.expand_path("~/Library/MobileDevice/Provisioning Profiles/EdunionAppStoreConnect.mobileprovision")
+    
+    FileUtils.mkdir_p(File.dirname(profile_path))
+    File.write(profile_path, profile_content)
+  
+    if File.exist?(profile_path)
+      UI.success("Provisioning profile installed successfully")
+    else
+      UI.user_error!("Failed to install provisioning profile")
+    end
+  end
+
   lane :build do
     build_app(
       workspace: 'EdunionApp.xcworkspace',
@@ -31,21 +60,6 @@ platform :ios do
   end
 
   lane :releasetestflight do
-    create_keychain(
-      name: ENV["KEYCHAIN_NAME"],
-      password: ENV["KEYCHAIN_PASSWORD"],
-      default_keychain: true,
-      unlock: true,
-      timeout: 3600,
-      add_to_search_list: true
-    )
-
-    sync_code_signing(
-        readonly: true,
-        keychain_name: ENV["KEYCHAIN_NAME"],
-        keychain_password: ENV["KEYCHAIN_PASSWORD"]
-    )
-
     build_app(
       workspace: 'EdunionApp.xcworkspace',
       scheme: 'EdunionApp',
