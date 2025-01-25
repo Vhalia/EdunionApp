@@ -37,10 +37,10 @@ jobs:
     - name: Install fastlane
       run: brew install fastlane
 
-    - name: Import Certficate P12
-      env:
-        DATA: ${{ secrets.IOS_P12 }}
-      run: echo $DATA | base64 --decode > ios/DistributionCertificate.p12
+    #- name: Import Certficate P12
+    #  env:
+    #    DATA: ${{ secrets.IOS_P12 }}
+    #  run: echo $DATA | base64 --decode > ios/DistributionCertificate.p12
 
     #- name: Import Provisioning Profile
     #  env:
@@ -63,7 +63,8 @@ jobs:
       env:
         KEYCHAIN_PWD: Max.1234
         CERT_PWD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-        MOBILEPROVISION_PROFILE: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
+        MOBILEPROVISION_PROFILE_B64: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
+        CERTIFICATE_B64: ${{ secrets.IOS_P12 }}
     
     - name: Deploy to TestFlight
       run: |
