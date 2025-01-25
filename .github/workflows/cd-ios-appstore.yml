@@ -80,3 +80,5 @@ jobs:
       env:
         APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
         PROFILE_NAME: Edunion App Store Connect
+        KEYCHAIN_NAME: EdunionKeychain
+        KEYCHAIN_PASSWORD: Max.1234
