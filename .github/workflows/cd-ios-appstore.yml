@@ -52,7 +52,6 @@ jobs:
         cd ios
         fastlane configuresigning
       env:
-        APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
         TEAM_ID: NDWYDXTJLH
         PROFILE_NAME: Edunion App Store Connect
 
@@ -67,9 +66,11 @@ jobs:
         CERTIFICATE_B64: ${{ secrets.IOS_P12 }}
     
     - name: Deploy to TestFlight
+      env:
+        APIKEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
       run: |
         cd ios
         fastlane releasetestflight
       env:
-        APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
+        APP_STORE_CONNECT_API_KEY: $APIKEY
         PROFILE_NAME: Edunion App Store Connect
