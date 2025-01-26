@@ -85,6 +85,8 @@ platform :ios do
       }
     )
 
+    UI.success(ENV["APP_STORE_CONNECT_API_KEY"])
+
     upload_to_testflight(
       api_key: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"]),
     )
