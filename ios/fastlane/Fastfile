@@ -70,6 +70,8 @@ platform :ios do
   end
 
   lane :releasetestflight do
+    increment_build_number
+
     build_app(
       workspace: 'EdunionApp.xcworkspace',
       scheme: 'EdunionApp',
@@ -91,6 +93,8 @@ platform :ios do
   end
 
   lane :releaseappstore do
+    increment_build_number
+    
     build_app(
       workspace: 'EdunionApp.xcworkspace',
       scheme: 'EdunionApp',
