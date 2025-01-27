@@ -52,7 +52,6 @@ jobs:
         cd ios
         fastlane configuresigning
       env:
-        APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
         TEAM_ID: NDWYDXTJLH
         PROFILE_NAME: Edunion App Store Connect
 
