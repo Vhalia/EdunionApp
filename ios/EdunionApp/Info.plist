@@ -33,9 +33,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>Our app requires access to your camera to provide essential features that enhance your experience. You'll be able to use the camera to take pictures for your profile or the posts you want to create. Rest assured, your privacy is our priority. We only access the camera when you actively use these features and never store or share your data without your consent.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>Our app requires access to your photo libray to provide essential features that enhance your experience. You'll be able to select photos from your gallery for  our profile or the posts you create. Rest assured, your privacy is our priority. We only access the camera when you actively use these features and never store or share your data without your consent.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
