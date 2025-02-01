@@ -70,7 +70,12 @@ platform :ios do
   end
 
   lane :releasetestflight do
-    increment_build_number
+    latestBuildNr = pilot.get_build_number(
+      api_key: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"])
+    )
+    newBuildNr = latestBuildNr.to_i + 1
+  
+    increment_build_number(build_number: newBuildNr)
 
     build_app(
       workspace: 'EdunionApp.xcworkspace',
@@ -93,7 +98,12 @@ platform :ios do
   end
 
   lane :releaseappstore do
-    increment_build_number
+    latestBuildNr = pilot.get_build_number(
+      api_key: JSON.parse(ENV["APP_STORE_CONNECT_API_KEY"])
+    )
+    newBuildNr = latestBuildNr.to_i + 1
+  
+    increment_build_number(build_number: newBuildNr)
     
     build_app(
       workspace: 'EdunionApp.xcworkspace',
