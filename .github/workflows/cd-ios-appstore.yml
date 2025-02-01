@@ -3,11 +3,9 @@ name: IOS CD AppStore
 on:
   workflow_dispatch:
     inputs:
-      choice:
-        type: choice
-        description: Select the environment
-        options:
-        - production
+      build-number:
+        required: true
+        default: '1.0'
 
 jobs:
   build-and-deploy:
@@ -37,16 +35,6 @@ jobs:
     - name: Install fastlane
       run: brew install fastlane
 
-    #- name: Import Certficate P12
-    #  env:
-    #    DATA: ${{ secrets.IOS_P12 }}
-    #  run: echo $DATA | base64 --decode > ios/DistributionCertificate.p12
-
-    #- name: Import Provisioning Profile
-    #  env:
-    #    DATA: ${{ secrets.IOS_MOBILEPROVISION_APPSTORECONNECT }}
-    #  run: echo $DATA | base64 --decode > ios/EdunionAppStoreConnect.mobileprovision
-
     - name: Configure XCode
       run: |
         cd ios
@@ -72,3 +60,4 @@ jobs:
       env:
         APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY }}
         PROFILE_NAME: Edunion App Store Connect
+        BUILD_NUMBER: ${{ github.event.inputs.build-number }}
