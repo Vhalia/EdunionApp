@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         width: "100%",
         justifyContent: "flex-end",
-        padding: 10,
         position: "absolute",
         bottom: -1
     },
