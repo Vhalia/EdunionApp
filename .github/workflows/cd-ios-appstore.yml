@@ -1,4 +1,4 @@
-name: IOS CD AppStore
+name: IOS - CD AppStore
 
 on:
   workflow_dispatch:
