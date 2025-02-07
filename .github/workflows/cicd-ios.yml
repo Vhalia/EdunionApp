@@ -1,4 +1,4 @@
-name: IOS - CD
+name: IOS - CD Firebase
 
 on:
   workflow_dispatch:
